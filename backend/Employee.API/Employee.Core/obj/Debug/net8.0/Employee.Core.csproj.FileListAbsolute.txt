@@ -1,0 +1,13 @@
+D:\Learnathon\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.deps.json
+D:\Learnathon\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.dll
+D:\Learnathon\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.pdb
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.csproj.AssemblyReference.cache
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.AssemblyInfoInputs.cache
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.AssemblyInfo.cs
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.csproj.CoreCompileInputs.cache
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.dll
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\refint\Employee.Core.dll
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.pdb
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\ref\Employee.Core.dll
+D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.sourcelink.json
