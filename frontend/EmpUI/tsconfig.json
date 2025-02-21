@@ -9,18 +9,18 @@
     // development
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@features/*": ["src/features/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@models/*": ["src/models/*"],
-      "@pages/*": ["src/pages/*"],
-      "@reducers/*": ["src/reducers/*"],
-      "@services/*": ["src/services/*"],
-      "@contexts/*": ["src/contexts/*"],
-      "@utils/*": ["src/utils/*"],
+      "@/*": ["frontend/EmpUI/src/*"],
+      "@assets/*": ["frontend/EmpUI/src/assets/*"],
+      "@components/*": ["frontend/EmpUI/src/components/*"],
+      "@features/*": ["frontend/EmpUI/src/features/*"],
+      "@hooks/*": ["frontend/EmpUI/src/hooks/*"],
+      "@layouts/*": ["frontend/EmpUI/src/layouts/*"],
+      "@models/*": ["frontend/EmpUI/src/models/*"],
+      "@pages/*": ["frontend/EmpUI/src/pages/*"],
+      "@reducers/*": ["frontend/EmpUI/src/reducers/*"],
+      "@services/*": ["frontend/EmpUI/src/services/*"],
+      "@contexts/*": ["frontend/EmpUI/src/contexts/*"],
+      "@utils/*": ["frontend/EmpUI/src/utils/*"],
     },
 
     /* Bundler mode */
@@ -38,6 +38,6 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
   },
-  "include": ["src"],
+  "include": ["frontend/EmpUI/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
