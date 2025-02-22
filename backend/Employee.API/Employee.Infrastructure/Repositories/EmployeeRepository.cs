@@ -2,19 +2,41 @@
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace Employee.Infrastructure.Repositories
 {
-    public class EmployeeRepository(AppDbContext dbContext) : IEmployeeRepository
+    public class EmployeeRepository(AppDbContext dbContext, IDistributedCache memorycache) : IEmployeeRepository
     {
+        private readonly IDistributedCache distributedCache = memorycache;
+        
         public async Task<IEnumerable<EmployeeEntity>> GetEmployees()
         {
             return await dbContext.Employees.ToListAsync();
 
         }
-        public async Task<EmployeeEntity> GetEmployeeById(Guid id)
+        public async Task<EmployeeEntity?> GetEmployeeById(Guid id)
         {
-            return await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
+            string key= $"employee-{id}";
+            string? cachedemployee =await distributedCache.GetStringAsync(
+                key
+                );
+            EmployeeEntity? result;
+            if (cachedemployee == null) {
+                result= await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
+                if (result == null) {
+                    return null;
+                }
+                await distributedCache.SetStringAsync(key,
+                    JsonConvert.SerializeObject(result)
+                 );
+                return result;
+            }
+            result = JsonConvert.DeserializeObject<EmployeeEntity>(cachedemployee);
+
+
+            return result;
         }
         public async Task<EmployeeEntity> AddEmployee(EmployeeEntity employee)
         {

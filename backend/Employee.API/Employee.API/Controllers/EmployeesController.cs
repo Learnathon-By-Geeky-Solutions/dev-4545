@@ -13,6 +13,8 @@ namespace Employee.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
+            
+            
             var result = await sender.Send(new GetEmployeeQuery());
             return Ok(result);
         }

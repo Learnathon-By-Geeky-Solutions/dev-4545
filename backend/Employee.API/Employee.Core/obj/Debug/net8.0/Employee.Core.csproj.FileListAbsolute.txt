@@ -11,3 +11,16 @@ D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\refint\Employee.Core.d
 D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.pdb
 D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\ref\Employee.Core.dll
 D:\Learnathon\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.sourcelink.json
+D:\Learnathon\backend\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.deps.json
+D:\Learnathon\backend\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.dll
+D:\Learnathon\backend\Employee.API\Employee.Core\bin\Debug\net8.0\Employee.Core.pdb
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.csproj.AssemblyReference.cache
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.AssemblyInfoInputs.cache
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.AssemblyInfo.cs
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.csproj.CoreCompileInputs.cache
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.sourcelink.json
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.dll
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\refint\Employee.Core.dll
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\Employee.Core.pdb
+D:\Learnathon\backend\Employee.API\Employee.Core\obj\Debug\net8.0\ref\Employee.Core.dll

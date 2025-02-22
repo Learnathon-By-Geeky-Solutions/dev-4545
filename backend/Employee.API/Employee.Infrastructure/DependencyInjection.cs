@@ -15,6 +15,10 @@ namespace Employee.Infrastructure
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetConnectionString("RedisURL");
+            });
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             return services;
