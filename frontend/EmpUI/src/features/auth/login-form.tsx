@@ -25,8 +25,8 @@ const LoginForm = () => {
     <Form
       layout="vertical"
       initialValues={{
-        email: 'john@mail.com',
-        password: 'changeme',
+        email: '',
+        password: '',
         remember: true,
       }}
       requiredMark={false}
