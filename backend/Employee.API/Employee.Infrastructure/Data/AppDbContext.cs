@@ -17,6 +17,7 @@ namespace Employee.Infrastructure.Data
                 .IsUnique();
         }
         public DbSet<TaskEntity> Tasks { get; set; }
+        public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
 
     }
 }

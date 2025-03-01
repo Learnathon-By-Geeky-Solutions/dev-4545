@@ -84,35 +84,28 @@ namespace Employee.Infrastructure.Repositories
                 throw new ApplicationException($"Password isn't correct");
 
             }
-            var JwtSecurity = await GenerateToken(user);
+            var accessTokenService = new AccessTokenService(_configuration);
+            var JwtSecurity = await accessTokenService.GenerateToken(user);
+
             var authenticationResponse = new AuthenticationResponse();
+            var refreshTokenEntity = new RefreshTokenEntity();
+
+            var RefreshToken = RefreshTokenService.GenerateRefreshToken();
+
             authenticationResponse.Role = "Admin";
+            authenticationResponse.RefreshToken = RefreshToken;
             authenticationResponse.JwToken = new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
+
+            refreshTokenEntity.TokenId = Guid.NewGuid();
+            refreshTokenEntity.EmployeeId = user.EmployeeId;
+            refreshTokenEntity.RefreshToken = RefreshToken;
+            await dbContext.RefreshTokens.AddAsync(refreshTokenEntity);
+            dbContext.SaveChanges();
+
             return authenticationResponse;
         }
 
-        private async Task<JwtSecurityToken> GenerateToken(EmployeeEntity employee)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, employee.Name),
-                new Claim(ClaimTypes.Role, "Admin"),
-                new Claim("EmployeeId", employee.EmployeeId.ToString())
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
-                signingCredentials: credentials
-            );
-
-            return token;
-        }
+       
 
 
 
