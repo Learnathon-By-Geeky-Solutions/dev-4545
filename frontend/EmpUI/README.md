@@ -1,8 +1,34 @@
-# React + Vite
+# dev-4545
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Team Members
 
-Currently, two official plugins are available:
+- Arghya-n (Team Leader)
+- MubasshirNaib
+- shohag1102
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Mentor
+
+- sakibmahmood98
+
+## Project Description
+
+Add your project description here.
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies
+3. Start development
+
+## Development Guidelines
+
+1. Create feature branches
+2. Make small, focused commits
+3. Write descriptive commit messages
+4. Create pull requests for review
+
+## Resources
+
+- [Project Documentation](docs/)
+- [Development Setup](docs/setup.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
