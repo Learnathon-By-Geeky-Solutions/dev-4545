@@ -13,5 +13,8 @@ namespace Employee.Core.Entities
         public Guid TokenId { get; set; }
         public Guid EmployeeId { get; set; }
         public string RefreshToken { get; set; }
+
+        public DateTime RefreshTokenExpiry { get; set; }
+
     }
 }

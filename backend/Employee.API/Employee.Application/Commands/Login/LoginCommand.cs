@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Employee.Application.Commands.Login
 {
-    public record LoginCommand(AuthenticationRequest response): IRequest<AuthenticationResponse>;
-    public class LoginCommandHandler(IEmployeeRepository employeeRepository)
-        : IRequestHandler<LoginCommand, AuthenticationResponse>
+    public record LoginCommand(AuthenticationRequest response): IRequest<AuthenticationResponse>;// we want AuthenticationResponse as Return 
+    public class LoginCommandHandler(IEmployeeRepository employeeRepository)//Repository
+        : IRequestHandler<LoginCommand, AuthenticationResponse>//AuthenticationResponse will return us
     {
         public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {

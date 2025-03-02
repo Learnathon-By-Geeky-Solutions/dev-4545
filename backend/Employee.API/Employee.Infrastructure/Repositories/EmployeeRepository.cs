@@ -99,6 +99,7 @@ namespace Employee.Infrastructure.Repositories
             refreshTokenEntity.TokenId = Guid.NewGuid();
             refreshTokenEntity.EmployeeId = user.EmployeeId;
             refreshTokenEntity.RefreshToken = RefreshToken;
+            refreshTokenEntity.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
             await dbContext.RefreshTokens.AddAsync(refreshTokenEntity);
             dbContext.SaveChanges();
 
