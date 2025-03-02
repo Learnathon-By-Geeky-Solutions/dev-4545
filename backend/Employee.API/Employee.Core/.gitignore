@@ -1,0 +1,3 @@
+﻿# Ignore build output directories
+bin/
+obj/
