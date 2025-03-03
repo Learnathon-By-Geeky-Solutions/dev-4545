@@ -79,6 +79,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Employee.API.Controllers.LoginController",
+    "Method": "Authentication",
+    "RelativePath": "api/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employee",
+        "Type": "Management.Core.DTO.AuthenticationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.RefreshTokenController",
+    "Method": "GetAccessToken",
+    "RelativePath": "api/RefreshToken/getaccesstoken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Token",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Employee.API.Controllers.TasksController",
     "Method": "GetAllTasks",
     "RelativePath": "api/Tasks",
