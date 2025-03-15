@@ -9,6 +9,8 @@ const UserTable = () => {
     isLoading,
     data
   } = useUsers();
+
+  console.log("USER TABLE data ", data);
   
   const { getQueryParams, setQueryParams, sortTableColumn } = useFilter();
   const [search, setSearch] = useState(getQueryParams().search as string);

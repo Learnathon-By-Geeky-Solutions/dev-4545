@@ -21,6 +21,7 @@
       "@services/*": ["frontend/EmpUI/src/services/*"],
       "@contexts/*": ["frontend/EmpUI/src/contexts/*"],
       "@utils/*": ["frontend/EmpUI/src/utils/*"],
+      "@mock/*": ["frontend/EmpUI/src/mock/*"]
     },
 
     /* Bundler mode */
@@ -36,7 +37,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["frontend/EmpUI/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
