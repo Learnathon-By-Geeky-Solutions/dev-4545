@@ -181,97 +181,97 @@ export const mockUsers: User[] = [
     creationAt: "2025-03-15T09:54:34.000Z",
     updatedAt: "2025-03-15T09:54:34.000Z",
   },
-//   {
-//     id: 88,
-//     email: "Annalise98@hotmail.com",
-//     password: "1o3MFmmY4Idqz37",
-//     name: "Harry Schmeler",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:54:39.000Z",
-//     updatedAt: "2025-03-15T09:54:39.000Z",
-//   },
-//   {
-//     id: 89,
-//     email: "nico@gmail.com",
-//     password: "1234",
-//     name: "Nicolas",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:57:15.000Z",
-//     updatedAt: "2025-03-15T09:57:15.000Z",
-//   },
-//   {
-//     id: 90,
-//     email: "nico@gmail.com",
-//     password: "1234",
-//     name: "Nicolas",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:57:17.000Z",
-//     updatedAt: "2025-03-15T09:57:17.000Z",
-//   },
-//   {
-//     id: 91,
-//     email: "nico@gmail.com",
-//     password: "1234",
-//     name: "Nicolas",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:59:04.000Z",
-//     updatedAt: "2025-03-15T09:59:04.000Z",
-//   },
-//   {
-//     id: 92,
-//     email: "nico@gmail.com",
-//     password: "1234",
-//     name: "Nicolas",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:59:06.000Z",
-//     updatedAt: "2025-03-15T09:59:06.000Z",
-//   },
-//   {
-//     id: 93,
-//     email: "Joaquin_Gulgowski29@yahoo.com",
-//     password: "VIDAs0jnsHZANL3",
-//     name: "Stella Ortiz",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T09:59:12.000Z",
-//     updatedAt: "2025-03-15T09:59:12.000Z",
-//   },
-//   {
-//     id: 94,
-//     email: "coolcats@mail.com",
-//     password: "343423",
-//     name: "coolcats",
-//     role: "customer",
-//     avatar:
-//       "https://docs.gravatar.com/wp-content/uploads/2025/02/avatar-mysteryperson-20250210-256.png?w=256",
-//     creationAt: "2025-03-15T10:49:47.000Z",
-//     updatedAt: "2025-03-15T10:49:47.000Z",
-//   },
-//   {
-//     id: 95,
-//     email: "AS@gmail.com",
-//     password: "1234",
-//     name: "Arif Shumon",
-//     role: "customer",
-//     avatar: "https://picsum.photos/800",
-//     creationAt: "2025-03-15T11:05:43.000Z",
-//     updatedAt: "2025-03-15T11:05:43.000Z",
-//   },
-//   {
-//     id: 98,
-//     email: "jayshrikale459@gmail.com",
-//     password: "1234567890",
-//     name: "jayshri kale",
-//     role: "customer",
-//     avatar: "https://avatar.iran.liara.run/public",
-//     creationAt: "2025-03-15T12:24:05.000Z",
-//     updatedAt: "2025-03-15T12:24:05.000Z",
-//   },
+  //   {
+  //     id: 88,
+  //     email: "Annalise98@hotmail.com",
+  //     password: "1o3MFmmY4Idqz37",
+  //     name: "Harry Schmeler",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:54:39.000Z",
+  //     updatedAt: "2025-03-15T09:54:39.000Z",
+  //   },
+  //   {
+  //     id: 89,
+  //     email: "nico@gmail.com",
+  //     password: "1234",
+  //     name: "Nicolas",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:57:15.000Z",
+  //     updatedAt: "2025-03-15T09:57:15.000Z",
+  //   },
+  //   {
+  //     id: 90,
+  //     email: "nico@gmail.com",
+  //     password: "1234",
+  //     name: "Nicolas",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:57:17.000Z",
+  //     updatedAt: "2025-03-15T09:57:17.000Z",
+  //   },
+  //   {
+  //     id: 91,
+  //     email: "nico@gmail.com",
+  //     password: "1234",
+  //     name: "Nicolas",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:59:04.000Z",
+  //     updatedAt: "2025-03-15T09:59:04.000Z",
+  //   },
+  //   {
+  //     id: 92,
+  //     email: "nico@gmail.com",
+  //     password: "1234",
+  //     name: "Nicolas",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:59:06.000Z",
+  //     updatedAt: "2025-03-15T09:59:06.000Z",
+  //   },
+  //   {
+  //     id: 93,
+  //     email: "Joaquin_Gulgowski29@yahoo.com",
+  //     password: "VIDAs0jnsHZANL3",
+  //     name: "Stella Ortiz",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T09:59:12.000Z",
+  //     updatedAt: "2025-03-15T09:59:12.000Z",
+  //   },
+  //   {
+  //     id: 94,
+  //     email: "coolcats@mail.com",
+  //     password: "343423",
+  //     name: "coolcats",
+  //     role: "customer",
+  //     avatar:
+  //       "https://docs.gravatar.com/wp-content/uploads/2025/02/avatar-mysteryperson-20250210-256.png?w=256",
+  //     creationAt: "2025-03-15T10:49:47.000Z",
+  //     updatedAt: "2025-03-15T10:49:47.000Z",
+  //   },
+  //   {
+  //     id: 95,
+  //     email: "AS@gmail.com",
+  //     password: "1234",
+  //     name: "Arif Shumon",
+  //     role: "customer",
+  //     avatar: "https://picsum.photos/800",
+  //     creationAt: "2025-03-15T11:05:43.000Z",
+  //     updatedAt: "2025-03-15T11:05:43.000Z",
+  //   },
+  //   {
+  //     id: 98,
+  //     email: "jayshrikale459@gmail.com",
+  //     password: "1234567890",
+  //     name: "jayshri kale",
+  //     role: "customer",
+  //     avatar: "https://avatar.iran.liara.run/public",
+  //     creationAt: "2025-03-15T12:24:05.000Z",
+  //     updatedAt: "2025-03-15T12:24:05.000Z",
+  //   },
 ];
 
 // Helper function to filter and sort users based on query parameters
@@ -341,4 +341,21 @@ export const saveUser = (userData: User) => {
   }
 
   return userData;
+};
+
+// Function to get the current user profile (for the logged-in user)
+export const getCurrentUserProfile = (): User => {
+  // Get the current user ID from localStorage
+  const currentUserId = localStorage.getItem("currentUserId");
+
+  if (currentUserId) {
+    // Find the user with the matching ID
+    const user = mockUsers.find((user) => user.id === parseInt(currentUserId));
+    if (user) {
+      return user;
+    }
+  }
+
+  // Fallback to admin user or first user if no current user ID is found
+  return mockUsers.find((user) => user.role === "admin") || mockUsers[0];
 };

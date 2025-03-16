@@ -38,6 +38,7 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
   }, [initialValues, form, isEditMode]);
   
   const onFinished = (values: User) => {
+    console.log("create uservalues", values);
     values.id = isEditMode ? initialValues?.id ?? 0 : 0;
     
     const userData = _.omit(values, 'confirm_password');
