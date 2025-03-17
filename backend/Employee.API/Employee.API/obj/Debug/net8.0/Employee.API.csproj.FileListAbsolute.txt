@@ -164,3 +164,4 @@ D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\refint\Employee
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.pdb
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.genruntimeconfig.cache
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\ref\Employee.API.dll
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cs

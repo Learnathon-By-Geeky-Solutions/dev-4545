@@ -35,6 +35,9 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateSalayByEmpId(Guid EmployeeId, SalaryEntity salaryEntity)
         {
             var result = await sender.Send(new UpdateSalaryCommand(EmployeeId,salaryEntity));
+            if (result == null) {
+                return BadRequest("Entity Not Found to Update.");
+            }
             return Ok(result);  
 
         }

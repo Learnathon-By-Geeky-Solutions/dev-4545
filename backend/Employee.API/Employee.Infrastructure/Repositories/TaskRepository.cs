@@ -44,7 +44,7 @@ namespace Employee.Infrastructure.Repositories
                 await dbContext.SaveChangesAsync();
                 return data;
             }
-            return taskEntity;
+            return data;
         }
 
         public async Task<bool> DeleteTask(Guid id)

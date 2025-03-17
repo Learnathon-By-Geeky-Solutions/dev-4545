@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController(ISender sender) : ControllerBase
@@ -39,6 +39,10 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateEmployee(Guid Id, EmployeeEntity employee)
         {
             var result = await sender.Send(new UpdateEmployeeCommand(Id,employee));
+            if (result == null)
+            {
+                return BadRequest("Not found the entity to update");
+            }
             return Ok(result);
         }
 

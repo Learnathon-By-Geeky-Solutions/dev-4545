@@ -36,7 +36,14 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateTask(Guid Id, TaskEntity taskEntity)
         {
             var result = await sender.Send(new UpdateTaskCommand(Id, taskEntity));
-            return Ok(result);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Entity Not Found to Update.");
+            }
         }
 
         [HttpDelete]

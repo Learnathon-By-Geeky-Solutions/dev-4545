@@ -1,16 +1,13 @@
-﻿using Employee.Core.Entities;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Services;
 using Management.Core.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Employee.Infrastructure.Repositories
 {
@@ -78,7 +75,11 @@ namespace Employee.Infrastructure.Repositories
                 await dbContext.SaveChangesAsync();
                 return data;
             }
-            return updatedentity;
+            else
+            {
+                return null;
+            }
+           
         }
 
         public async Task<bool> DeleteEmployee(Guid id)

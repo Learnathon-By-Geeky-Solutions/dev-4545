@@ -79,6 +79,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Employee.API.Controllers.LeaveController",
+    "Method": "InsertLeave",
+    "RelativePath": "api/Leave",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Leave",
+        "Type": "Employee.Core.Entities.LeaveEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.LeaveController",
+    "Method": "GetLeaves",
+    "RelativePath": "api/Leave",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.LeaveController",
+    "Method": "UpdateSalayByEmpId",
+    "RelativePath": "api/Leave",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmployeeId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "LeaveEntity",
+        "Type": "Employee.Core.Entities.LeaveEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.LeaveController",
+    "Method": "DeleteLeaveByEmpId",
+    "RelativePath": "api/Leave",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmployeeId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.LeaveController",
+    "Method": "GetLeaveByEmpId",
+    "RelativePath": "api/Leave/GetLeaveByEmployeeId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "EmployeeId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Employee.API.Controllers.LoginController",
     "Method": "Authentication",
     "RelativePath": "api/Login",

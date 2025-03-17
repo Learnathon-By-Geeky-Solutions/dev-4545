@@ -23,6 +23,7 @@ namespace Employee.Infrastructure
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<ISalaryRepository, SalaryRepository>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
             
             return services;
         }
