@@ -84,6 +84,26 @@ namespace Employee.Infrastructure.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("Employee.Core.Entities.SalaryEntity", b =>
+                {
+                    b.Property<Guid>("SalaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("SalaryDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("SalaryId");
+
+                    b.ToTable("Salaries");
+                });
+
             modelBuilder.Entity("Employee.Core.Entities.TaskEntity", b =>
                 {
                     b.Property<Guid>("TaskId")

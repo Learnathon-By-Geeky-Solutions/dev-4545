@@ -5,7 +5,7 @@
 namespace Employee.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class newdb1 : Migration
+    public partial class updatedatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

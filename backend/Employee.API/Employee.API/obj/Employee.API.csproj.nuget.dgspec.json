@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.API\\Employee.API.csproj": {}
+    "D:\\Learnathon\\backend\\Employee.API\\Employee.API\\Employee.API.csproj": {}
   },
   "projects": {
-    "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.API\\Employee.API.csproj": {
+    "D:\\Learnathon\\backend\\Employee.API\\Employee.API\\Employee.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.API\\Employee.API.csproj",
+        "projectUniqueName": "D:\\Learnathon\\backend\\Employee.API\\Employee.API\\Employee.API.csproj",
         "projectName": "Employee.API",
-        "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.API\\Employee.API.csproj",
-        "packagesPath": "C:\\Users\\SHIKHON\\.nuget\\packages\\",
-        "outputPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.API\\obj\\",
+        "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.API\\Employee.API.csproj",
+        "packagesPath": "C:\\Users\\sakib\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SHIKHON\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sakib\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,18 +26,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
-                "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
+              "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
+                "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
               },
-              "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj": {
-                "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj"
+              "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj": {
+                "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj"
               }
             }
           }
@@ -51,7 +50,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -99,24 +99,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
+    "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj",
+        "projectUniqueName": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj",
         "projectName": "Employee.Application",
-        "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj",
-        "packagesPath": "C:\\Users\\SHIKHON\\.nuget\\packages\\",
-        "outputPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\obj\\",
+        "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj",
+        "packagesPath": "C:\\Users\\sakib\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SHIKHON\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sakib\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -125,15 +125,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj": {
-                "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj"
+              "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj": {
+                "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj"
               }
             }
           }
@@ -147,7 +146,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -178,24 +178,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj": {
+    "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj",
+        "projectUniqueName": "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj",
         "projectName": "Employee.Core",
-        "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj",
-        "packagesPath": "C:\\Users\\SHIKHON\\.nuget\\packages\\",
-        "outputPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Core\\obj\\",
+        "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj",
+        "packagesPath": "C:\\Users\\sakib\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SHIKHON\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sakib\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -204,7 +204,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -222,7 +221,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -249,24 +249,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj": {
+    "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
+        "projectUniqueName": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
         "projectName": "Employee.Infrastructure",
-        "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\SHIKHON\\.nuget\\packages\\",
-        "outputPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\obj\\",
+        "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\sakib\\.nuget\\packages\\",
+        "outputPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SHIKHON\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sakib\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -275,15 +275,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
-                "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
+              "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
+                "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
               }
             }
           }
@@ -297,7 +296,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -346,7 +346,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

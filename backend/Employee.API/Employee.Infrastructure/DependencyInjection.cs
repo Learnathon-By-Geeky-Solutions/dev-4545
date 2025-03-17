@@ -22,6 +22,8 @@ namespace Employee.Infrastructure
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<ISalaryRepository, SalaryRepository>();
+            
             return services;
         }
     }

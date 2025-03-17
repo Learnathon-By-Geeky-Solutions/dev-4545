@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employee.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250222145048_new2")]
-    partial class new2
+    [Migration("20250316141815_DbUpdate")]
+    partial class DbUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,47 @@ namespace Employee.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Employee.Core.Entities.RefreshTokenEntity", b =>
+                {
+                    b.Property<Guid>("TokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TokenId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("Employee.Core.Entities.Salary", b =>
+                {
+                    b.Property<Guid>("SalaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("SalaryDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("SalaryId");
+
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("Employee.Core.Entities.TaskEntity", b =>

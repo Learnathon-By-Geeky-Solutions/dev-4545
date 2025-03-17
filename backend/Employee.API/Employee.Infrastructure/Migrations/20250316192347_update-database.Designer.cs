@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employee.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250301171800_checkroger1")]
-    partial class checkroger1
+    [Migration("20250316192347_update-database")]
+    partial class updatedatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,9 +79,32 @@ namespace Employee.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("RefreshTokenExpiry")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("TokenId");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("Employee.Core.Entities.SalaryEntity", b =>
+                {
+                    b.Property<Guid>("SalaryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("SalaryDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("SalaryId");
+
+                    b.ToTable("Salaries");
                 });
 
             modelBuilder.Entity("Employee.Core.Entities.TaskEntity", b =>
