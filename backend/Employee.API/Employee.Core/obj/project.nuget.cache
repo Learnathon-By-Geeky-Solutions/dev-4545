@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "PY+5iJJKLN0=",
+  "success": true,
+  "projectFilePath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Core\\Employee.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sakib\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
