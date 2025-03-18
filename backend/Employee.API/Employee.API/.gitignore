@@ -1,1 +1,7 @@
 ﻿appsettings.Development.json
+bin/
+obj/
+*.user
+*.suo
+*.dbmdl
+*.jfm

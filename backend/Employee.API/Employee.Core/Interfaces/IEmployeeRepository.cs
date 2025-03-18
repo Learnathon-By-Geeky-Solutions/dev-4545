@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Employee.Core.Entities;
+using Management.Core.DTO;
 
 namespace Employee.Core.Interfaces
 {
@@ -14,5 +11,6 @@ namespace Employee.Core.Interfaces
         Task<EmployeeEntity> AddEmployee(EmployeeEntity employee);
         Task<EmployeeEntity> UpdateEmployee(Guid id, EmployeeEntity updatedentity);
         Task<bool> DeleteEmployee(Guid id);
+        Task<AuthenticationResponse> Authenticate(AuthenticationRequest request);
     }
 }

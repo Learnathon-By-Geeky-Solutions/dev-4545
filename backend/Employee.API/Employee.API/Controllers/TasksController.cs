@@ -2,10 +2,12 @@
 using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController(ISender sender): ControllerBase
