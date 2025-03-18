@@ -1,0 +1,41 @@
+name: SonarCloud Analysis (.NET Clean Architecture)
+
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+    branches:
+      - test
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'  # Change as per your .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore ./backend/Employee.API/Employee.API.sln
+
+      - name: Build solution
+        run: dotnet build ./backend/Employee.API/Employee.API.sln --no-restore
+
+      - name: Run tests with coverage
+        run: dotnet test ./backend/Employee.API/Employee.API.sln --no-build --collect:"XPlat Code Coverage"
+
+      - name: SonarCloud Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=learnathon-by-geeky-solutions
+            -Dsonar.projectKey=Learnathon-By-Geeky-Solutions_dev-4545
+            -Dsonar.cs.opencover.reportsPaths=**/TestResults/**/*.xml  # This is the test coverage report path
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
