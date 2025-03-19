@@ -18,6 +18,8 @@ namespace Employee.Infrastructure.Data
         }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
+        public DbSet<ProjectEntity> Projects { get; set; }
+        public DbSet<FeatureEntity> Features { get; set; }
 
     }
 }
