@@ -174,6 +174,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Employee.API.Controllers.PerformancesController",
+    "Method": "GetAllPerformances",
+    "RelativePath": "api/Performances",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.PerformancesController",
+    "Method": "AddPerformanceAsync",
+    "RelativePath": "api/Performances",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "performance",
+        "Type": "Employee.Core.Entities.PerformanceEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.PerformancesController",
+    "Method": "UpdatePerformance",
+    "RelativePath": "api/Performances",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "performance",
+        "Type": "Employee.Core.Entities.PerformanceEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.PerformancesController",
+    "Method": "DeletePerformance",
+    "RelativePath": "api/Performances",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.PerformancesController",
+    "Method": "GetPerformancesById",
+    "RelativePath": "api/Performances/performance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Employee.API.Controllers.ProjectsController",
     "Method": "GetAllProjects",
     "RelativePath": "api/Projects",
