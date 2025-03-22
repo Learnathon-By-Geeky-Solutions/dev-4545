@@ -9,6 +9,7 @@ namespace Employee.Infrastructure.Repositories
     {
         public async Task<LeaveEntity> AddLeave(LeaveEntity Leave)
         {
+            Leave.LeaveId = new Guid();
             await dbContext.Leaves.AddAsync(Leave);
             await dbContext.SaveChangesAsync();
             return Leave;
