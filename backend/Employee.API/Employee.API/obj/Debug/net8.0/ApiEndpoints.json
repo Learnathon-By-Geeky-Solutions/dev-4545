@@ -190,6 +190,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Employee.API.Controllers.RolesController",
+    "Method": "InsertRole",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rolesEntity",
+        "Type": "Employee.Core.Entities.RolesEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.RolesController",
+    "Method": "GetRoles",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.RolesController",
+    "Method": "UpdateRoles",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "RoleId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "rolesEntity",
+        "Type": "Employee.Core.Entities.RolesEntity",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.RolesController",
+    "Method": "DeleteRole",
+    "RelativePath": "api/Roles",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "RoleId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Employee.API.Controllers.RolesController",
+    "Method": "GetRoleById",
+    "RelativePath": "api/Roles/GetRoleById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "RolesId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Employee.API.Controllers.SalaryController",
     "Method": "InsertSalary",
     "RelativePath": "api/Salary",

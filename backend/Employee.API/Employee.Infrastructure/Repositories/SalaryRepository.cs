@@ -2,6 +2,7 @@
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace Employee.Infrastructure.Repositories
 {
@@ -9,6 +10,7 @@ namespace Employee.Infrastructure.Repositories
     {
         public async Task<SalaryEntity> AddSalary(SalaryEntity salary)
         {
+            salary.SalaryId = new Guid();
             await dbContext.Salaries.AddAsync(salary);
             dbContext.SaveChanges();
             return salary;

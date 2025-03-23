@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Employee.Core.Enums;
 
 namespace Employee.Core.Entities
 {
@@ -9,7 +10,7 @@ namespace Employee.Core.Entities
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
         public string LeaveType { get; set; }
-        public string Status { get; set; }
+        public Status Status { get; set; }
         public string Reason { get; set; }
         public Guid EmployeeId { get; set; }
 

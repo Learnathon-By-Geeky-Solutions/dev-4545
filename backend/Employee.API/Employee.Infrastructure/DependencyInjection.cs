@@ -24,6 +24,8 @@ namespace Employee.Infrastructure
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<ISalaryRepository, SalaryRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<IRolesRepository, RolesRepository>();
+
             
             return services;
         }
