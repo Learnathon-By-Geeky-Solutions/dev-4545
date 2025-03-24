@@ -1,15 +1,10 @@
-﻿using Employee.Core.Entities;
+﻿using System.IdentityModel.Tokens.Jwt;
+using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Employee.Infrastructure.Repositories
 {

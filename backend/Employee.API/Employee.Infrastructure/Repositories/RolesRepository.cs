@@ -2,7 +2,6 @@
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using StackExchange.Redis;
 
 namespace Employee.Infrastructure.Repositories
 {
