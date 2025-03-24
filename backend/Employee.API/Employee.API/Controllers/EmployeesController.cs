@@ -2,10 +2,12 @@
 using Employee.Application.Queries.Employee;
 using Employee.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController(ISender sender) : ControllerBase
@@ -13,6 +15,8 @@ namespace Employee.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
+            
+            
             var result = await sender.Send(new GetEmployeeQuery());
             return Ok(result);
         }
@@ -35,6 +39,10 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateEmployee(Guid Id, EmployeeEntity employee)
         {
             var result = await sender.Send(new UpdateEmployeeCommand(Id,employee));
+            if (result == null)
+            {
+                return BadRequest("Not found the entity to update");
+            }
             return Ok(result);
         }
 

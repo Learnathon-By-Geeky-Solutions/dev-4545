@@ -15,8 +15,19 @@ namespace Employee.Infrastructure
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetConnectionString("RedisURL");
+            });
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<ISalaryRepository, SalaryRepository>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<IRolesRepository, RolesRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IPerformanceRepository, PerformanceRepository>();
             return services;
         }
     }

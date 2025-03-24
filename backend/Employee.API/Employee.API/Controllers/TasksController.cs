@@ -2,10 +2,12 @@
 using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController(ISender sender): ControllerBase
@@ -34,7 +36,14 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateTask(Guid Id, TaskEntity taskEntity)
         {
             var result = await sender.Send(new UpdateTaskCommand(Id, taskEntity));
-            return Ok(result);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Entity Not Found to Update.");
+            }
         }
 
         [HttpDelete]
