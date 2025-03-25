@@ -4272,23 +4272,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sakib\\.nuget\\packages\\": {},
+    "C:\\Users\\SHIKHON\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
+      "projectUniqueName": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
       "projectName": "Employee.Infrastructure",
-      "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\sakib\\.nuget\\packages\\",
-      "outputPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\obj\\",
+      "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\Employee.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\SHIKHON\\.nuget\\packages\\",
+      "outputPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\sakib\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SHIKHON\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4297,14 +4297,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
-              "projectPath": "D:\\Learnathon\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
+            "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj": {
+              "projectPath": "D:\\New folder (2)\\dev-4545\\dev-4545\\backend\\Employee.API\\Employee.Application\\Employee.Application.csproj"
             }
           }
         }
@@ -4318,8 +4319,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.100"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -4374,16 +4374,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\Learnathon\\backend\\Employee.API\\Employee.Infrastructure\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

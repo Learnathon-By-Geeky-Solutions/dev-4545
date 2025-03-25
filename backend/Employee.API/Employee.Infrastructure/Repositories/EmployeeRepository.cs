@@ -116,6 +116,7 @@ namespace Employee.Infrastructure.Repositories
 
             var RefreshToken = RefreshTokenService.GenerateRefreshToken();
 
+            authenticationResponse.Id = user.EmployeeId;
             authenticationResponse.Role = "Admin";
             authenticationResponse.RefreshToken = RefreshToken;
             authenticationResponse.JwToken = new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
