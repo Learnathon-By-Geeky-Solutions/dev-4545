@@ -51,16 +51,16 @@ namespace Employee.Infrastructure.Repositories
             employee.Salt = salt;
             employee.Password = hashedPassword;
             await dbContext.Employees.AddAsync(employee);  
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return employee;
         }
 
-        public async Task<EmployeeEntity> UpdateEmployee(Guid id, EmployeeEntity updatedentity)
+        public async Task<EmployeeEntity?> UpdateEmployee(Guid id, EmployeeEntity updatedentity)
         {
             var salt = PasswordHasher.GenerateSalt();
             var hashedPassword = PasswordHasher.HashPassword(updatedentity.Password, salt);
             var data = await dbContext.Employees.FirstOrDefaultAsync(x=>x.EmployeeId == id);
-            if (data!=null)
+            if (data != null)
             {
                 data.Name = updatedentity.Name;
                 data.Email = updatedentity.Email;
@@ -94,20 +94,9 @@ namespace Employee.Infrastructure.Repositories
         }
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
-            var user = await dbContext.Employees.FirstOrDefaultAsync(x => x.Email == request.Email);
-            if (user == null)
-            {
-                throw new ApplicationException($"user is not found with this Email : {request.Email}");
-            }
-
+            var user = await dbContext.Employees.FirstOrDefaultAsync(x => x.Email == request.Email) ?? throw new ApplicationException($"user is not found with this Email : {request.Email}");
             var password = PasswordHasher.HashPassword(request.Password, user.Salt);
-            var succeed = await dbContext.Employees.FirstOrDefaultAsync(x => x.Password == password);
-            
-            if (succeed == null)
-            {
-                throw new ApplicationException($"Password isn't correct");
-
-            }
+            var succeed = await dbContext.Employees.FirstOrDefaultAsync(x => x.Password == password) ?? throw new ApplicationException($"Password isn't correct");
             var accessTokenService = new AccessTokenService(_configuration);
             var JwtSecurity = await accessTokenService.GenerateToken(user);
 
@@ -126,7 +115,7 @@ namespace Employee.Infrastructure.Repositories
             refreshTokenEntity.RefreshToken = RefreshToken;
             refreshTokenEntity.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
             await dbContext.RefreshTokens.AddAsync(refreshTokenEntity);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return authenticationResponse;
         }
