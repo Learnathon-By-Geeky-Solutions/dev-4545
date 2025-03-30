@@ -12,6 +12,7 @@ namespace Employee.API.Controllers
     [ApiController]
     public class EmployeesController(ISender sender) : ControllerBase
     {
+        
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {

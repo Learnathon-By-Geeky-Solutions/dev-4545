@@ -1,10 +1,3 @@
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.csproj.AssemblyReference.cache
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.GeneratedMSBuildEditorConfig.editorconfig
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfoInputs.cache
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfo.cs
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.csproj.CoreCompileInputs.cache
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cache
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.sourcelink.json
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\appsettings.Development.json
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\appsettings.json
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.API.staticwebassets.endpoints.json
@@ -147,6 +140,14 @@ D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.Infras
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.Application.pdb
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.Infrastructure.pdb
 D:\Learnathon\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.Core.pdb
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.csproj.AssemblyReference.cache
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfoInputs.cache
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfo.cs
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.csproj.CoreCompileInputs.cache
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cs
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cache
+D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.sourcelink.json
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\scopedcss\bundle\Employee.API.styles.css
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\staticwebassets.build.json
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\staticwebassets.development.json
@@ -164,4 +165,3 @@ D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\refint\Employee
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.pdb
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.genruntimeconfig.cache
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\ref\Employee.API.dll
-D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cs
