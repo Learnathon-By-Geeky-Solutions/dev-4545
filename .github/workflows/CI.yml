@@ -1,0 +1,51 @@
+name: CI Build and SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+    branches:
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Install SonarScanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: Install Dependencies
+      run: dotnet restore
+
+    - name: Start SonarCloud Analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner begin /k:"Learnathon-By-Geeky-Solutions_dev-4545" /o:"learnathon-by-geeky-solutions" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+    - name: Build Solution
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run Tests with Coverage
+      run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage"
+
+    - name: Convert Coverage to Sonar Format
+      run: |
+        dotnet tool install --global dotnet-coverage
+        dotnet-coverage convert -f cobertura -o coverage.xml coverage.cobertura.xml
+
+    - name: Finalize SonarCloud Analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
