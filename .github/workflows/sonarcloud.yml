@@ -1,0 +1,45 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - test1
+  pull_request:
+    branches:
+      - test1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install SonarCloud Scanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: Begin SonarCloud analysis
+      run: dotnet sonarscanner begin /k:"Learnathon-By-Geeky-Solutions_dev-4545" /o:"learnathon-by-geeky-solutions" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths=TestResults/**/coverage.opencover.xml
+
+    - name: Restore dependencies
+      run: dotnet restore backend/Employee.API
+
+    - name: Build project
+      run: dotnet build --no-restore --configuration Release backend/Employee.API
+
+    - name: Run tests
+      run: dotnet test backend/Employee.API/EmployeeXUnit.Test/EmployeeXUnit.Test.csproj --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+  
+
+    - name: Install ReportGenerator
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+    - name: Convert coverage to OpenCover format
+      run: reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:CoverageResults -reporttypes:opencover
+    
