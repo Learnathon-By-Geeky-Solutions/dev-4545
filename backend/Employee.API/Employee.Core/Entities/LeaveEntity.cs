@@ -5,6 +5,7 @@ namespace Employee.Core.Entities
 {
     public class LeaveEntity
     {
+
         [Key]
         public Guid LeaveId { get; set; }
         public DateOnly StartDate { get; set; }
