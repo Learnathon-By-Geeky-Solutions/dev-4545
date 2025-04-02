@@ -3,9 +3,11 @@ name: CI Pipeline
 on:
   push:
     branches:
+      - main
       - test1
   pull_request:
     branches:
+      - main
       - test1
 
 jobs:
