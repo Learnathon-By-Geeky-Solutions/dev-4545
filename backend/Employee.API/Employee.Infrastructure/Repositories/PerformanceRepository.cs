@@ -11,7 +11,7 @@ namespace Employee.Infrastructure.Repositories
         {
             performance.Id = Guid.NewGuid();
             await dbContext.Performances.AddAsync(performance);
-            dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
             return performance ;
         }
 
@@ -53,7 +53,11 @@ namespace Employee.Infrastructure.Repositories
                 return data;
 
             }
-            return performance;
+            else
+            {
+                return null;
+            }
+                
         }
     }
 }

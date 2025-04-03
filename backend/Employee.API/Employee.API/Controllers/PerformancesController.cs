@@ -38,6 +38,10 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdatePerformance(Guid Id,PerformanceEntity performance)
         {
             var result = await sender.Send(new UpdatePerformanceCommand(Id, performance));
+            if (result == null)
+            {
+                return BadRequest("Not found the entity to update"); 
+            }
             return Ok(result);
         }
 
