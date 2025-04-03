@@ -241,6 +241,9 @@ namespace Employee.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Permissions")
                         .HasColumnType("int");
 

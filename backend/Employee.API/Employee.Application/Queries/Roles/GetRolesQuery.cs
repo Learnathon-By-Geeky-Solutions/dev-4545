@@ -27,6 +27,7 @@ namespace Employee.Application.Queries.Roles
                 roleDTO.Permissions = Enum.GetName(typeof(Permissions), r.Permissions);
                 roleDTO.RoleName = r.RoleName;
                 roleDTO.Descriptions = r.Descriptions;
+                roleDTO.EmployeeId = r.EmployeeId;
                 rolesDTO.Add(roleDTO);
             }
             return rolesDTO;

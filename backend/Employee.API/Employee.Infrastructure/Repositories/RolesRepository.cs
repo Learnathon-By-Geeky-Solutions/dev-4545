@@ -33,9 +33,9 @@ namespace Employee.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<RolesEntity> GetRolesById(Guid RoleId)
+        public async Task<RolesEntity> GetRolesById(Guid EmployeeId)
         {
-            var result = await dbContext.Roles.FirstOrDefaultAsync(x => x.RoleId==RoleId);
+            var result = await dbContext.Roles.FirstOrDefaultAsync(x => x.EmployeeId==EmployeeId);
             return result;
         }
 
@@ -45,7 +45,7 @@ namespace Employee.Infrastructure.Repositories
             if (result != null)
             {
                 result.Permissions = updateRoles.Permissions;
-                result.Descriptions = updateRoles.Descriptions; 
+                result.EmployeeId = updateRoles.EmployeeId; 
                 result.RoleName = updateRoles.RoleName; 
                 await dbContext.SaveChangesAsync();
             }

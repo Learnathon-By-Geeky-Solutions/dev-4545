@@ -491,14 +491,14 @@
   },
   {
     "ContainingType": "Employee.API.Controllers.RolesController",
-    "Method": "GetRoleById",
-    "RelativePath": "api/Roles/GetRoleById",
+    "Method": "GetRoleByEmployeeId",
+    "RelativePath": "api/Roles/GetRoleByEmployeeId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "RolesId",
+        "Name": "EmployeeId",
         "Type": "System.Guid",
         "IsRequired": false
       }

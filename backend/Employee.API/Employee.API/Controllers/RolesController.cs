@@ -24,10 +24,10 @@ namespace Employee.API.Controllers
             return Ok(result);
 
         }
-        [HttpGet("GetRoleById")]
-        public async Task<IActionResult> GetRoleById(Guid RolesId)
+        [HttpGet("GetRoleByEmployeeId")]
+        public async Task<IActionResult> GetRoleByEmployeeId(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetRolesByIdQuery(RolesId));
+            var result = await sender.Send(new GetRolesByIdQuery(EmployeeId));
             return Ok(result);
 
         }
