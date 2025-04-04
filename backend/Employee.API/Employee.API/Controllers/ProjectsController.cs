@@ -38,7 +38,9 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateProject(Guid Id, ProjectEntity Project)
         {
             var result = await sender.Send(new UpdateProjectCommand(Id, Project));
-            return Ok(result);
+            if(result!=null)
+                return Ok(result);
+            return BadRequest("Not found the entity to update");
         }
 
         [HttpDelete]
