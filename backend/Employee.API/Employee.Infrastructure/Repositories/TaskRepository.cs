@@ -1,6 +1,4 @@
-﻿
-
-using Employee.Core.Entities;
+﻿using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

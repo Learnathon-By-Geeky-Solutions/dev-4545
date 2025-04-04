@@ -9,11 +9,11 @@ using MediatR;
 
 namespace Employee.Application.Queries.Task
 {
-    public record GetTaskByIdCommand(Guid Id) : IRequest<TaskEntity>;
+    public record GetTaskByIdQuery(Guid Id) : IRequest<TaskEntity>;
     public class GetTaskByIdCommandHandler(ITaskRepository taskRepository)
-        : IRequestHandler<GetTaskByIdCommand, TaskEntity>
+        : IRequestHandler<GetTaskByIdQuery, TaskEntity>
     {
-        public async Task<TaskEntity> Handle(GetTaskByIdCommand request, CancellationToken cancellationToken)
+        public async Task<TaskEntity> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
         {
             return await taskRepository.GetTaskByIdAsync(request.Id);
         }
