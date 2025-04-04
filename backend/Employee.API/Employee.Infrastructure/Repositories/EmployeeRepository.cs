@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Employee.Core.Entities;
+using Employee.Core.Enums;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Services;
@@ -108,16 +109,17 @@ namespace Employee.Infrastructure.Repositories
                 throw new ApplicationException($"Password isn't correct");
 
             }
-            var accessTokenService = new AccessTokenService(_configuration);
+            var accessTokenService = new AccessTokenService(_configuration,dbContext);
             var JwtSecurity = await accessTokenService.GenerateToken(user);
 
             var authenticationResponse = new AuthenticationResponse();
             var refreshTokenEntity = new RefreshTokenEntity();
 
             var RefreshToken = RefreshTokenService.GenerateRefreshToken();
+            var role= await dbContext.Roles.FirstOrDefaultAsync(x => x.EmployeeId==user.EmployeeId);
 
             authenticationResponse.Id = user.EmployeeId;
-            authenticationResponse.Role = "Admin";
+            authenticationResponse.Role = Enum.GetName(typeof(Permissions), role.Permissions); ;
             authenticationResponse.RefreshToken = RefreshToken;
             authenticationResponse.JwToken = new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
 
