@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { Table, Input, Card } from "antd";
 import useFilter from "@hooks/utility-hooks/use-filter";
-import TableActions, { columns } from "./task-table-columns";
+import TableActions, { columns } from "./project-table-columns";
 import { useTaskForm } from "@hooks/use-tasks";
-import { useDeleteTaskMutation } from "@services/task-service";
+import { useDeleteProjectMutation } from "@services/project-service";
 
-const TaskTable = () => {
-  const [deleteTask] = useDeleteTaskMutation();
+const ProjectTable = () => {
+  const [deleteTask] = useDeleteProjectMutation();
 
   const handleStatusChange = (id: number, status: string) => {
     console.log("Status changed:", id, status);
   };
 
-  const handleDelete = async (taskId: number) => {
-    console.log("Deleting:", taskId);
+  const handleDelete = async (projectId: number) => {
+    console.log("Deleting:", projectId);
     try {
-      await deleteTask(taskId).unwrap();
-      console.log("Deleted:", taskId);
+      await deleteTask(projectId).unwrap();
+      console.log("Deleted:", projectId);
       // Refresh the task list
     } catch (error) {
       console.log(error);
@@ -28,4 +28,4 @@ const TaskTable = () => {
   );
 };
 
-export default TaskTable;
+export default ProjectTable;
