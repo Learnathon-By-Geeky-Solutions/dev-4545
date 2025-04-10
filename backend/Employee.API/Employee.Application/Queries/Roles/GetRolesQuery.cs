@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using Employee.Application.DTO;
+﻿using Employee.Application.DTO;
 using Employee.Core.Entities;
 using Employee.Core.Enums;
 using Employee.Core.Interfaces;
