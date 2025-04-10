@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace EmployeeXUnit.Test.Controllers
+namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
     public class FeaturesControllerTests
     {

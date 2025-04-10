@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace EmployeeXUnit.Test.Controllers
+namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
     public class LoginControllerTests
     {

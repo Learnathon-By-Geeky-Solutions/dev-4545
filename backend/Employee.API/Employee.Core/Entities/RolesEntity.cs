@@ -7,8 +7,8 @@ namespace Employee.Core.Entities
     {
         [Key]
         public Guid RoleId { get; set; }
-        public string RoleName { get; set; }
-        public string Descriptions { get; set; }
+        public string RoleName { get; set; } = string.Empty;
+        public string Descriptions { get; set; } = string.Empty;
         public Permissions Permissions {  get; set; }
         
     }
