@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { App } from "antd";
 import useFilter from "@hooks/utility-hooks/use-filter";
-import { Task } from "@models/task-model";
+import { Project } from "@models/project-model";
 import { AppError, QueryParams } from "@models/utils-model";
 import {
-  useLazyTasksQuery,
-  useTaskQuery,
-  useTaskSavedMutation,
-} from "@services/task-service";
+  useLazyProjectsQuery,
+  useProjectQuery,
+  useProjectSavedMutation,
+} from "@services/project-service";
 import { formatQueryParams } from "@utils/helpers";
 
-// Hook to fetch and manage the list of tasks with filtering
-export const useTasks = () => {
+// Hook to fetch and manage the list of projects with filtering
+export const useProjects = () => {
   const location = useLocation();
 
   const { getQueryParams, setQueryParams, getDefaultQueryParams } = useFilter();
@@ -20,7 +20,7 @@ export const useTasks = () => {
 
   const [filterParams, setFilterParams] = useState<QueryParams>({});
 
-  const [onFetching, { isFetching, data: response }] = useLazyTasksQuery();
+  const [onFetching, { isFetching, data: response }] = useLazyProjectsQuery();
 
   useEffect(() => {
     setFilterParams(queryParams);
@@ -46,18 +46,18 @@ export const useTasks = () => {
   };
 };
 
-// Hook to handle saving a task (create or update)
-export const useTaskForm = () => {
+// Hook to handle saving a project (create or update)
+export const useProjectForm = () => {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
-  const [taskSaved, { isLoading, isSuccess, isError, error }] =
-    useTaskSavedMutation();
+  const [projectSaved, { isLoading, isSuccess, isError, error }] =
+    useProjectSavedMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      message.success("Task saved successfully.");
-      navigate("/tasks");
+      message.success("Project saved successfully.");
+      navigate("/projects");
     }
 
     if (isError && error) {
@@ -65,8 +65,8 @@ export const useTaskForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (task: Task) => {
-    taskSaved(task);
+  const onSaved = (project: Project) => {
+    projectSaved(project);
   };
 
   return {
@@ -75,12 +75,12 @@ export const useTaskForm = () => {
   };
 };
 
-// Hook to fetch a single task by ID
-export const useTask = (taskId: number) => {
-  const { isLoading, data: task } = useTaskQuery(taskId);
+// Hook to fetch a single project by ID
+export const useProject = (projectId: number) => {
+  const { isLoading, data: project } = useProjectQuery(projectId);
 
   return {
     isLoading,
-    task,
+    project,
   };
 };

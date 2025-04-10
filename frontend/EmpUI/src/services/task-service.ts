@@ -4,16 +4,6 @@ import API_END_POINTS from "@utils/constants/api-end-points";
 
 export const taskService = baseService.injectEndpoints({
   endpoints: (builder) => ({
-    // userProfile: builder.query<User, string | void>({
-    //   query: (employeeId) => ({
-    //     // url: employeeId
-    //     //   ? `${API_END_POINTS.employee}?Id=${employeeId}`
-    //     //   : API_END_POINTS.employee,
-    //     url: `${API_END_POINTS.employee}?Id=${employeeId}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["user"],
-    // }),
     tasks: builder.query<User[], string>({
       query: () => ({
         url: API_END_POINTS.tasks,
@@ -28,22 +18,36 @@ export const taskService = baseService.injectEndpoints({
       }),
       providesTags: ["task"],
     }),
-    // userSaved: builder.mutation<User, User>({
-    //   query: (user) => {
-    //     const requestUrl = user?.employeeId
-    //       ? API_END_POINTS.employee + `/${user.employeeId}`
-    //       : API_END_POINTS.employee;
-    //     const requestMethod = user?.employeeId ? "PUT" : "POST";
+    taskSaved: builder.mutation<User, User>({
+      query: (task) => {
+        const requestUrl = task?.taskId
+          ? API_END_POINTS.employee + `/${user.taskId}`
+          : API_END_POINTS.employee;
+        const requestMethod = task?.taskId ? "PUT" : "POST";
 
-    //     return {
-    //       url: requestUrl,
-    //       method: requestMethod,
-    //       body: user,
-    //     };
-    //   },
-    //   invalidatesTags: ["users", "user"],
-    // }),
+        console.log("task request method ", requestUrl, requestMethod);
+
+        return {
+          url: requestUrl,
+          method: requestMethod,
+          body: user,
+        };
+      },
+      invalidatesTags: ["tasks", "task"],
+    }),
+    deleteTask: builder.mutation<void, number>({
+      query: (taskId) => ({
+        url: `${API_END_POINTS.tasks}?Id=${taskId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["tasks"], // This will auto-refresh the tasks list
+    }),
   }),
 });
 
-export const { useLazyTasksQuery, useTaskQuery } = taskService;
+export const {
+  useLazyTasksQuery,
+  useTaskSavedMutation,
+  useTaskQuery,
+  useDeleteTaskMutation,
+} = taskService;
