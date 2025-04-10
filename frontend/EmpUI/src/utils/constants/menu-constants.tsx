@@ -20,18 +20,23 @@ export const PROFILE_MENU_ITEMS = [
 
 export const MAIN_MENU_ITEMS = [
   {
-    key: '/',
-    label: 'Dashboard',
-    icon: <DashboardOutlined />
+    key: "/",
+    label: "Dashboard",
+    icon: <DashboardOutlined />,
   },
   {
-    key: '/users',
-    label: 'Users',
-    icon: <FolderOpenOutlined />
+    key: "/users",
+    label: "Users",
+    icon: <FolderOpenOutlined />,
   },
   {
-    key: '/tasks',
-    label: 'Tasks',
-    icon: <FolderOpenOutlined />
-  }
+    key: "/tasks",
+    label: "Tasks",
+    icon: <FolderOpenOutlined />,
+  },
+  {
+    key: "/projects",
+    label: "Projects",
+    icon: <FolderOpenOutlined />,
+  },
 ];

@@ -1,25 +1,24 @@
 import { Space, Spin } from "antd";
-import UserDetails from "@features/settings/user-details";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
-import { useTasks } from "@hooks/use-tasks";
-import TaskTable from "../../features/tasks/task-table";
+import { useProjects } from "@hooks/use-projects";
+import ProjectTable from "../../features/projects/project-table";
 
-const Tasks = () => {
-  const { isLoading, data: tasks } = useTasks();
+const Projects = () => {
+  const { isLoading, data: projects } = useProjects();
 
-  console.log(tasks);
+  console.log(projects);
 
   return (
     <>
       <PageHeader
-        title="Tasks"
-        subTitle="Access and adjust your preferences conveniently on our Tasks page"
+        title="projects"
+        subTitle="Access and adjust your preferences conveniently on our projects page"
       />
       <PageContent>
         <Space direction="vertical" size="large" style={{ display: "flex" }}>
           <Spin spinning={isLoading}>
-            <TaskTable/>
+            <ProjectTable />
           </Spin>
         </Space>
       </PageContent>
@@ -27,4 +26,4 @@ const Tasks = () => {
   );
 };
 
-export default Tasks;
+export default Projects;

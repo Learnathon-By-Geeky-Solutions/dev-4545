@@ -10,6 +10,7 @@ import {
   UserDetailsBreadcrumb,
 } from "@/routes/route-utils";
 import Tasks from "@pages/tasks";
+import Projects from "@pages/projects";
 
 const routes = [
   {
@@ -55,6 +56,13 @@ const routes = [
     path: "tasks",
     breadcrumb: "Tasks",
     component: Tasks,
+    exact: true,
+    children: [],
+  },
+  {
+    path: "projects",
+    breadcrumb: "Projects",
+    component: Projects,
     exact: true,
     children: [],
   },

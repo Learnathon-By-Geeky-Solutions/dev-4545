@@ -8,6 +8,8 @@ const API_END_POINTS = {
   employees: "/Employees",
   tasks: "/Tasks",
   task: "/Tasks/task",
+  projects: "/Projects",
+  project: "/Projects/project",
 };
 
 export default API_END_POINTS;
