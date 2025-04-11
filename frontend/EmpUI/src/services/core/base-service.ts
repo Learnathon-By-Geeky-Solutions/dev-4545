@@ -5,7 +5,7 @@ const baseService = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReAuth,
   keepUnusedDataFor: 120,
-  tagTypes: ["auth", "user", "users", "tasks", "projects", "features"],
+  tagTypes: ["auth", "user", "users", "tasks", "projects", "features", "leaves"],
   endpoints: () => ({}),
 });
 
