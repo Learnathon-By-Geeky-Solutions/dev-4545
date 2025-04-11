@@ -11,7 +11,9 @@ const API_END_POINTS = {
   project: "/Projects/project",
   features: "/Features",
   feature: "/Features/feature",
-  leaves: "/Leave"
+  leaves: "/Leave",
+  performances: "/Performances",
+  performance: "/Performances/performance",
 };
 
 export default API_END_POINTS;
