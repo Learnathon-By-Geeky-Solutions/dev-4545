@@ -1,24 +1,23 @@
 import { Space, Spin } from "antd";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
-import { useTasks } from "@hooks/use-tasks";
-import TaskTable from "../../features/tasks/task-table";
+import { useFeatures } from "@hooks/use-features";
 
-const Tasks = () => {
-  const { isLoading, data: tasks } = useTasks();
+const Features = () => {
+  const { isLoading, data: features } = useFeatures();
 
-  console.log(tasks);
+  console.log(features);
 
   return (
     <>
       <PageHeader
-        title="Tasks"
-        subTitle="Access and adjust your preferences conveniently on our Tasks page"
+        title="Features"
+        subTitle="Access and adjust your preferences conveniently on our Features page"
       />
       <PageContent>
         <Space direction="vertical" size="large" style={{ display: "flex" }}>
           <Spin spinning={isLoading}>
-            <TaskTable/>
+            {/* call the features table component */}
           </Spin>
         </Space>
       </PageContent>
@@ -26,4 +25,4 @@ const Tasks = () => {
   );
 };
 
-export default Tasks;
+export default Features;
