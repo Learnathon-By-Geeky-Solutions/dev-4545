@@ -9,11 +9,11 @@ using MediatR;
 
 namespace Employee.Application.Commands.Employee
 {
-    public record UpdateEmployeeCommand(Guid Id, EmployeeEntity employee) : IRequest<EmployeeEntity>;
+    public record UpdateEmployeeCommand(Guid Id, EmployeeEntity employee) : IRequest<EmployeeEntity?>;
     public class UpdateEmployeeCommandHandler(IEmployeeRepository employeeRepository)
-        : IRequestHandler<UpdateEmployeeCommand, EmployeeEntity>
+        : IRequestHandler<UpdateEmployeeCommand, EmployeeEntity?>
     {
-        public async Task<EmployeeEntity> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<EmployeeEntity?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
         {
             return await employeeRepository.UpdateEmployee(request.Id, request.employee);
         }

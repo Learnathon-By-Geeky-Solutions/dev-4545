@@ -21,7 +21,7 @@ namespace Employee.API.Controllers
         [HttpGet("task")]
         public async Task<IActionResult> GetTaskById(Guid Id)
         {
-            var result = await sender.Send(new GetTaskByIdCommand(Id));
+            var result = await sender.Send(new GetTaskByIdQuery(Id));
             return Ok(result);
         }
 

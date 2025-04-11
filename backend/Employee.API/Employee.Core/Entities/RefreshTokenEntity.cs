@@ -12,7 +12,7 @@ namespace Employee.Core.Entities
         [Key]
         public Guid TokenId { get; set; }
         public Guid EmployeeId { get; set; }
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
 
         public DateTime RefreshTokenExpiry { get; set; }
 

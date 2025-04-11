@@ -13,8 +13,8 @@ namespace Employee.Core.Entities
         [Key]
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
-        public string Rating { get; set; }
-        public string Comments { get; set; }
+        public string Rating { get; set; } = string.Empty;
+        public string? Comments { get; set; } = string.Empty;
         public Guid EmployeeId { get; set; }
         public Guid ReviewerId { get; set; }
 
