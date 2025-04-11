@@ -1,6 +1,7 @@
 ﻿using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Repositories;
+using Employee.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,11 @@ namespace Employee.Infrastructure
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetConnectionString("RedisURL");
+                options.InstanceName = "MyApp:";
+
             });
+
+            services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();

@@ -11,11 +11,13 @@ using Newtonsoft.Json;
 
 namespace Employee.Infrastructure.Repositories
 {
-    public class EmployeeRepository(AppDbContext dbContext, IDistributedCache memorycache, IConfiguration _configuration) : IEmployeeRepository
+    public class EmployeeRepository(AppDbContext _dbContext, ICacheService cacheService, IConfiguration configuration) : IEmployeeRepository
 
     {
-        private readonly IDistributedCache distributedCache = memorycache;
-        
+        private readonly AppDbContext dbContext = _dbContext;
+        private readonly ICacheService _cacheService = cacheService;
+        private readonly IConfiguration _configuration = configuration;
+
         public async Task<IEnumerable<EmployeeEntity>> GetEmployees()
         {
             return await dbContext.Employees.ToListAsync();
@@ -23,25 +25,25 @@ namespace Employee.Infrastructure.Repositories
         }
         public async Task<EmployeeEntity?> GetEmployeeById(Guid id)
         {
-            string key= $"employee-{id}";
-            string? cachedemployee =await distributedCache.GetStringAsync(
-                key
-                );
-            EmployeeEntity? result;
-            if (cachedemployee == null) {
-                result= await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
-                if (result == null) {
-                    return null;
-                }
-                await distributedCache.SetStringAsync(key,
-                    JsonConvert.SerializeObject(result)
-                 );
-                return result;
+            string cacheKey = $"employee-{id}";
+
+            // Attempt to retrieve the employee from the Redis cache.
+            var cachedEmployee = await _cacheService.GetAsync<EmployeeEntity>(cacheKey);
+            if (cachedEmployee != null)
+            {
+                return cachedEmployee;
             }
-            result = JsonConvert.DeserializeObject<EmployeeEntity>(cachedemployee);
 
+            // If not found in the cache, query the database.
+            var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
 
-            return result;
+            if (employee != null)
+            {
+                // Cache the result for subsequent queries.
+                await _cacheService.SetAsync(cacheKey, employee, TimeSpan.FromSeconds(30));
+            }
+
+            return employee;
         }
         public async Task<EmployeeEntity> AddEmployee(EmployeeEntity employee)
         {
