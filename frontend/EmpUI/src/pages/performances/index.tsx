@@ -2,6 +2,7 @@ import { Space, Spin } from "antd";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
 import { usePerformances } from "@hooks/use-performances";
+import PerformanceTable from "../../features/performances/performance-table-columns";
 
 const Performances = () => {
   const { isLoading, data: performances } = usePerformances();
@@ -16,7 +17,9 @@ const Performances = () => {
       />
       <PageContent>
         <Space direction="vertical" size="large" style={{ display: "flex" }}>
-          <Spin spinning={isLoading}>{/* performances table */}</Spin>
+          <Spin spinning={isLoading}>
+            <PerformanceTable />
+          </Spin>
         </Space>
       </PageContent>
     </>
