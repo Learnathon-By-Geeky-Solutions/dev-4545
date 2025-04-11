@@ -1,5 +1,4 @@
 const API_END_POINTS = {
-  // login: '/auth/login',
   login: "/login",
   refreshToken: "/auth/refresh-token",
   user: "/auth/profile",
@@ -10,6 +9,8 @@ const API_END_POINTS = {
   task: "/Tasks/task",
   projects: "/Projects",
   project: "/Projects/project",
+  features: "/Features",
+  feature: "/Features/feature",
 };
 
 export default API_END_POINTS;
