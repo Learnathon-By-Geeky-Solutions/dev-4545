@@ -44,4 +44,9 @@ export const MAIN_MENU_ITEMS = [
     label: "Features",
     icon: <FolderOpenOutlined />,
   },
+  {
+    key: "/leaves",
+    label: "Leaves",
+    icon: <FolderOpenOutlined />,
+  },
 ];
