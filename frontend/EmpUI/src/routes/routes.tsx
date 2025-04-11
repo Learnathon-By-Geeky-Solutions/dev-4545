@@ -12,6 +12,7 @@ import {
 import Tasks from "@pages/tasks";
 import Projects from "@pages/projects";
 import Features from "@pages/features";
+import Leaves from "@pages/Leaves";
 
 const routes = [
   {
@@ -71,6 +72,13 @@ const routes = [
     path: "features",
     breadcrumb: "Features",
     component: Features,
+    exact: true,
+    children: [],
+  },
+  {
+    path: "leaves",
+    breadcrumb: "Leaves",
+    component: Leaves,
     exact: true,
     children: [],
   },
