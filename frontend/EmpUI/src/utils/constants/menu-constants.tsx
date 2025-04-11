@@ -39,4 +39,9 @@ export const MAIN_MENU_ITEMS = [
     label: "Projects",
     icon: <FolderOpenOutlined />,
   },
+  {
+    key: "/features",
+    label: "Features",
+    icon: <FolderOpenOutlined />,
+  },
 ];
