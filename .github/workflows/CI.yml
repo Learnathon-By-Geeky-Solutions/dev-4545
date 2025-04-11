@@ -3,12 +3,13 @@ name: SonarCloud Analysis with dotnet-coverage
 on:
   push:
     branches:
+      - main
       - test1
   pull_request:
     branches:
+      - main  
       - test1
-      - main
-
+      
 jobs:
   build-and-analyze:
     runs-on: ubuntu-latest  # Use ubuntu-latest for cross-platform compatibility
