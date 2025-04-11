@@ -49,4 +49,9 @@ export const MAIN_MENU_ITEMS = [
     label: "Leaves",
     icon: <FolderOpenOutlined />,
   },
+  {
+    key: "/performances",
+    label: "Performances",
+    icon: <FolderOpenOutlined />,
+  },
 ];
