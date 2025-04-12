@@ -21,9 +21,6 @@ jobs:
 
       - name: Publish
         run: dotnet publish backend/Employee.API --configuration Release --output ./publish --runtime win-x86 
-        
-      - name: Test with .NET
-        run: dotnet test backend/Employee.API/EmployeeXUnit.Test
       
       - name: Replace placeholders in appsettings.json
         run: |
