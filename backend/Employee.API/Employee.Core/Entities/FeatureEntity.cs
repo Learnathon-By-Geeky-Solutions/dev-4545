@@ -11,6 +11,7 @@ namespace Employee.Core.Entities
     {
         [Key]
         public Guid FeatureId { get; set; }
+        public Guid ProjectId { get; set; }
         public string FeatureName { get; set; } = null!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Employee.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250403175039_updateroletable")]
-    partial class updateroletable
+    [Migration("20250412154946_featurenew")]
+    partial class featurenew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,23 +66,6 @@ namespace Employee.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Employee.Core.Entities.FJoinTaskEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FeatureId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FJoinFeatures");
-                });
-
             modelBuilder.Entity("Employee.Core.Entities.FeatureEntity", b =>
                 {
                     b.Property<Guid>("FeatureId")
@@ -99,6 +82,9 @@ namespace Employee.Infrastructure.Migrations
                     b.Property<string>("FeatureName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -137,23 +123,6 @@ namespace Employee.Infrastructure.Migrations
                     b.HasKey("LeaveId");
 
                     b.ToTable("Leaves");
-                });
-
-            modelBuilder.Entity("Employee.Core.Entities.PJoinFeatureEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FeatureId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PJoinFeatures");
                 });
 
             modelBuilder.Entity("Employee.Core.Entities.PerformanceEntity", b =>

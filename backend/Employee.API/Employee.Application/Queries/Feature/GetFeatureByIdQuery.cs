@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Employee.Application.Queries.Feature
 {
-    public record GetFeatureByIdQuery(Guid Id) : IRequest<FeatureEntity>;
+    public record GetFeatureByIdQuery(Guid EmployeeId) : IRequest<IEnumerable<FeatureEntity>>;
 
     public class GetFeatureByIdQueryHandler(IFeatureRepository featureRepository)
-        : IRequestHandler<GetFeatureByIdQuery, FeatureEntity>
+        : IRequestHandler<GetFeatureByIdQuery, IEnumerable<FeatureEntity>>
     {
-        public async Task<FeatureEntity> Handle(GetFeatureByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<FeatureEntity>> Handle(GetFeatureByIdQuery request, CancellationToken cancellationToken)
         {
-            return await featureRepository.GetFeatureById(request.Id);
+            return await featureRepository.GetFeatureByEmployeeId(request.EmployeeId);
         }
     }
 }

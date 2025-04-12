@@ -9,13 +9,13 @@ using MediatR;
 
 namespace Employee.Application.Queries.Task
 {
-    public record GetTaskByIdCommand(Guid Id) : IRequest<TaskEntity>;
+    public record GetTaskByIdCommand(Guid EmployeeId) : IRequest<IEnumerable<TaskEntity>>;
     public class GetTaskByIdCommandHandler(ITaskRepository taskRepository)
-        : IRequestHandler<GetTaskByIdCommand, TaskEntity>
+        : IRequestHandler<GetTaskByIdCommand, IEnumerable<TaskEntity>>
     {
-        public async Task<TaskEntity> Handle(GetTaskByIdCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TaskEntity>> Handle(GetTaskByIdCommand request, CancellationToken cancellationToken)
         {
-            return await taskRepository.GetTaskByIdAsync(request.Id);
+            return await taskRepository.GetTaskByEmployeeIdAsync(request.EmployeeId);
         }
     }
 }

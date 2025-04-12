@@ -20,7 +20,7 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new GetAllPerformancesQuery());
             return Ok(result);
         }
-        [HttpGet("performance")]
+        [HttpGet("EmployeeId")]
         public async Task<IActionResult> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
             var result = await sender.Send(new GetPerformancesByIdQuery(EmployeeId));

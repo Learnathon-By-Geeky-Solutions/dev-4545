@@ -144,13 +144,13 @@
   {
     "ContainingType": "Employee.API.Controllers.FeaturesController",
     "Method": "GetFeaturesById",
-    "RelativePath": "api/Features/feature",
+    "RelativePath": "api/Features/EmployeeId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
+        "Name": "EmployeeId",
         "Type": "System.Guid",
         "IsRequired": false
       }
@@ -318,7 +318,7 @@
   {
     "ContainingType": "Employee.API.Controllers.PerformancesController",
     "Method": "GetPerformancesByEmployeeId",
-    "RelativePath": "api/Performances/performance",
+    "RelativePath": "api/Performances/EmployeeId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -650,13 +650,13 @@
   {
     "ContainingType": "Employee.API.Controllers.TasksController",
     "Method": "GetTaskById",
-    "RelativePath": "api/Tasks/task",
+    "RelativePath": "api/Tasks/EmployeeId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
+        "Name": "EmployeeId",
         "Type": "System.Guid",
         "IsRequired": false
       }

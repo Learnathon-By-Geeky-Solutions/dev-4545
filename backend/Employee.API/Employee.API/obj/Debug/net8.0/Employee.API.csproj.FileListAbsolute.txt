@@ -327,3 +327,4 @@ D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.pdb
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.genruntimeconfig.cache
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\ref\Employee.API.dll
+D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\bin\Debug\net8.0\appsettings.Development.json

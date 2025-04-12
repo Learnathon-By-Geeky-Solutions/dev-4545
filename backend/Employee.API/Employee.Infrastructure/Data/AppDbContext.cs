@@ -16,8 +16,6 @@ namespace Employee.Infrastructure.Data
         public DbSet<RolesEntity> Roles { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<FeatureEntity> Features { get; set; }
-        public DbSet<PJoinFeatureEntity> PJoinFeatures { get; set; }
-        public DbSet<FJoinTaskEntity> FJoinFeatures { get; set; }
         public DbSet<PerformanceEntity> Performances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+   // [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController(ISender sender): ControllerBase
@@ -18,10 +18,10 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new GetAllTasksQuery());
             return Ok(result);
         }
-        [HttpGet("task")]
-        public async Task<IActionResult> GetTaskById(Guid Id)
+        [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetTaskById(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetTaskByIdCommand(Id));
+            var result = await sender.Send(new GetTaskByIdCommand(EmployeeId));
             return Ok(result);
         }
 

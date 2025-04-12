@@ -27,7 +27,7 @@ namespace Employee.Infrastructure.Services
 
         public async Task<JwtSecurityToken> GenerateToken(EmployeeEntity employee)
         {
-            var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+            var jwtKey = _configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(jwtKey))
             {
                 throw new InvalidOperationException("JWT secret key is not configured.");
