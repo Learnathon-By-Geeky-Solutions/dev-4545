@@ -22,7 +22,6 @@ jobs:
       - name: Publish
         run: dotnet publish backend/Employee.API/Employee.API/Employee.API.csproj --configuration Release --output ./publish --self-contained false
         
-      
       - name: Replace placeholders in appsettings.json
         run: |
           $appsettingsPath = "backend/Employee.API/Employee.API/appsettings.json"
