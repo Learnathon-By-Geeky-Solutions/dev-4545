@@ -165,7 +165,6 @@ D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.pd
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.genruntimeconfig.cache
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\ref\Employee.API.dll
 D:\Learnathon\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cs
-D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\bin\Debug\net8.0\appsettings.Development.json
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\bin\Debug\net8.0\appsettings.json
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.API.exe
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\bin\Debug\net8.0\Employee.API.deps.json
@@ -312,7 +311,6 @@ D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfoInputs.cache
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.AssemblyInfo.cs
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.csproj.CoreCompileInputs.cache
-D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cs
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.MvcApplicationPartsAssemblyInfo.cache
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\Employee.API.sourcelink.json
 D:\New folder (2)\dev-4545\dev-4545\backend\Employee.API\Employee.API\obj\Debug\net8.0\staticwebassets.build.json

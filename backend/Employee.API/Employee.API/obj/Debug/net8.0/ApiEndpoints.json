@@ -317,14 +317,14 @@
   },
   {
     "ContainingType": "Employee.API.Controllers.PerformancesController",
-    "Method": "GetPerformancesById",
+    "Method": "GetPerformancesByEmployeeId",
     "RelativePath": "api/Performances/performance",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
+        "Name": "EmployeeId",
         "Type": "System.Guid",
         "IsRequired": false
       }

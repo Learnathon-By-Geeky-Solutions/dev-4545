@@ -21,9 +21,9 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
         [HttpGet("performance")]
-        public async Task<IActionResult> GetPerformancesById(Guid Id)
+        public async Task<IActionResult> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetPerformancesByIdQuery(Id));
+            var result = await sender.Send(new GetPerformancesByIdQuery(EmployeeId));
             return Ok(result);
         }
 
