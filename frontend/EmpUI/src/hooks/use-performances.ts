@@ -58,7 +58,7 @@ export const usePerformanceForm = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success("Performance saved successfully.");
-      navigate("/performances");
+      navigate(`/users`);
     }
 
     if (isError && error) {

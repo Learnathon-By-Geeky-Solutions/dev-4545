@@ -13,7 +13,7 @@ export const performanceService = baseService.injectEndpoints({
     }),
     performance: builder.query<Performance, string>({
       query: (performanceId) => ({
-        url: API_END_POINTS.performances + `?Id=${performanceId}`,
+        url: API_END_POINTS.performance + `?Id=${performanceId}`,
         method: "GET",
       }),
       providesTags: ["performance"],
@@ -37,7 +37,7 @@ export const performanceService = baseService.injectEndpoints({
     }),
     deletePerformance: builder.mutation<void, number>({
       query: (performanceId) => ({
-        url: `${API_END_POINTS.performances}?Id=${performanceId}`,
+        url: `${API_END_POINTS.performance}?Id=${performanceId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["performances"], // This will auto-refresh the performances list
