@@ -20,7 +20,7 @@ jobs:
         run: dotnet build backend/Employee.API --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish backend/Employee.API --configuration Release --output ./publish
+        run: dotnet publish backend/Employee.API -c Release -o ./publish --self-contained false
       
       - name: Replace placeholders in appsettings.json
         run: |
