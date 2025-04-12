@@ -397,13 +397,13 @@
   {
     "ContainingType": "Employee.API.Controllers.ProjectsController",
     "Method": "GetProjectById",
-    "RelativePath": "api/Projects/project",
+    "RelativePath": "api/Projects/EmployeeId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Id",
+        "Name": "EmployeeId",
         "Type": "System.Guid",
         "IsRequired": false
       }

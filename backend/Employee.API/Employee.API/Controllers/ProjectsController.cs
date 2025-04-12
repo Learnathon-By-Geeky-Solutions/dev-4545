@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController(ISender sender): ControllerBase
@@ -20,10 +20,10 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new GetAllProjectsQuery());
             return Ok(result);
         }
-        [HttpGet("project")]
-        public async Task<IActionResult> GetProjectById(Guid Id)
+        [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetProjectById(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetProjectByIdQuery(Id));
+            var result = await sender.Send(new GetProjectByIdQuery(EmployeeId));
             return Ok(result);
         }
 

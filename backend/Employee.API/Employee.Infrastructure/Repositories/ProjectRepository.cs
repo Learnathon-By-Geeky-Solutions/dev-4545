@@ -12,10 +12,22 @@ namespace Employee.Infrastructure.Repositories
             var projects = await dbContext.Projects.ToListAsync();
             return projects;
         }
-        public async Task<ProjectEntity> GetProjectById(Guid Id)
+        public async Task<IEnumerable<ProjectEntity>> GetProjectByEmployeeId(Guid EmployeeId)
         {
-            var project = await dbContext.Projects.FirstOrDefaultAsync(x=>x.ProjectId == Id);
-            return project;
+            var tasks = await dbContext.Tasks
+                .Where(x => x.EmployeeId == EmployeeId)
+                .Select(x => x.FeatureId)
+                .ToListAsync();
+
+            var features = await dbContext.Features
+                .Where(f => tasks.Contains(f.FeatureId))
+                .Select(x=> x.ProjectId)
+                .ToListAsync();
+            var projects = await dbContext.Projects
+                .Where(f => features.Contains(f.ProjectId))
+                .ToListAsync();
+
+            return projects;
         }
         public async Task<ProjectEntity> AddProjectAsync(ProjectEntity project)
         {
