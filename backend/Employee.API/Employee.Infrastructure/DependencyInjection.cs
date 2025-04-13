@@ -1,4 +1,5 @@
-﻿using Employee.Core.Interfaces;
+﻿using Employee.Application.Common.Interfaces;
+using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Repositories;
 using Employee.Infrastructure.Services;

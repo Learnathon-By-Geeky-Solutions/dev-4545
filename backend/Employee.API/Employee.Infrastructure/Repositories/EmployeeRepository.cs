@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Employee.Application.Common.Interfaces;
 using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;

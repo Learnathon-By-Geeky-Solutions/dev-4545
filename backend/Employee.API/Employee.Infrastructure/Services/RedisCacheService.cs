@@ -1,5 +1,6 @@
 ﻿// Infrastructure/Services/RedisCacheService.cs
 
+using Employee.Application.Common.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 

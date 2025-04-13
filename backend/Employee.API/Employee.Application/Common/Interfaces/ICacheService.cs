@@ -1,8 +1,11 @@
 ﻿// Application/Common/Interfaces/ICacheService.cs
 
-public interface ICacheService
+namespace Employee.Application.Common.Interfaces
 {
-    Task<T?> GetAsync<T>(string key);
-    Task SetAsync<T>(string key, T value, TimeSpan? expireTime = null);
-    Task RemoveAsync(string key);
+    public interface ICacheService
+    {
+        Task<T?> GetAsync<T>(string key);
+        Task SetAsync<T>(string key, T value, TimeSpan? expireTime = null);
+        Task RemoveAsync(string key);
+    }
 }
