@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Employee.Application.Common.Interfaces;
 using Employee.Core.Entities;
+using Employee.Core.Enums;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Services;
@@ -70,6 +71,7 @@ namespace Employee.Infrastructure.Repositories
                 data.Phone = updatedentity.Phone;
                 data.DateOfJoin = updatedentity.DateOfJoin;
                 data.Password = hashedPassword;
+                data.Role = updatedentity.Role;
                 data.Salt = salt;
                 data.Phone= updatedentity.Phone;
                 data.Stack = updatedentity.Stack;
@@ -109,7 +111,7 @@ namespace Employee.Infrastructure.Repositories
             var RefreshToken = RefreshTokenService.GenerateRefreshToken();
 
             authenticationResponse.Id = user.EmployeeId;
-            authenticationResponse.Role = "Admin";
+            authenticationResponse.Role = Enum.GetName(typeof(Permissions), user.Role);
             authenticationResponse.RefreshToken = RefreshToken;
             authenticationResponse.JwToken = new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
 

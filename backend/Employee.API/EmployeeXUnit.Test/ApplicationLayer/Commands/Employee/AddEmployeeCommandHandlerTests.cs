@@ -24,6 +24,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
                 Salt = "random-salt",
                 Password = "hashed-password",
                 DateOfJoin = DateTime.UtcNow,
+                Role = 0,
                 Phone = "017XXXXXXXX"
             };
 

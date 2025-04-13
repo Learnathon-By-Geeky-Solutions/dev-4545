@@ -25,6 +25,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
                 Salt = "some-salt",
                 Password = "hashed-password",
                 DateOfJoin = DateTime.UtcNow,
+                Role=0,
                 Phone = "0123456789"
             };
 
@@ -37,6 +38,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
                 Salt = "updated-salt",
                 Password = "updated-hash",
                 DateOfJoin = employeeToUpdate.DateOfJoin,
+                Role=employeeToUpdate.Role,
                 Phone = "0987654321"
             };
 
@@ -64,6 +66,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
             Assert.Equal(updatedEmployee.Name, result.Name);
             Assert.Equal(updatedEmployee.Email, result.Email);
             Assert.Equal(updatedEmployee.Phone, result.Phone);
+            Assert.Equal(updatedEmployee.Role, result.Role);
         }
 
         [Fact]
@@ -79,6 +82,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
                 Email = "jane.doe@example.com",
                 Salt = "some-salt",
                 Password = "hashed-password",
+                Role=0,
                 DateOfJoin = DateTime.UtcNow,
                 Phone = "0123456789"
             };
@@ -118,6 +122,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Employee
                 Email = "jane.doe@example.com",
                 Salt = "some-salt",
                 Password = "hashed-password",
+                Role=0,
                 DateOfJoin = DateTime.UtcNow,
                 Phone = "0123456789"
             };

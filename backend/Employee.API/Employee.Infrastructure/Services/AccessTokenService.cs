@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Employee.Core.Entities;
+using Employee.Core.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,7 +31,7 @@ namespace Employee.Infrastructure.Services
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, employee.Name),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, Enum.GetName(typeof(Permissions), employee.Role)),
                 new Claim("EmployeeId", employee.EmployeeId.ToString())
             };
 
