@@ -4,13 +4,13 @@ using MediatR;
 
 namespace Employee.Application.Queries.Task
 {
-    public record GetTaskByIdQuery(Guid Id) : IRequest<TaskEntity>;
-    public class GetTaskByIdCommandHandler(ITaskRepository taskRepository)
-        : IRequestHandler<GetTaskByIdQuery, TaskEntity>
+    public record GetTaskByIdQuery(Guid Id) : IRequest<IEnumerable<TaskEntity>>;
+    public class GetTaskByIdQueryHandler(ITasksRepository taskRepository)
+        : IRequestHandler<GetTaskByIdQuery,IEnumerable<TaskEntity>>
     {
-        public async Task<TaskEntity> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable< TaskEntity>> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
         {
-            return await taskRepository.GetTaskByIdAsync(request.Id);
+            return await taskRepository.GetTaskByEmployeeIdAsync(request.Id);
         }
     }
 }

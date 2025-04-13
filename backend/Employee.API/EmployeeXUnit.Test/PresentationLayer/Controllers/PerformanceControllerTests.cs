@@ -45,11 +45,11 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Arrange
             var performanceId = Guid.NewGuid();
             var performance = new PerformanceEntity { Id = performanceId, Rating = "Good" };
-            _senderMock.Setup(s => s.Send(It.Is<GetPerformancesByIdQuery>(q => q.Id == performanceId), default))
+            _senderMock.Setup(s => s.Send(It.Is<GetPerformancesByIdQuery>(q => q.EmployeeId == performanceId), default))
                        .ReturnsAsync(performance);
 
             // Act
-            var result = await _controller.GetPerformancesById(performanceId);
+            var result = await _controller.GetPerformancesByEmployeeId(performanceId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);

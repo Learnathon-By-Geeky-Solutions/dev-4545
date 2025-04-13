@@ -46,21 +46,32 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetFeatureById_ShouldReturn_Ok_With_Feature()
+        public async Task GetFeaturesById_ShouldReturnOkWithFeatureList()
         {
             // Arrange
-            var featureId = Guid.NewGuid();
-            var feature = new FeatureEntity { FeatureId = featureId, FeatureName = "Feature1" };
+            var employeeId = Guid.NewGuid();
+            var features = new List<FeatureEntity>
+            {
+                new FeatureEntity
+                {
+                    FeatureId = Guid.NewGuid(),
+                    ProjectId = Guid.NewGuid(),
+                    FeatureName = "Dashboard",
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(5),
+                    Description = "Dashboard feature"
+                }
+            };
 
-            _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.Id == featureId), default))
-                       .ReturnsAsync(feature);
+            _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.EmployeeId == employeeId), default))
+                       .ReturnsAsync(features);
 
             // Act
-            var result = await _controller.GetFeaturesById(featureId);
+            var result = await _controller.GetFeaturesById(employeeId);
 
             // Assert
-            result.Should().BeOfType<OkObjectResult>()
-                  .Which.Value.Should().BeEquivalentTo(feature);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            okResult.Value.Should().BeEquivalentTo(features);
         }
 
         [Fact]

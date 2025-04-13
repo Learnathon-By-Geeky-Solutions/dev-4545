@@ -10,7 +10,7 @@ namespace Employee.Core.Interfaces
     public interface IFeatureRepository
     {
         Task<IEnumerable<FeatureEntity>> GetAllFeatures();
-        Task<FeatureEntity> GetFeatureById(Guid Id);
+        Task<IEnumerable<FeatureEntity>> GetFeatureByEmployeeId(Guid EmployeeId);
         Task<FeatureEntity> AddFeatureAsync(FeatureEntity feature);
         Task<FeatureEntity> UpdateFeature(Guid Id, FeatureEntity feature);
         Task<bool> DeleteFeature(Guid Id);

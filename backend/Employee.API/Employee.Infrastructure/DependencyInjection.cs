@@ -26,7 +26,7 @@ namespace Employee.Infrastructure
 
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITasksRepository, TaskRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<ISalaryRepository, SalaryRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();

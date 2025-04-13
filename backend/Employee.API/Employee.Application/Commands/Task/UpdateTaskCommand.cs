@@ -5,7 +5,7 @@ using MediatR;
 namespace Employee.Application.Commands.Task
 {
     public record UpdateTaskCommand(Guid Id, TaskEntity TaskEntity) : IRequest<TaskEntity>;
-    public class UpdateTaskCommandHandler(ITaskRepository taskRepository)
+    public class UpdateTaskCommandHandler(ITasksRepository taskRepository)
         : IRequestHandler<UpdateTaskCommand, TaskEntity>
     {
         public async Task<TaskEntity> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)

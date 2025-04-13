@@ -40,21 +40,43 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetProjectById_ShouldReturnOkResult_WhenProjectExists()
+        public async Task GetProjectById_ShouldReturnOkResult_WithListOfProjects()
         {
             // Arrange
-            var projectId = Guid.NewGuid();
-            var project = new ProjectEntity { ProjectId = projectId, ProjectName = "Project A", Client = "Client A" };
-            _senderMock.Setup(s => s.Send(It.Is<GetProjectByIdQuery>(q => q.Id == projectId), default))
-                       .ReturnsAsync(project);
+            var employeeId = Guid.NewGuid();
+            var projects = new List<ProjectEntity>
+    {
+        new ProjectEntity
+        {
+            ProjectId = Guid.NewGuid(),
+            ProjectName = "ERP System",
+            Client = "ABC Corp",
+            StartDate = DateTime.Now.AddDays(-10),
+            EndDate = DateTime.Now.AddMonths(1),
+            Description = "An enterprise-level ERP system."
+        },
+        new ProjectEntity
+        {
+            ProjectId = Guid.NewGuid(),
+            ProjectName = "HR Portal",
+            Client = "XYZ Inc",
+            StartDate = DateTime.Now,
+            EndDate = DateTime.Now.AddMonths(2),
+            Description = "Internal HR management tool."
+        }
+    };
+
+            _senderMock.Setup(s => s.Send(It.Is<GetProjectByIdQuery>(q => q.EmployeeId == employeeId), default))
+                       .ReturnsAsync(projects);
 
             // Act
-            var result = await _controller.GetProjectById(projectId);
+            var result = await _controller.GetProjectById(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(project);
+            okResult.Value.Should().BeEquivalentTo(projects);
         }
+
 
         [Fact]
         public async Task AddProject_ShouldReturnOkResult()

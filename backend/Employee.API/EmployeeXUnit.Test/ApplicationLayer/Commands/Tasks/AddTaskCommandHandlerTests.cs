@@ -27,7 +27,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Tasks
                 FeatureId = Guid.NewGuid()
             };
 
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.AddTaskAsync(It.IsAny<TaskEntity>()))
                 .ReturnsAsync((TaskEntity t) => t);
@@ -68,7 +68,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Tasks
                 FeatureId = Guid.NewGuid()
             };
 
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.AddTaskAsync(It.IsAny<TaskEntity>()))
                 .ThrowsAsync(new Exception("AddTask failed"));

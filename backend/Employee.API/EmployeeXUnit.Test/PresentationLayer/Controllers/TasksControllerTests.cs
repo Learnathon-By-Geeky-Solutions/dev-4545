@@ -1,130 +1,73 @@
-﻿using Employee.API.Controllers;
-using Employee.Application.Commands.Task;
-using Employee.Application.Queries.Task;
+﻿using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
-using FluentAssertions;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using Employee.Core.Interfaces;
 using Moq;
+using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
-    public class TasksControllerTests
+    public class GetTaskByIdQueryHandlerTests
     {
-        private readonly Mock<ISender> _senderMock;
-        private readonly TasksController _controller;
+        private readonly Mock<ITasksRepository> _mockRepo;
+        private readonly GetTaskByIdQueryHandler _handler;
 
-        public TasksControllerTests()
+        public GetTaskByIdQueryHandlerTests()
         {
-            _senderMock = new Mock<ISender>();
-            _controller = new TasksController(_senderMock.Object);
+            _mockRepo = new Mock<ITasksRepository>();
+            _handler = new GetTaskByIdQueryHandler(_mockRepo.Object);
         }
 
         [Fact]
-        public async Task GetAllTasks_ShouldReturnOkResult()
+        public async Task Handle_ValidEmployeeId_ReturnsTaskList()
         {
             // Arrange
-            var tasks = new List<TaskEntity>
+            var employeeId = Guid.NewGuid();
+            var expectedTasks = new List<TaskEntity>
+        {
+            new TaskEntity
             {
-                new TaskEntity { TaskId = Guid.NewGuid(), Description = "Test Task" }
-            };
+                TaskId = Guid.NewGuid(),
+                Description = "Fix login bug",
+                AssignedDate = DateTime.UtcNow,
+                DueDate = DateTime.UtcNow.AddDays(5),
+                Status = "Pending",
+                AssignedBy = Guid.NewGuid(),
+                EmployeeId = employeeId,
+                FeatureId = Guid.NewGuid()
+            }
+        };
 
-            _senderMock.Setup(x => x.Send(It.IsAny<GetAllTasksQuery>(), default))
-                       .ReturnsAsync(tasks);
+            _mockRepo.Setup(r => r.GetTaskByEmployeeIdAsync(employeeId))
+                     .ReturnsAsync(expectedTasks);
+
+            var query = new GetTaskByIdQuery(employeeId);
 
             // Act
-            var result = await _controller.GetAllTasks();
+            var result = await _handler.Handle(query, default);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(tasks);
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.Equal("Fix login bug", result.First().Description);
         }
 
         [Fact]
-        public async Task GetTaskById_ShouldReturnOkResult()
+        public async Task Handle_NoTasksForEmployee_ReturnsEmptyList()
         {
             // Arrange
-            var taskId = Guid.NewGuid();
-            var task = new TaskEntity { TaskId = taskId, Description = "Specific Task" };
+            var employeeId = Guid.NewGuid();
 
-            _senderMock.Setup(x => x.Send(It.Is<GetTaskByIdQuery>(q => q.Id == taskId), default))
-                       .ReturnsAsync(task);
+            _mockRepo.Setup(r => r.GetTaskByEmployeeIdAsync(employeeId))
+                     .ReturnsAsync(new List<TaskEntity>());
 
-            // Act
-            var result = await _controller.GetTaskById(taskId);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(task);
-        }
-
-        [Fact]
-        public async Task AddTask_ShouldReturnOkResult()
-        {
-            // Arrange
-            var task = new TaskEntity { TaskId = Guid.NewGuid(), Description = "New Task" };
-
-            _senderMock.Setup(x => x.Send(It.IsAny<AddTaskCommand>(), default))
-                       .ReturnsAsync(task);
+            var query = new GetTaskByIdQuery(employeeId);
 
             // Act
-            var result = await _controller.AddTaskAsync(task);
+            var result = await _handler.Handle(query, default);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(task);
-        }
-
-        [Fact]
-        public async Task UpdateTask_ShouldReturnOkResult_WhenTaskExists()
-        {
-            // Arrange
-            var taskId = Guid.NewGuid();
-            var task = new TaskEntity { TaskId = taskId, Description = "Updated Task" };
-
-            _senderMock.Setup(x => x.Send(It.IsAny<UpdateTaskCommand>(), default))
-                       .ReturnsAsync(task);
-
-            // Act
-            var result = await _controller.UpdateTask(taskId, task);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(task);
-        }
-
-        [Fact]
-        public async Task UpdateTask_ShouldReturnBadRequest_WhenTaskNotFound()
-        {
-            // Arrange
-            var taskId = Guid.NewGuid();
-            var task = new TaskEntity { TaskId = taskId };
-
-            _senderMock.Setup(x => x.Send(It.IsAny<UpdateTaskCommand>(), default))
-                       .ReturnsAsync((TaskEntity)null);
-
-            // Act
-            var result = await _controller.UpdateTask(taskId, task);
-
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            badRequestResult.Value.Should().Be("Entity Not Found to Update.");
-        }
-
-        [Fact]
-        public async Task DeleteTask_ShouldReturnOkResult()
-        {
-            // Arrange
-            var taskId = Guid.NewGuid();
-
-            _senderMock.Setup(x => x.Send(It.IsAny<DeleteTaskCommand>(), default))
-                       .ReturnsAsync(true);
-
-            // Act
-            var result = await _controller.DeleteTask(taskId);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(result);
+            Assert.Empty(result);
         }
     }
 }

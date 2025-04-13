@@ -15,7 +15,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Tasks
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.DeleteTask(taskId))
                 .ReturnsAsync(true);
@@ -38,7 +38,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Tasks
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.DeleteTask(taskId))
                 .ReturnsAsync(false);
@@ -61,7 +61,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Commands.Tasks
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.DeleteTask(taskId))
                 .ThrowsAsync(new Exception("DeleteTask failed"));

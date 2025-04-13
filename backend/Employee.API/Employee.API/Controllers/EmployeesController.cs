@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController(ISender sender) : ControllerBase
     {
-        
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
@@ -22,6 +22,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin,SE")]
         [HttpGet("employee")]
         public async Task<IActionResult> GetEmployeeById(Guid Id)
         {
@@ -29,6 +30,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddEmployeeAsync([FromBody] EmployeeEntity employee)
         {
@@ -36,6 +38,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateEmployee(Guid Id, EmployeeEntity employee)
         {
@@ -46,7 +49,7 @@ namespace Employee.API.Controllers
             }
             return Ok(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteEmployee(Guid Id)
         {

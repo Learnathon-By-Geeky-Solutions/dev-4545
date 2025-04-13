@@ -42,7 +42,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Queries.Tasks
                 }
             };
 
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.GetAllTasks())
                 .ReturnsAsync(tasks);
@@ -65,7 +65,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Queries.Tasks
         public async Task Handle_Should_Throw_Exception_When_RepositoryThrows()
         {
             // Arrange
-            var repositoryMock = new Mock<ITaskRepository>();
+            var repositoryMock = new Mock<ITasksRepository>();
             repositoryMock
                 .Setup(repo => repo.GetAllTasks())
                 .ThrowsAsync(new Exception("GetAllTasks failed"));

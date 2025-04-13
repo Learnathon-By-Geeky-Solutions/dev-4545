@@ -6,7 +6,7 @@ namespace Employee.Application.Queries.Task
 {
     public record GetAllTasksQuery : IRequest<IEnumerable<TaskEntity>>;
 
-    public class GetAllTasksQueryHandler(ITaskRepository taskRepository)
+    public class GetAllTasksQueryHandler(ITasksRepository taskRepository)
         : IRequestHandler<GetAllTasksQuery, IEnumerable<TaskEntity>>
     {
         public async Task<IEnumerable<TaskEntity>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
