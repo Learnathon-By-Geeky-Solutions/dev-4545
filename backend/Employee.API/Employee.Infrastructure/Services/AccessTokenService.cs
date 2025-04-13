@@ -29,8 +29,8 @@ namespace Employee.Infrastructure.Services
                 throw new InvalidOperationException("JWT secret key is not configured.");
             }
 
+            // NOSONAR - This key is loaded securely from non-published config
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
-           // var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim>
             {
