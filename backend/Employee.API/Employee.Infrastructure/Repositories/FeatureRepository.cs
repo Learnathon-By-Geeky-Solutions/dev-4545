@@ -20,6 +20,15 @@ namespace Employee.Infrastructure.Repositories
         {
             var feature= await dbContext.Features.FirstOrDefaultAsync(x=>x.FeatureId==Id);
             if (feature != null) { 
+
+                var tasks= await dbContext.Tasks
+                    .Where(x=>x.FeatureId==Id).ToListAsync();
+
+                if (tasks.Any())
+                {
+                    dbContext.Tasks.RemoveRange(tasks);
+                }
+
                 dbContext.Features.Remove(feature);
                 return await dbContext.SaveChangesAsync() > 0;
             }
