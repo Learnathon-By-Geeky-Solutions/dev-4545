@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class FeaturesController(ISender sender) : ControllerBase
@@ -20,10 +20,11 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new GetAllFeaturesQuery());
             return Ok(result);
         }
-        [HttpGet("feature")]
-        public async Task<IActionResult> GetFeaturesById(Guid Id)
+        [Authorize(Roles = "Admin,SE")]
+        [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetFeaturesById(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetFeatureByIdQuery(Id));
+            var result = await sender.Send(new GetFeatureByIdQuery(EmployeeId));
             return Ok(result);
         }
 

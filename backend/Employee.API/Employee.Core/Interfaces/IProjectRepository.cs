@@ -10,7 +10,7 @@ namespace Employee.Core.Interfaces
     public interface IProjectRepository
     {
         Task<IEnumerable<ProjectEntity>> GetAllProjects();
-        Task<ProjectEntity> GetProjectById(Guid Id);
+        Task<IEnumerable<ProjectEntity>> GetProjectByEmployeeId(Guid Id);
         Task<ProjectEntity> AddProjectAsync(ProjectEntity project);
         Task<ProjectEntity> UpdateProject(Guid Id, ProjectEntity project);
         Task<bool> DeleteProject(Guid Id);

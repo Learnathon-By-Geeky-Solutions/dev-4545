@@ -15,9 +15,11 @@ namespace Employee.Infrastructure.Repositories
             return tasks;
         }
 
-        public async Task<TaskEntity> GetTaskByIdAsync(Guid Id)
+        public async Task<IEnumerable<TaskEntity>> GetTaskByEmployeeIdAsync(Guid EmployeeId)
         {
-            var result= await dbContext.Tasks.FirstOrDefaultAsync(x => x.TaskId == Id);
+            var result = await dbContext.Tasks.
+                Where(x => x.EmployeeId == EmployeeId).
+                ToListAsync();
             return result;
         }
         public async Task<TaskEntity> AddTaskAsync(TaskEntity taskEntity)

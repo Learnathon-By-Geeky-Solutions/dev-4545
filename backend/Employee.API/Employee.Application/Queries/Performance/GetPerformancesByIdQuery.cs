@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Employee.Application.Queries.Performance
 {
-    public record GetPerformancesByIdQuery(Guid Id) : IRequest<PerformanceEntity>;
+    public record GetPerformancesByIdQuery(Guid EmployeeId) : IRequest<PerformanceEntity>;
 
     public class GetPerformanceByIdQueryHandler(IPerformanceRepository performanceRepository)
         : IRequestHandler<GetPerformancesByIdQuery, PerformanceEntity>
     {
         public async Task<PerformanceEntity> Handle(GetPerformancesByIdQuery request, CancellationToken cancellationToken)
         {
-            return await performanceRepository.GetPerformancesById(request.Id);
+            return await performanceRepository.GetPerformancesByEmployeeId(request.EmployeeId);
         }
     }
 }

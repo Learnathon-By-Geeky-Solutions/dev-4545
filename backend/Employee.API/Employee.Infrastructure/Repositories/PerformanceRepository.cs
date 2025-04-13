@@ -32,9 +32,9 @@ namespace Employee.Infrastructure.Repositories
             return performance;
         }
 
-        public async Task<PerformanceEntity> GetPerformancesById(Guid Id)
+        public async Task<PerformanceEntity> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
-            var performance = await dbContext.Performances.FirstOrDefaultAsync(x => x.Id == Id);
+            var performance = await dbContext.Performances.FirstOrDefaultAsync(x => x.EmployeeId == EmployeeId);
             return performance;
         }
 

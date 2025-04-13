@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Employee.Application.Queries.Project
 {
-    public record GetProjectByIdQuery(Guid Id) : IRequest<ProjectEntity>;
+    public record GetProjectByIdQuery(Guid EmployeeId) : IRequest<IEnumerable<ProjectEntity>>;
 
     public class GetProjectByIdQueryHandler(IProjectRepository projectRepository)
-        : IRequestHandler<GetProjectByIdQuery, ProjectEntity>
+        : IRequestHandler<GetProjectByIdQuery, IEnumerable<ProjectEntity>>
     {
-        public async Task<ProjectEntity> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProjectEntity>> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
         {
-            return await projectRepository.GetProjectById(request.Id);
+            return await projectRepository.GetProjectByEmployeeId(request.EmployeeId);
         }
     }
 }

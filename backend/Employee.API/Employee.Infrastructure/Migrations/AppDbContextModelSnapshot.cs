@@ -63,23 +63,6 @@ namespace Employee.Infrastructure.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Employee.Core.Entities.FJoinTaskEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FeatureId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TaskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FJoinFeatures");
-                });
-
             modelBuilder.Entity("Employee.Core.Entities.FeatureEntity", b =>
                 {
                     b.Property<Guid>("FeatureId")
@@ -96,6 +79,9 @@ namespace Employee.Infrastructure.Migrations
                     b.Property<string>("FeatureName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -134,23 +120,6 @@ namespace Employee.Infrastructure.Migrations
                     b.HasKey("LeaveId");
 
                     b.ToTable("Leaves");
-                });
-
-            modelBuilder.Entity("Employee.Core.Entities.PJoinFeatureEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FeatureId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PJoinFeatures");
                 });
 
             modelBuilder.Entity("Employee.Core.Entities.PerformanceEntity", b =>
@@ -240,6 +209,9 @@ namespace Employee.Infrastructure.Migrations
                     b.Property<string>("Descriptions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Permissions")
                         .HasColumnType("int");

@@ -18,10 +18,11 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new GetAllTasksQuery());
             return Ok(result);
         }
-        [HttpGet("task")]
-        public async Task<IActionResult> GetTaskById(Guid Id)
+        [Authorize(Roles = "Admin,SE")]
+        [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetTaskById(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetTaskByIdCommand(Id));
+            var result = await sender.Send(new GetTaskByIdCommand(EmployeeId));
             return Ok(result);
         }
 
@@ -31,7 +32,7 @@ namespace Employee.API.Controllers
             var result = await sender.Send(new AddTaskCommand(taskEntity));
             return Ok(result);
         }
-
+        [Authorize(Roles = "Admin,SE")]
         [HttpPut]
         public async Task<IActionResult> UpdateTask(Guid Id, TaskEntity taskEntity)
         {

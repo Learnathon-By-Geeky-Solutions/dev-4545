@@ -9,24 +9,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PerformancesController(ISender sender) : ControllerBase
     {
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllPerformances()
         {
             var result = await sender.Send(new GetAllPerformancesQuery());
             return Ok(result);
         }
-        [HttpGet("performance")]
-        public async Task<IActionResult> GetPerformancesById(Guid Id)
+        [Authorize(Roles = "Admin,SE")]
+        [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetPerformancesByIdQuery(Id));
+            var result = await sender.Send(new GetPerformancesByIdQuery(EmployeeId));
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddPerformanceAsync([FromBody] PerformanceEntity performance)
         {
@@ -34,6 +36,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdatePerformance(Guid Id,PerformanceEntity performance)
         {
@@ -41,6 +44,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeletePerformance(Guid Id)
         {
