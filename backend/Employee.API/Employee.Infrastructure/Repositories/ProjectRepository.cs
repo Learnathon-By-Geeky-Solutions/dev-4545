@@ -12,10 +12,10 @@ namespace Employee.Infrastructure.Repositories
             var projects = await dbContext.Projects.ToListAsync();
             return projects;
         }
-        public async Task<IEnumerable<ProjectEntity>> GetProjectByEmployeeId(Guid EmployeeId)
+        public async Task<IEnumerable<ProjectEntity>> GetProjectByEmployeeId(Guid Id)
         {
             var tasks = await dbContext.Tasks
-                .Where(x => x.EmployeeId == EmployeeId)
+                .Where(x => x.EmployeeId == Id)
                 .Select(x => x.FeatureId)
                 .ToListAsync();
 
@@ -33,7 +33,7 @@ namespace Employee.Infrastructure.Repositories
         {
             project.ProjectId = Guid.NewGuid();
             await dbContext.Projects.AddAsync(project);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return project;
         }
         public async Task<ProjectEntity> UpdateProject(Guid Id, ProjectEntity project)
@@ -68,7 +68,7 @@ namespace Employee.Infrastructure.Repositories
                 .Where(x => x.ProjectId == Id)
                 .ToListAsync();
 
-            if (features.Any())
+            if (features.Count != 0)
             {
                 
                 var featureIds = features.Select(f => f.FeatureId).ToList();
@@ -76,7 +76,7 @@ namespace Employee.Infrastructure.Repositories
                     .Where(x => featureIds.Contains(x.FeatureId))
                     .ToListAsync();
 
-                if (tasks.Any())
+                if (tasks.Count != 0)
                 {
                     dbContext.Tasks.RemoveRange(tasks);
                 }

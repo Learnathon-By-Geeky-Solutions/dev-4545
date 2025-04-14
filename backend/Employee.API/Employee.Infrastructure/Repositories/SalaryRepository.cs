@@ -10,9 +10,9 @@ namespace Employee.Infrastructure.Repositories
     {
         public async Task<SalaryEntity> AddSalary(SalaryEntity salary)
         {
-            salary.SalaryId = new Guid();
+            salary.SalaryId = Guid.NewGuid();
             await dbContext.Salaries.AddAsync(salary);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return salary;
 
         }
@@ -35,15 +35,15 @@ namespace Employee.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<SalaryEntity> GetSalaryByEmployeeId(Guid EmployeeId)
+        public async Task<SalaryEntity?> GetSalaryByEmployeeId(Guid EmployeeId)
         {
             var result = await dbContext.Salaries.FirstOrDefaultAsync(x=>x.EmployeeId==EmployeeId);
             return result;
         }
 
-        public async Task<SalaryEntity> UpdateSalary(Guid EmployeeId, SalaryEntity updateSalary)
+        public async Task<SalaryEntity?> UpdateSalary(Guid EmployeeId, SalaryEntity updateSalary)
         {
-            var result = dbContext.Salaries.FirstOrDefault(x => x.EmployeeId == EmployeeId);
+            var result = await dbContext.Salaries.FirstOrDefaultAsync(x => x.EmployeeId == EmployeeId);
             if (result != null) {
                 result.EmployeeId = updateSalary.EmployeeId;
                 result.SalaryDate = updateSalary.SalaryDate;

@@ -96,7 +96,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var employeeId = Guid.NewGuid();
             var employee = new EmployeeEntity { EmployeeId = employeeId, Name = "Non-Existent" };
             _senderMock.Setup(s => s.Send(It.IsAny<UpdateEmployeeCommand>(), default))
-                       .ReturnsAsync((EmployeeEntity)null);
+                       .ReturnsAsync((EmployeeEntity?)null);
 
             // Act
             var result = await _controller.UpdateEmployee(employeeId, employee);
