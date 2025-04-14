@@ -23,6 +23,7 @@ namespace Employee.Infrastructure
                 options.InstanceName = "MyApp:";
 
             });
+            
 
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
