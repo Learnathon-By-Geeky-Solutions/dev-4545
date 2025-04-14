@@ -30,12 +30,11 @@ namespace Employee.Infrastructure.Repositories
             var employee = await dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
             if (employee == null || employee.RefreshTokenExpiry < DateTime.UtcNow)
                 throw new Exception("Invalid or expired refresh token.");
-            var accessTokenService = new AccessTokenService(_configuration,dbContext);
+            var accessTokenService = new AccessTokenService(_configuration);
             var user = await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == employee.EmployeeId);
             var JwtSecurity = await accessTokenService.GenerateToken(user);
-           // string AccessToken= new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
 
-            return new JwtSecurityTokenHandler().WriteToken(JwtSecurity); ;
+            return new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
         }
     }
 }

@@ -4,11 +4,11 @@ using MediatR;
 
 namespace Employee.Application.Commands.Leave
 {
-    public record UpdateLeaveCommand(Guid EmployeeId, LeaveEntity LeaveEntity) : IRequest<LeaveEntity>;
+    public record UpdateLeaveCommand(Guid EmployeeId, LeaveEntity LeaveEntity) : IRequest<LeaveEntity?>;
     public class UpdateLeaveCommandHandler(ILeaveRepository LeaveRepository)
-        : IRequestHandler<UpdateLeaveCommand, LeaveEntity>
+        : IRequestHandler<UpdateLeaveCommand, LeaveEntity?>
     {
-        public async Task<LeaveEntity> Handle(UpdateLeaveCommand request, CancellationToken cancellationToken)
+        public async Task<LeaveEntity?> Handle(UpdateLeaveCommand request, CancellationToken cancellationToken)
         {
             var result = await LeaveRepository.UpdateLeave(request.EmployeeId, request.LeaveEntity);
             return result;

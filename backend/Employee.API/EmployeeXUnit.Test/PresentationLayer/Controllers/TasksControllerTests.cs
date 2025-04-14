@@ -2,7 +2,6 @@
 using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Moq;
-using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {

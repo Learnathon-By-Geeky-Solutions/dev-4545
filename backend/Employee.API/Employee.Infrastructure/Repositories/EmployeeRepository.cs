@@ -102,7 +102,7 @@ namespace Employee.Infrastructure.Repositories
                 throw new UnauthorizedAccessException("Incorrect password.");
             }
 
-            var accessTokenService = new AccessTokenService(_configuration, _dbContext);
+            var accessTokenService = new AccessTokenService(_configuration);
             var jwtToken = await accessTokenService.GenerateToken(user);
 
             var refreshToken = RefreshTokenService.GenerateRefreshToken();

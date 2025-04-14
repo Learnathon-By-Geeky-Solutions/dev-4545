@@ -3,8 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using Employee.Core.Entities;
 using Employee.Core.Enums;
-using Employee.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,15 +11,13 @@ namespace Employee.Infrastructure.Services
     public class AccessTokenService
     {
         private readonly IConfiguration _configuration;
-        private readonly AppDbContext _dbContext;
 
-        public AccessTokenService(IConfiguration configuration, AppDbContext dbContext)
+        public AccessTokenService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _dbContext = dbContext;
         }
 
-        public async Task<JwtSecurityToken> GenerateToken(EmployeeEntity employee)
+        public async Task<JwtSecurityToken> GenerateToken(EmployeeEntity? employee)
         {
             var jwtKey = _configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(jwtKey))

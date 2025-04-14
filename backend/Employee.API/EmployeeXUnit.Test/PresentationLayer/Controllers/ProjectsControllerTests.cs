@@ -142,7 +142,8 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                 Description = "Non-existent project"
             };
             _senderMock.Setup(s => s.Send(It.IsAny<UpdateProjectCommand>(), default))
-                       .ReturnsAsync((ProjectEntity)null);
+                   .ReturnsAsync((ProjectEntity?)null!);
+
 
             // Act
             var result = await _controller.UpdateProject(projectId, project);

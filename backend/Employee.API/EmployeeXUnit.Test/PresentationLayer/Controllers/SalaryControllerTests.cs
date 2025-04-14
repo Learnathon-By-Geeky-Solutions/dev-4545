@@ -126,7 +126,8 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                 EmployeeId = employeeId
             };
             _senderMock.Setup(s => s.Send(It.IsAny<UpdateSalaryCommand>(), default))
-                       .ReturnsAsync((SalaryEntity)null);
+                   .ReturnsAsync((SalaryEntity?)null!);
+
 
             // Act
             var result = await _controller.UpdateSalayByEmpId(employeeId, salary);

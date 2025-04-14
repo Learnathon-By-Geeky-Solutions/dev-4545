@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Employee.Infrastructure.Services
 {
-    public class PasswordHasher
+    public static class PasswordHasher
     {
-        public static string HashPassword(string password, string salt)
+        public static string HashPassword(string ?password, string salt)
         {
-            using var sha256 = SHA256.Create();
             var saltedPassword = $"{salt}{password}";
             var bytes = Encoding.UTF8.GetBytes(saltedPassword);
-            var hash = sha256.ComputeHash(bytes);
+            var hash = SHA256.HashData(bytes);
             return Convert.ToBase64String(hash);
         }
 
