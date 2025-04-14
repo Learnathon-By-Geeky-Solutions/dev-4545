@@ -10,9 +10,9 @@ namespace Employee.Core.Interfaces
     public interface IPerformanceRepository
     {
         Task<IEnumerable<PerformanceEntity>> GetAllPerformances();
-        Task<PerformanceEntity> GetPerformancesByEmployeeId(Guid EmployeeId);
+        Task<PerformanceEntity?> GetPerformancesByEmployeeId(Guid EmployeeId);
         Task<PerformanceEntity> AddPerformanceAsync(PerformanceEntity performance);
-        Task<PerformanceEntity> UpdatePerformance(Guid Id, PerformanceEntity performance);
+        Task<PerformanceEntity?> UpdatePerformance(Guid Id, PerformanceEntity performance);
         Task<bool> DeletePerformance(Guid Id);
     }
 }
