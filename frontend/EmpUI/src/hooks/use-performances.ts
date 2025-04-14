@@ -66,8 +66,10 @@ export const usePerformanceForm = () => {
     }
   }, [isSuccess, isError, error]);
 
+
   const onSaved = async (performance: Performance) => {
     await performanceSaved(performance);
+
   };
 
   return {

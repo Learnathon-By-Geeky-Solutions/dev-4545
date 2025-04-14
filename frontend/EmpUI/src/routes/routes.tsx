@@ -14,7 +14,9 @@ import Projects from "@pages/projects";
 import Features from "@pages/features";
 import Leaves from "@pages/Leaves";
 import Performances from "@pages/performances";
+
 import Salary from "@pages/salary";
+
 
 const routes = [
   {
@@ -92,6 +94,7 @@ const routes = [
     children: [],
   },
   {
+
     path: "salaries",
     breadcrumb: "Salaries",
     component: Salary,
@@ -99,6 +102,7 @@ const routes = [
     children: [],
   },
   {
+
     path: "settings",
     breadcrumb: "Settings",
     component: Settings,

@@ -59,4 +59,5 @@ export const MAIN_MENU_ITEMS = [
     label: "Salaries",
     icon: <FolderOpenOutlined />,
   },
+
 ];
