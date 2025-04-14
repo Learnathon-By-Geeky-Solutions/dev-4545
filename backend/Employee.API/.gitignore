@@ -1,8 +1,0 @@
-﻿.vs/
-.github/
-bin/
-obj/
-*.user
-*.suo
-*.dbmdl
-*.jfm
