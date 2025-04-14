@@ -53,19 +53,19 @@ namespace Employee.Infrastructure.Repositories
             return employee;
         }
 
-        public async Task<EmployeeEntity?> UpdateEmployee(Guid id, EmployeeEntity updatedEmployee)
+        public async Task<EmployeeEntity?> UpdateEmployee(Guid id, EmployeeEntity updatedentity)
         {
             var existingEmployee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
             if (existingEmployee == null) return null;
 
-            existingEmployee.Name = updatedEmployee.Name;
-            existingEmployee.Email = updatedEmployee.Email;
-            existingEmployee.Phone = updatedEmployee.Phone;
-            existingEmployee.DateOfJoin = updatedEmployee.DateOfJoin;
-            existingEmployee.Role = updatedEmployee.Role;
-            existingEmployee.Stack = updatedEmployee.Stack;
+            existingEmployee.Name = updatedentity.Name;
+            existingEmployee.Email = updatedentity.Email;
+            existingEmployee.Phone = updatedentity.Phone;
+            existingEmployee.DateOfJoin = updatedentity.DateOfJoin;
+            existingEmployee.Role = updatedentity.Role;
+            existingEmployee.Stack = updatedentity.Stack;
 
-            SetPasswordHash(existingEmployee, updatedEmployee.Password);
+            SetPasswordHash(existingEmployee, updatedentity.Password);
 
             await _dbContext.SaveChangesAsync();
 

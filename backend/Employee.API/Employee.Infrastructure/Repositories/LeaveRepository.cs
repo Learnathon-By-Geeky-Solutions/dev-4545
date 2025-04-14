@@ -9,7 +9,7 @@ namespace Employee.Infrastructure.Repositories
     {
         public async Task<LeaveEntity> AddLeave(LeaveEntity Leave)
         {
-            Leave.LeaveId = new Guid();
+            Leave.LeaveId = Guid.NewGuid();
             await dbContext.Leaves.AddAsync(Leave);
             await dbContext.SaveChangesAsync();
             return Leave;
@@ -17,7 +17,7 @@ namespace Employee.Infrastructure.Repositories
 
         public async Task<bool> DeleteLeaveByEmployeeId(Guid EmployeeId)
         {
-            var result = await dbContext.Leaves.FirstOrDefaultAsync(x=>x.EmployeeId == EmployeeId); ;
+            var result = await dbContext.Leaves.FirstOrDefaultAsync(x=>x.EmployeeId == EmployeeId);
             if(result == null)
             {
                 return false;
@@ -42,7 +42,7 @@ namespace Employee.Infrastructure.Repositories
 
         }
 
-        public async Task<LeaveEntity> UpdateLeave(Guid EmployeeId, LeaveEntity updateLeave)
+        public async Task<LeaveEntity?> UpdateLeave(Guid EmployeeId, LeaveEntity updateLeave)
         {
             var result = await dbContext.Leaves.FirstOrDefaultAsync(x=>x.EmployeeId==EmployeeId);
             if (result==null)

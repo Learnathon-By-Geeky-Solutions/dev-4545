@@ -12,8 +12,8 @@ namespace Employee.Infrastructure.Repositories
         {
             feature.FeatureId = Guid.NewGuid();
             await dbContext.Features.AddAsync(feature);
-            dbContext.SaveChangesAsync(); 
-            return feature; ;
+            await dbContext.SaveChangesAsync(); 
+            return feature;
         }
 
         public async Task<bool> DeleteFeature(Guid Id)
@@ -24,7 +24,7 @@ namespace Employee.Infrastructure.Repositories
                 var tasks= await dbContext.Tasks
                     .Where(x=>x.FeatureId==Id).ToListAsync();
 
-                if (tasks.Any())
+                if (tasks!=null)
                 {
                     dbContext.Tasks.RemoveRange(tasks);
                 }
