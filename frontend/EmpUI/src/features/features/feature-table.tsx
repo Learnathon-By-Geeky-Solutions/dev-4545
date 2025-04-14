@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { Table, Input, Card } from "antd";
-import useFilter from "@hooks/utility-hooks/use-filter";
-import TableActions, { columns } from "./feature-table-columns";
-import { useFeatureForm } from "@hooks/use-features";
+import TableActions from "./feature-table-columns";
 import { useDeleteFeatureMutation } from "@services/feature-service";
 
 const FeatureTable = () => {
