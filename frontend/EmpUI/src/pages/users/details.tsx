@@ -17,7 +17,7 @@ const UserDetails = () => {
   const { isLoading, user: employeeDetails } = useUser(empId);
   const { performance } = usePerformance(empId);
 
-  // console.log("performance ", performance);
+   console.log("performance ", performance);
 
   const handleEditPerformance = () => {
     setShowPerformanceForm(true);
@@ -132,7 +132,7 @@ const UserDetails = () => {
             ) : showPerformanceForm ? (
               <PerformanceForm
                 initialValues={performance}
-                employeeId={empId}
+                employeeId={performance.id}
                 isEditMode={true}
               />
             ) : null}
