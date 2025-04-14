@@ -7,133 +7,132 @@ using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Services;
 using Management.Core.DTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace Employee.Infrastructure.Repositories
 {
-    public class EmployeeRepository(AppDbContext _dbContext, ICacheService cacheService, IConfiguration configuration) : IEmployeeRepository
-
+    public class EmployeeRepository(AppDbContext dbContext, ICacheService cacheService, IConfiguration configuration) : IEmployeeRepository
     {
-        private readonly AppDbContext dbContext = _dbContext;
+        private const int CacheExpirationInSeconds = 30;
+
+        private readonly AppDbContext _dbContext = dbContext;
         private readonly ICacheService _cacheService = cacheService;
         private readonly IConfiguration _configuration = configuration;
 
         public async Task<IEnumerable<EmployeeEntity>> GetEmployees()
         {
-            return await dbContext.Employees.ToListAsync();
-
+            return await _dbContext.Employees.ToListAsync();
         }
+
         public async Task<EmployeeEntity?> GetEmployeeById(Guid id)
         {
             string cacheKey = $"employee-{id}";
 
-            // Attempt to retrieve the employee from the Redis cache.
             var cachedEmployee = await _cacheService.GetAsync<EmployeeEntity>(cacheKey);
             if (cachedEmployee != null)
             {
                 return cachedEmployee;
             }
 
-            // If not found in the cache, query the database.
-            var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
-
+            var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
             if (employee != null)
             {
-                // Cache the result for subsequent queries.
-                await _cacheService.SetAsync(cacheKey, employee, TimeSpan.FromSeconds(30));
+                await _cacheService.SetAsync(cacheKey, employee, TimeSpan.FromSeconds(CacheExpirationInSeconds));
             }
 
             return employee;
         }
+
         public async Task<EmployeeEntity> AddEmployee(EmployeeEntity employee)
         {
-            var salt = PasswordHasher.GenerateSalt();
-            var hashedPassword = PasswordHasher.HashPassword(employee.Password, salt);
-            employee.EmployeeId= Guid.NewGuid();
-            employee.Salt = salt;
-            employee.Password = hashedPassword;
-            await dbContext.Employees.AddAsync(employee);  
-            await dbContext.SaveChangesAsync();
+            employee.EmployeeId = Guid.NewGuid();
+            SetPasswordHash(employee, employee.Password);
+
+            await _dbContext.Employees.AddAsync(employee);
+            await _dbContext.SaveChangesAsync();
             return employee;
         }
 
-        public async Task<EmployeeEntity?> UpdateEmployee(Guid id, EmployeeEntity updatedentity)
+        public async Task<EmployeeEntity?> UpdateEmployee(Guid id, EmployeeEntity updatedEmployee)
         {
-            var salt = PasswordHasher.GenerateSalt();
-            var hashedPassword = PasswordHasher.HashPassword(updatedentity.Password, salt);
-            var data = await dbContext.Employees.FirstOrDefaultAsync(x=>x.EmployeeId == id);
-            if (data != null)
-            {
-                data.Name = updatedentity.Name;
-                data.Email = updatedentity.Email;
-                data.Phone = updatedentity.Phone;
-                data.DateOfJoin = updatedentity.DateOfJoin;
-                data.Password = hashedPassword;
-                data.Role = updatedentity.Role;
-                data.Salt = salt;
-                data.Phone= updatedentity.Phone;
-                data.Stack = updatedentity.Stack;
+            var existingEmployee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
+            if (existingEmployee == null) return null;
 
+            existingEmployee.Name = updatedEmployee.Name;
+            existingEmployee.Email = updatedEmployee.Email;
+            existingEmployee.Phone = updatedEmployee.Phone;
+            existingEmployee.DateOfJoin = updatedEmployee.DateOfJoin;
+            existingEmployee.Role = updatedEmployee.Role;
+            existingEmployee.Stack = updatedEmployee.Stack;
 
-                await dbContext.SaveChangesAsync();
-                return data;
-            }
-            else
-            {
-                return null;
-            }
-           
+            SetPasswordHash(existingEmployee, updatedEmployee.Password);
+
+            await _dbContext.SaveChangesAsync();
+
+            // Invalidate cache
+            await _cacheService.RemoveAsync($"employee-{id}");
+
+            return existingEmployee;
         }
 
         public async Task<bool> DeleteEmployee(Guid id)
         {
-            var data =await dbContext.Employees.FirstOrDefaultAsync(x=>x.EmployeeId==id);
-            if (data != null)
+            var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == id);
+            if (employee == null) return false;
+
+            _dbContext.Employees.Remove(employee);
+            var result = await _dbContext.SaveChangesAsync() > 0;
+
+            if (result)
             {
-                dbContext.Employees.Remove(data);
-                return await dbContext.SaveChangesAsync() > 0;
+                await _cacheService.RemoveAsync($"employee-{id}");
             }
-            return false; 
+
+            return result;
         }
+
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
-            var user = await dbContext.Employees.FirstOrDefaultAsync(x => x.Email == request.Email) ?? throw new ApplicationException($"user is not found with this Email : {request.Email}");
-            var password = PasswordHasher.HashPassword(request.Password, user.Salt);
-            var succeed = await dbContext.Employees.FirstOrDefaultAsync(x => x.Password == password);
-            
-            if (succeed == null)
+            var user = await _dbContext.Employees.FirstOrDefaultAsync(x => x.Email == request.Email)
+                ?? throw new InvalidOperationException($"User not found with email: {request.Email}");
+
+            var hashedInputPassword = PasswordHasher.HashPassword(request.Password, user.Salt);
+            if (user.Password != hashedInputPassword)
             {
-                throw new ApplicationException($"Password isn't correct");
-
+                throw new UnauthorizedAccessException("Incorrect password.");
             }
-            var accessTokenService = new AccessTokenService(_configuration,dbContext);
-            var JwtSecurity = await accessTokenService.GenerateToken(user);
 
-            var authenticationResponse = new AuthenticationResponse();
-            var refreshTokenEntity = new RefreshTokenEntity();
+            var accessTokenService = new AccessTokenService(_configuration, _dbContext);
+            var jwtToken = await accessTokenService.GenerateToken(user);
 
-            var RefreshToken = RefreshTokenService.GenerateRefreshToken();
+            var refreshToken = RefreshTokenService.GenerateRefreshToken();
+            var refreshTokenEntity = new RefreshTokenEntity
+            {
+                TokenId = Guid.NewGuid(),
+                EmployeeId = user.EmployeeId,
+                RefreshToken = refreshToken,
+                RefreshTokenExpiry = DateTime.UtcNow.AddDays(7)
+            };
 
-            authenticationResponse.Id = user.EmployeeId;
-            authenticationResponse.Role = Enum.GetName(typeof(Permissions), user.Role);
-            authenticationResponse.RefreshToken = RefreshToken;
-            authenticationResponse.JwToken = new JwtSecurityTokenHandler().WriteToken(JwtSecurity);
+            await _dbContext.RefreshTokens.AddAsync(refreshTokenEntity);
+            await _dbContext.SaveChangesAsync();
 
-            refreshTokenEntity.TokenId = Guid.NewGuid();
-            refreshTokenEntity.EmployeeId = user.EmployeeId;
-            refreshTokenEntity.RefreshToken = RefreshToken;
-            refreshTokenEntity.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
-            await dbContext.RefreshTokens.AddAsync(refreshTokenEntity);
-            await dbContext.SaveChangesAsync();
-
-            return authenticationResponse;
+            return new AuthenticationResponse
+            {
+                Id = user.EmployeeId,
+                Role = Enum.GetName(typeof(Permissions), user.Role),
+                JwToken = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+                RefreshToken = refreshToken
+            };
         }
 
-       
+        private static void SetPasswordHash(EmployeeEntity employee, string plainPassword)
+        {
+            var salt = PasswordHasher.GenerateSalt();
+            var hashedPassword = PasswordHasher.HashPassword(plainPassword, salt);
 
-
-
+            employee.Password = hashedPassword;
+            employee.Salt = salt;
+        }
     }
 }
