@@ -10,8 +10,8 @@ import { setCredentials, logOut } from "@reducers/auth-slice";
 import API_END_POINTS from "@utils/constants/api-end-points";
 import { RootState } from "@/store";
 
-// const baseUrl = process.env.API_BASE_URL as string;
-const baseUrl = "https://localhost:7011/api";
+const url = process.env.API_BASE_URL as string;
+const baseUrl = url;
 const mutex = new Mutex();
 
 const baseApi = fetchBaseQuery({
