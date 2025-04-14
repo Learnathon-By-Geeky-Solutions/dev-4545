@@ -13,17 +13,17 @@ export const performanceService = baseService.injectEndpoints({
     }),
     performance: builder.query<Performance, string>({
       query: (performanceId) => ({
-        url: API_END_POINTS.performance + `?Id=${performanceId}`,
+        url: API_END_POINTS.performance + `?EmployeeId=${performanceId}`,
         method: "GET",
       }),
       providesTags: ["performance"],
     }),
     performanceSaved: builder.mutation<Performance, Performance>({
       query: (performance) => {
-        const requestUrl = performance?.performanceId
-          ? API_END_POINTS.performances + `/${performance.performanceId}`
+        const requestUrl = performance?.Id
+          ? API_END_POINTS.performances + `/${performance.id}`
           : API_END_POINTS.performances;
-        const requestMethod = performance?.performanceId ? "PUT" : "POST";
+        const requestMethod = performance?.id ? "PUT" : "PUT";
 
         console.log("performance request method ", requestUrl, requestMethod);
 
