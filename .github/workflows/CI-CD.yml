@@ -27,6 +27,7 @@ jobs:
           $appsettingsPath = "backend/Employee.API/Employee.API/appsettings.json"
           $appsettings = Get-Content ./publish/appsettings.json -Raw
           $appsettings = $appsettings -replace '__ConnectionString__', '${{ secrets.CONNECTION_STRING }}'
+          $appsettings = $appsettings -replace '__RedisURL__', '${{ secrets.RedisURL }}'
           $appsettings = $appsettings -replace '__JwtIssuer__', '${{ secrets.JWT_ISSUER }}'
           $appsettings = $appsettings -replace '__JwtAudience__', '${{ secrets.JWT_AUDIENCE }}'
           $appsettings = $appsettings -replace '__JwtKey__', '${{ secrets.JWT_KEY }}'
