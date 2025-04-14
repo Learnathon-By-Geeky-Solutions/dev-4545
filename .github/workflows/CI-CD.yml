@@ -31,7 +31,7 @@ jobs:
           $appsettings = $appsettings -replace '__JwtIssuer__', '${{ secrets.JWT_ISSUER }}'
           $appsettings = $appsettings -replace '__JwtAudience__', '${{ secrets.JWT_AUDIENCE }}'
           $appsettings = $appsettings -replace '__JwtKey__', '${{ secrets.JWT_KEY }}'
-          $appsettings = $appsettings -replace '__ReactURL__', '${{ secrets.ReactURL }}'
+          $appsettings = $appsettings -replace '__ReactURL__', '${{ secrets.REACTURL }}'
           Set-Content ./publish/appsettings.json $appsettings
         shell: pwsh
 

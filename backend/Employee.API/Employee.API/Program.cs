@@ -103,15 +103,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
 
     });
+
+var allowedOrigin = builder.Configuration["Cors:url"];
+
+if (string.IsNullOrWhiteSpace(allowedOrigin))
+{
+    throw new InvalidOperationException("CORS origin is not configured. Please set 'Cors:url' in appsettings.json or environment variables.");
+}
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins(builder.Configuration["Cors:url"]) // Your React app URL
+        policy.WithOrigins(allowedOrigin)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
+
 
 
 
