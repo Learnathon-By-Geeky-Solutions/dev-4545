@@ -29,7 +29,7 @@ namespace Employee.Infrastructure.Repositories
             }
         }
 
-        public async Task<LeaveEntity> GetLeaveByEmployeeId(Guid EmployeeId)
+        public async Task<LeaveEntity?> GetLeaveByEmployeeId(Guid EmployeeId)
         {
             var result = await dbContext.Leaves.FirstOrDefaultAsync(x=>x.EmployeeId==EmployeeId);
             return result;

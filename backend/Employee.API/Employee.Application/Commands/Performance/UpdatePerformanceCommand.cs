@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Employee.Application.Commands.Performance
 {
-    public record UpdatePerformanceCommand(Guid Id, PerformanceEntity Performance) : IRequest<PerformanceEntity>;
+    public record UpdatePerformanceCommand(Guid Id, PerformanceEntity Performance) : IRequest<PerformanceEntity?>;
     public class UpdatePerformanceCommandHandler(IPerformanceRepository performanceRepository)
-        : IRequestHandler<UpdatePerformanceCommand, PerformanceEntity>
+        : IRequestHandler<UpdatePerformanceCommand, PerformanceEntity?>
     {
-        public async Task<PerformanceEntity> Handle(UpdatePerformanceCommand request, CancellationToken cancellationToken)
+        public async Task<PerformanceEntity?> Handle(UpdatePerformanceCommand request, CancellationToken cancellationToken)
         {
             return await performanceRepository.UpdatePerformance(request.Id, request.Performance);
         }

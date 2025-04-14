@@ -24,11 +24,11 @@ namespace Employee.Infrastructure.Repositories
         {
             taskEntity.TaskId = Guid.NewGuid();
             await dbContext.Tasks.AddAsync(taskEntity);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return taskEntity;
         }
 
-        public async Task<TaskEntity> UpdateTask(Guid id, TaskEntity taskEntity)
+        public async Task<TaskEntity?> UpdateTask(Guid id, TaskEntity taskEntity)
         {
             var data = await dbContext.Tasks.FirstOrDefaultAsync(x => x.TaskId == id);
             if (data != null)

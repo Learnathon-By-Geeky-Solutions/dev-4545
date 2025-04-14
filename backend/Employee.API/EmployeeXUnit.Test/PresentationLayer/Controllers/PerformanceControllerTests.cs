@@ -96,7 +96,8 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var performanceId = Guid.NewGuid();
             var performance = new PerformanceEntity { Id = performanceId, Rating = "Non-Existent" };
             _senderMock.Setup(s => s.Send(It.IsAny<UpdatePerformanceCommand>(), default))
-                       .ReturnsAsync((PerformanceEntity)null);
+                .ReturnsAsync((PerformanceEntity?)null!);
+
 
             // Act
             var result = await _controller.UpdatePerformance(performanceId, performance);
