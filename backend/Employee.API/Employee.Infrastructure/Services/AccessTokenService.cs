@@ -30,8 +30,8 @@ namespace Employee.Infrastructure.Services
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, employee.Name),
-                new Claim(ClaimTypes.Role, Enum.GetName(typeof(Permissions), employee.Role)),
+                new Claim(ClaimTypes.Name, employee!.Name),
+                new Claim(ClaimTypes.Role, Enum.GetName(typeof(Permissions), employee.Role)!),
                 new Claim("EmployeeId", employee.EmployeeId.ToString())
             };
 
