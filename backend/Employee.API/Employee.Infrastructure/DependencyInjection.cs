@@ -1,4 +1,5 @@
 ﻿using Employee.Application.Common.Interfaces;
+using Employee.Application.Interfaces;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
 using Employee.Infrastructure.Repositories;
@@ -24,7 +25,7 @@ namespace Employee.Infrastructure
 
             });
             
-
+            services.AddScoped<IAccessTokenService,AccessTokenService>();
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITasksRepository, TaskRepository>();
