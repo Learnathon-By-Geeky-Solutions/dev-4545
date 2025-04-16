@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Employee.Application.Common.Interfaces;
+using Employee.Application.Interfaces;
 using Employee.Core.Entities;
 using Employee.Core.Enums;
 using Employee.Core.Interfaces;
@@ -11,13 +12,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace Employee.Infrastructure.Repositories
 {
-    public class EmployeeRepository(AppDbContext dbContext, ICacheService cacheService, IConfiguration configuration) : IEmployeeRepository
+    public class EmployeeRepository(AppDbContext dbContext, ICacheService cacheService, IConfiguration configuration, IAccessTokenService accessTokenService) : IEmployeeRepository
     {
         private const int CacheExpirationInSeconds = 30;
 
         private readonly AppDbContext _dbContext = dbContext;
         private readonly ICacheService _cacheService = cacheService;
         private readonly IConfiguration _configuration = configuration;
+        private readonly IAccessTokenService? _accessTokenService = accessTokenService;
 
         public async Task<IEnumerable<EmployeeEntity>> GetEmployees()
         {
@@ -102,8 +104,8 @@ namespace Employee.Infrastructure.Repositories
                 throw new UnauthorizedAccessException("Incorrect password.");
             }
 
-            var accessTokenService = new AccessTokenService(_configuration);
-            var jwtToken = await accessTokenService.GenerateToken(user);
+           
+            var jwtToken = await _accessTokenService!.GenerateToken(user);
 
             var refreshToken = RefreshTokenService.GenerateRefreshToken();
             var refreshTokenEntity = new RefreshTokenEntity

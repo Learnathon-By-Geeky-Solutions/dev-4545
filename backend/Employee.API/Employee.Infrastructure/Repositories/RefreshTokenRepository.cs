@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Employee.Application.Interfaces;
 using Employee.Core.Entities;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
@@ -8,8 +9,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Employee.Infrastructure.Repositories
 {
-    public class RefreshTokenRepository(AppDbContext dbContext, IConfiguration _configuration) : IRefreshTokenRepository
+    public class RefreshTokenRepository(AppDbContext _dbContext, IAccessTokenService accessTokenService) : IRefreshTokenRepository
     {
+        private readonly AppDbContext dbContext = _dbContext;
+        private readonly IAccessTokenService accessTokenService = accessTokenService;
+
         public async Task<IEnumerable<RefreshTokenEntity>> GetRefreshTokens()
         {
             return await dbContext.RefreshTokens.ToListAsync();
@@ -30,7 +34,7 @@ namespace Employee.Infrastructure.Repositories
             var employee = await dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
             if (employee == null || employee.RefreshTokenExpiry < DateTime.UtcNow)
                 throw new Exception("Invalid or expired refresh token.");
-            var accessTokenService = new AccessTokenService(_configuration);
+            
             var user = await dbContext.Employees.FirstOrDefaultAsync(x => x.EmployeeId == employee.EmployeeId);
             var JwtSecurity = await accessTokenService.GenerateToken(user);
 

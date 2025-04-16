@@ -1,33 +1,34 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Employee.Application.Interfaces;
 using Employee.Core.Entities;
 using Employee.Core.Enums;
-using Microsoft.Extensions.Configuration;
+using Employee.Infrastructure.Setttings;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Employee.Infrastructure.Services
 {
-    public class AccessTokenService
+    public class AccessTokenService : IAccessTokenService
     {
-        private readonly IConfiguration _configuration;
-
-        public AccessTokenService(IConfiguration configuration)
+        private readonly JwtSettings _jwtSettings;
+        
+        public AccessTokenService(IOptions<JwtSettings> jwtSettings)
         {
-            _configuration = configuration;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public async Task<JwtSecurityToken> GenerateToken(EmployeeEntity? employee)
         {
-            var jwtKey = _configuration["Jwt:Key"];
-            if (string.IsNullOrEmpty(jwtKey))
+            if (string.IsNullOrEmpty(_jwtSettings.Key))
             {
                 throw new InvalidOperationException("JWT secret key is not configured.");
             }
 
-            // NOSONAR - This key is loaded securely from non-published config
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, employee.Name),
@@ -36,14 +37,14 @@ namespace Employee.Infrastructure.Services
             };
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: credentials
             );
 
-            return token;
+            return await Task.FromResult(token);
         }
     }
 }

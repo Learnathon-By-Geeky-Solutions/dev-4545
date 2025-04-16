@@ -21,7 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-
+builder.Services.Configure<Employee.Infrastructure.Setttings.JwtSettings>(
+    builder.Configuration.GetSection("Jwt"));
 
 
 builder.Services.AddControllers();
