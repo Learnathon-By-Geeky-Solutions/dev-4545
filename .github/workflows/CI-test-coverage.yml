@@ -38,7 +38,7 @@ jobs:
       - name: SonarCloud Begin Analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"Learnathon-By-Geeky-Solutions_dev-4545" /o:"learnathon-by-geeky-solutions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.sources="backend" /d:sonar.exclusions="**/EmployeeXUnit.Test/**,**/frontend/**,**/bin/**,**/obj/**,**/Migrations/**,**/*.cshtml,**/*.css,**/*.cshtml.cs" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="backend/Employee.API/EmployeeXUnit.Test/coverage.xml"
+          dotnet sonarscanner begin /k:"Learnathon-By-Geeky-Solutions_dev-4545" /o:"learnathon-by-geeky-solutions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.test.inclusions="backend/Employee.API/EmployeeXUnit.Test" /d:sonar.inclusions="backend/Employee.API/**" /d:sonar.exclusions="**/frontend/**,**/bin/**,**/obj/**,**/Migrations/**,**/*.cshtml,**/*.css,**/*.cshtml.cs" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="backend/Employee.API/EmployeeXUnit.Test/coverage.xml"
 
       # 5. Build the solution
       - name: Build solution
