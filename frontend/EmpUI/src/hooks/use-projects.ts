@@ -7,6 +7,7 @@ import { AppError, QueryParams } from "@models/utils-model";
 import {
   useLazyProjectsQuery,
   useProjectQuery,
+  useEmpProjectsQuery,
   useProjectSavedMutation,
 } from "@services/project-service";
 import { formatQueryParams } from "@utils/helpers";
@@ -82,5 +83,13 @@ export const useProject = (projectId: number) => {
   return {
     isLoading,
     project,
+  };
+};
+export const useEmpProjects = (empId: string) => {
+  const { isLoading, data: projects } = useEmpProjectsQuery(empId);
+
+  return {
+    isLoading,
+    projects,
   };
 };

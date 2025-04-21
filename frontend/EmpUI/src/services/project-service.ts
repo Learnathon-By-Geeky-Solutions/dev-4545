@@ -18,6 +18,13 @@ export const projectService = baseService.injectEndpoints({
       }),
       providesTags: ["project"],
     }),
+    empProjects: builder.query<User, string>({
+      query: (empId) => ({
+        url: API_END_POINTS.project + `?EmployeeId=${empId}`,
+        method: "GET",
+      }),
+      providesTags: ["employee-projects"],
+    }),
     projectSaved: builder.mutation<Project, Project>({
       query: (project) => {
         const requestUrl = project?.projectId
@@ -48,6 +55,7 @@ export const projectService = baseService.injectEndpoints({
 export const {
   useLazyProjectsQuery,
   useProjectSavedMutation,
+  useEmpProjectsQuery,
   useProjectQuery,
   useDeleteProjectMutation,
 } = projectService;
