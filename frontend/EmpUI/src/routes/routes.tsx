@@ -4,31 +4,29 @@ import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
-import {
-  DashboardBreadcrumb,
-  DynamicUserBreadcrumb,
-  UserDetailsBreadcrumb,
-} from "@/routes/route-utils";
+
 import Tasks from "@pages/tasks";
 import Projects from "@pages/projects";
 import Features from "@pages/features";
 import Leaves from "@pages/Leaves";
 import Performances from "@pages/performances";
 import Salary from "@pages/salary";
+import EmployeeDetails from "@pages/users/emp-details";
 
 const routes = [
   {
     path: "",
-    breadcrumb: DashboardBreadcrumb,
     component: Dashboard,
     exact: true,
     children: [],
+    roles: ["Admin", "SE"],
   },
   {
     path: "users",
     breadcrumb: "Users",
     component: "",
     exact: true,
+    roles: ["Admin"],
     children: [
       {
         path: "",
@@ -62,6 +60,7 @@ const routes = [
     component: Tasks,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "projects",
@@ -69,6 +68,7 @@ const routes = [
     component: Projects,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "features",
@@ -76,6 +76,7 @@ const routes = [
     component: Features,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "leaves",
@@ -83,6 +84,7 @@ const routes = [
     component: Leaves,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "performances",
@@ -90,6 +92,7 @@ const routes = [
     component: Performances,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "salaries",
@@ -97,6 +100,7 @@ const routes = [
     component: Salary,
     exact: true,
     children: [],
+    roles: ["Admin"],
   },
   {
     path: "settings",
@@ -104,6 +108,15 @@ const routes = [
     component: Settings,
     exact: true,
     children: [],
+    roles: ["Admin", "SE"], // Both roles can access
+  },
+  {
+    path: "details",
+    breadcrumb: "UserDetails",
+    component: EmployeeDetails,
+    exact: true,
+    children: [],
+    roles: ["SE"], // Both roles can access
   },
 ];
 

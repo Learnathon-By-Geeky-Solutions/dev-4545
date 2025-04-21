@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, MenuProps } from 'antd';
 import { MenuItem } from '@models/utils-model';
 import { MAIN_MENU_ITEMS } from '@utils/constants/menu-constants';
+import { getAuthorizedRoutes } from '../../routes/route-utils';
 
 interface MainMenuProps {
   activeMenu: string;
@@ -34,45 +35,59 @@ const findSelectedKey = (activeMenu: string) => {
 const MainMenu: React.FC<MainMenuProps> = ({ activeMenu, onMenuClick }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  
+
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  
+
   useEffect(() => {
     const key = findSelectedKey(pathname);
     const newOpenKeys: string[] = [];
     const parentKey = findParentKey(key, MAIN_MENU_ITEMS);
-    
+
     if (parentKey && !newOpenKeys.includes(parentKey)) {
       newOpenKeys.push(parentKey);
     }
-    
+
     setOpenKeys(newOpenKeys);
   }, [pathname]);
-  
-  const handleClick: MenuProps['onClick'] = (e) => {
+
+  const handleClick: MenuProps["onClick"] = (e) => {
     if (pathname === e.key) {
       return;
     }
     onMenuClick(e.key);
     navigate(e.key);
   };
-  
+
   const handleOpenChange = (keys: string[]) => {
     setOpenKeys(keys);
   };
-  
+
   const selectedKey = findSelectedKey(activeMenu || location.pathname);
-  
+
+  // Get authorized routes based on user role
+  const authorizedRoutes = getAuthorizedRoutes();
+
+  // Filter menu items to only show authorized ones
+  const authorizedMenuItems = MAIN_MENU_ITEMS.filter((menuItem) => {
+    // Check if the path of this menu item exists in authorized routes
+    return authorizedRoutes.some(
+      (route) => route.path === menuItem.key.replace("/", "")
+    );
+  });
+
   return (
     <Menu
       theme="dark"
       mode="inline"
-      selectedKeys={[selectedKey]}
-      openKeys={openKeys}
-      onOpenChange={handleOpenChange}
-      items={MAIN_MENU_ITEMS}
-      onClick={handleClick}
-    />
+      selectedKeys={[activeMenu]}
+      onClick={({ key }) => onMenuClick(key)}
+    >
+      {authorizedMenuItems.map((menuItem) => (
+        <Menu.Item key={menuItem.key} icon={menuItem.icon}>
+          <Link to={menuItem.key}>{menuItem.label}</Link>
+        </Menu.Item>
+      ))}
+    </Menu>
   );
 };
 
