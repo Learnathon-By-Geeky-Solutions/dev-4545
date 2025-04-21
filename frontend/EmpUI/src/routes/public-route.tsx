@@ -11,7 +11,7 @@ const PublicRoute = ({ children, isAuthenticated }: PublicRouteProps) => {
   const redirect = new URLSearchParams(search).get('redirect');
   const url = redirect ? decodeURIComponent(redirect) : '/';
   
-  return !isAuthenticated ? children : <Navigate to={url} />;
+  return !isAuthenticated ? children : <Navigate to={url} replace />;
 };
 
 export default PublicRoute;

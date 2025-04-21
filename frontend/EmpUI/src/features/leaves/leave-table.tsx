@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { Table, Input, Card } from "antd";
-import useFilter from "@hooks/utility-hooks/use-filter";
 import { useDeleteLeaveMutation } from "@services/leave-service";
 import TableActions from "./leave-table-columns";
 

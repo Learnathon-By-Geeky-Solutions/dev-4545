@@ -59,4 +59,9 @@ export const MAIN_MENU_ITEMS = [
     label: "Salaries",
     icon: <FolderOpenOutlined />,
   },
+  {
+    key: "/details",
+    label: "User Details",
+    icon: <FolderOpenOutlined />,
+  },
 ];
