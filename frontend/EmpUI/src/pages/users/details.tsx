@@ -161,67 +161,138 @@ const UserDetails = () => {
             ) : null}
             {/* Task section */}
             <Card
-              title="Assigned Tasks"
-              style={{ marginTop: "24px" }}
-              loading={isLoading}
+  title={
+    <div className="card-title" style={{ fontSize: "18px", fontWeight: "600", color: "#1890ff" }}>
+      Assigned Tasks
+    </div>
+  }
+  style={{ 
+    marginTop: "24px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    borderRadius: "8px"
+  }}
+  loading={isLoading}
+  headStyle={{ backgroundColor: "#f9fafc", borderBottom: "1px solid #f0f0f0" }}
+  bodyStyle={{ padding: "0" }}
+>
+  {tasks && tasks.length > 0 ? (
+    <div className="task-list">
+      {tasks.map((task) => (
+        <Card
+          key={task.taskId}
+          type="inner"
+          style={{ 
+            marginBottom: "16px", 
+            borderRadius: "6px",
+            border: "1px solid #f0f0f0",
+            overflow: "hidden"
+          }}
+          title={
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
             >
-              {tasks && tasks.length > 0 ? (
-                <div className="task-list">
-                  {tasks.map((task) => (
-                    <Card
-                      key={task.taskId}
-                      type="inner"
-                      style={{ marginBottom: "16px" }}
-                      title={
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <span>{task.description}</span>
-                          <Tag color={getStatusColor(task.status)}>
-                            {task.status}
-                          </Tag>
-                        </div>
-                      }
-                    >
-                      <Row gutter={[16, 16]}>
-                        <Col span={12}>
-                          <div>
-                            <strong>Assigned Date:</strong>{" "}
-                            {new Date(task.assignedDate).toLocaleDateString()}
-                          </div>
-                        </Col>
-                        <Col span={12}>
-                          <div>
-                            <strong>Due Date:</strong>{" "}
-                            <span
-                              style={{
-                                color: isOverdue(task.dueDate)
-                                  ? "#ff4d4f"
-                                  : "inherit",
-                              }}
-                            >
-                              {new Date(task.dueDate).toLocaleDateString()}
-                              {isOverdue(task.dueDate) && " (Overdue)"}
-                            </span>
-                          </div>
-                        </Col>
-                        <Col span={24}>
-                          <div>
-                            <strong>Feature ID:</strong> {task.featureId}
-                          </div>
-                        </Col>
-                      </Row>
-                    </Card>
-                  ))}
-                </div>
-              ) : (
-                <h1>No tasks yet!</h1>
-              )}
-            </Card>
+              <span style={{ fontWeight: "500", fontSize: "16px" }}>{task.description}</span>
+              <Tag 
+                color={getStatusColor(task.status)}
+                style={{ 
+                  borderRadius: "4px", 
+                  padding: "4px 12px", 
+                  fontWeight: "500" 
+                }}
+              >
+                {task.status}
+              </Tag>
+            </div>
+          }
+          headStyle={{ backgroundColor: "#fafafa" }}
+          bodyStyle={{ padding: "16px" }}
+        >
+          <Row gutter={[16, 20]}>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Task ID:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.taskId}</span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Description:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.description}</span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Assigned Date:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>
+                  {new Date(task.assignedDate).toLocaleDateString()}
+                </span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Due Date:</span>
+                <span
+                  style={{
+                    color: isOverdue(task.dueDate) ? "#ff4d4f" : "#8c8c8c",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                >
+                  {new Date(task.dueDate).toLocaleDateString()}
+                  {isOverdue(task.dueDate) && (
+                    <span style={{ color: "#ff4d4f", marginLeft: "8px", fontWeight: "500" }}>
+                      (Overdue)
+                    </span>
+                  )}
+                </span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Status:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.status}</span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Assigned By:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.assignedBy}</span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Employee ID:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.employeeId}</span>
+              </div>
+            </Col>
+            <Col xs={24} sm={12}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Feature ID:</span>
+                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.featureId}</span>
+              </div>
+            </Col>
+          </Row>
+        </Card>
+      ))}
+    </div>
+  ) : (
+    <div style={{ 
+      padding: "40px 20px", 
+      textAlign: "center", 
+      color: "#8c8c8c", 
+      fontSize: "16px",
+      backgroundColor: "#fafafa",
+      borderRadius: "0 0 8px 8px"
+    }}>
+      No tasks yet!
+    </div>
+  )}
+</Card>
           </div>
         </Spin>
       </PageContent>
