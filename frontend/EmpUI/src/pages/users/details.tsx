@@ -18,9 +18,6 @@ const UserDetails = () => {
   const { isLoading, user: employeeDetails } = useUser(empId);
   const { performance } = usePerformance(empId);
   const { tasks } = useEmpTasks(empId);
-  console.log("EMPLOYEE TASKS", tasks);
-
-   console.log("performance ", performance);
 
   const handleEditPerformance = () => {
     setShowPerformanceForm(true);

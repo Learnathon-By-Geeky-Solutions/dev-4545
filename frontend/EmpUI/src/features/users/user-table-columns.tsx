@@ -1,18 +1,20 @@
-import { Link } from 'react-router-dom';
-import { MenuProps, TableProps, Tag, Dropdown, Button, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons';
-import { User } from '@models/user-model';
+import { Link } from "react-router-dom";
+import { MenuProps, TableProps, Tag, Dropdown, Button, Typography } from "antd";
+import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
+import { User } from "@models/user-model";
 
 const { Text } = Typography;
 
-const getActions = (userId: number): MenuProps['items'] => {
+const getActions = (userId: number): MenuProps["items"] => {
   return [
     {
       key: `edit-${userId}`,
-      label: <Link to={`/users/${userId}`}>
-        <EditOutlined /> Edit
-      </Link>,
-    }
+      label: (
+        <Link to={`/users/${userId}`}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+    },
   ];
 };
 
@@ -53,7 +55,8 @@ const columns: TableProps<User>["columns"] = [
     key: "role",
     render: (_, record) => (
       <Tag color="geekblue" className="uppercase">
-        {localStorage.getItem("role")}
+        {/* {localStorage.getItem("role")} */}
+        {record.role == 0 ? "Admin" : "Employee"}
       </Tag>
     ),
   },

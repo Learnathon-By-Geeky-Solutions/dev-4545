@@ -66,7 +66,6 @@ export const useUserForm = () => {
   const onSaved = (user: User) => {
     userSaved({
       ...user,
-      avatar: "https://i.imgur.com/DTfowdu.jpg",
     });
   };
 
@@ -78,8 +77,6 @@ export const useUserForm = () => {
 
 export const useUser = (userId: number) => {
   const { isLoading, data: user } = useUserQuery(userId);
-
-  // console.log("USE userquery", user);
 
   return {
     isLoading,

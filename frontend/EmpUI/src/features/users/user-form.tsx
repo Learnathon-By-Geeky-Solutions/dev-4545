@@ -1,10 +1,11 @@
-import _ from 'lodash';
-import { useEffect } from 'react';
-import { Button, Card, Col, Form, Input, Row, Select } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import { useUserForm } from '@hooks/use-users';
-import { User, UserPartial } from '@models/user-model';
-import { validationMessage } from '@utils/helpers/message-helpers';
+import _ from "lodash";
+import { useEffect } from "react";
+import { Button, Card, Col, Form, Input, Row, Select, DatePicker } from "antd";
+import { SaveOutlined } from "@ant-design/icons";
+import { useUserForm } from "@hooks/use-users";
+import { User, UserPartial } from "@models/user-model";
+import { validationMessage } from "@utils/helpers/message-helpers";
+import moment from "moment";
 
 interface UserFormProps {
   initialValues?: UserPartial;
@@ -13,59 +14,60 @@ interface UserFormProps {
 
 const USER_ROLES = [
   {
-    label: 'Admin',
-    value: 'admin'
+    label: "Admin",
+    value: 0,
   },
   {
-    label: 'CEO',
-    value: 'ceo'
+    label: "SE",
+    value: 2,
   },
-  {
-    label: 'SE',
-    value: 'se'
-  },
-  {
-    label: 'HR',
-    value: 'hr'
-  }
 ];
 
 const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
   const [form] = Form.useForm();
-  
+
   const { onSaved, isLoading } = useUserForm();
-  
+
   useEffect(() => {
     if (initialValues) {
       form.setFieldsValue({
         ...initialValues,
-        password: '',
-        confirm_password: ''
+        dateOfJoin: initialValues.dateOfJoin
+          ? moment(initialValues.dateOfJoin)
+          : null,
+        password: "",
+        confirm_password: "",
       });
     }
   }, [initialValues, form, isEditMode]);
-  
+
   const onFinished = (values: User) => {
-    values.id = isEditMode ? initialValues?.id ?? 0 : 0;
-    
-    const userData = _.omit(values, 'confirm_password');
+    // Format date to string
+    if (values.dateOfJoin) {
+      values.dateOfJoin = values.dateOfJoin.format("YYYY-MM-DD");
+    }
+    values.salt = "";
+
+    const userData = _.omit(values, "confirm_password");
+    console.log(userData);
     onSaved(userData);
   };
-  
+
   return (
     <Form
       form={form}
       layout="vertical"
-      autoComplete={'off'}
+      autoComplete={"off"}
       initialValues={initialValues}
-      onFinish={onFinished}>
-      <Card title="Update User">
+      onFinish={onFinished}
+    >
+      <Card title={isEditMode ? "Edit User" : "Create User"}>
         <Row gutter={24}>
           <Col span={12}>
             <Form.Item
               label="Name"
               name="name"
-              rules={[{ required: true, message: validationMessage('name') }]}
+              rules={[{ required: true, message: validationMessage("name") }]}
             >
               <Input placeholder="Name" />
             </Form.Item>
@@ -75,8 +77,8 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
               label="Email"
               name="email"
               rules={[
-                { required: true, message: validationMessage('email') },
-                { type: 'email', message: validationMessage('email', 'email') }
+                { required: true, message: validationMessage("email") },
+                { type: "email", message: validationMessage("email", "email") },
               ]}
             >
               <Input placeholder="Email" />
@@ -84,11 +86,62 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
           </Col>
           <Col span={12}>
             <Form.Item
+              label="Stack"
+              name="stack"
+              rules={[{ required: true, message: validationMessage("stack") }]}
+            >
+              <Input placeholder="Technology Stack" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Phone Number"
+              name="phone"
+              rules={[
+                { required: true, message: validationMessage("phone number") },
+                {
+                  pattern: /^[0-9]+$/,
+                  message: "Please enter a valid phone number",
+                },
+              ]}
+            >
+              <Input placeholder="Phone Number" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Date of Joining"
+              name="dateOfJoin"
+              rules={[
+                { required: true, message: validationMessage("joining date") },
+              ]}
+            >
+              <DatePicker
+                format="YYYY-MM-DD"
+                style={{ width: "100%" }}
+                placeholder="Select Date"
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="Role"
+              name="role"
+              rules={[{ required: true, message: validationMessage("role") }]}
+            >
+              <Select options={USER_ROLES} placeholder="Select role" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
               label="Password"
               name="password"
               rules={[
-                { required: !isEditMode, message: validationMessage('password') },
-                { min: 4, message: 'Password must be at least 4 characters' },
+                {
+                  required: !isEditMode,
+                  message: validationMessage("password"),
+                },
+                { min: 4, message: "Password must be at least 4 characters" },
               ]}
             >
               <Input.Password placeholder="Password" />
@@ -98,28 +151,25 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
             <Form.Item
               label="Re-enter Password"
               name="confirm_password"
-              dependencies={['password']}
+              dependencies={["password"]}
               rules={[
-                { required: !isEditMode, message: validationMessage('confirm password') },
+                {
+                  required: !isEditMode,
+                  message: validationMessage("confirm password"),
+                },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error('The two passwords do not match'));
+                    return Promise.reject(
+                      new Error("The two passwords do not match")
+                    );
                   },
                 }),
               ]}
             >
               <Input.Password placeholder="Re-enter Password" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Role"
-              name="role"
-              rules={[{ required: true, message: validationMessage('role') }]}>
-              <Select options={USER_ROLES} placeholder="Select role" />
             </Form.Item>
           </Col>
         </Row>
@@ -130,7 +180,8 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
             type="primary"
             htmlType="submit"
             icon={<SaveOutlined />}
-            loading={isLoading}>
+            loading={isLoading}
+          >
             Save changes
           </Button>
         </Col>

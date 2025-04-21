@@ -31,14 +31,9 @@ export const userService = baseService.injectEndpoints({
     }),
     userSaved: builder.mutation<User, User>({
       query: (user) => {
-        const requestUrl = user?.employeeId
-          ? API_END_POINTS.employee + `/${user.employeeId}`
-          : API_END_POINTS.employee;
-        const requestMethod = user?.employeeId ? "PUT" : "POST";
-
         return {
-          url: requestUrl,
-          method: requestMethod,
+          url: API_END_POINTS.employees,
+          method: "POST",
           body: user,
         };
       },
