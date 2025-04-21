@@ -15,12 +15,9 @@ const baseService = createApi({
     "leaves",
     "performances",
     "performance",
-<<<<<<< HEAD
     "salaries",
     "salary",
     "employee-tasks",
-=======
->>>>>>> main
   ],
   endpoints: () => ({}),
 });
