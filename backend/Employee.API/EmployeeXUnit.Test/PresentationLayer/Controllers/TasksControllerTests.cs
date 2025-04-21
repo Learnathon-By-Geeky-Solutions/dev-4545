@@ -1,72 +1,127 @@
-﻿using Employee.Application.Queries.Task;
+﻿using Employee.API.Controllers;
+using Employee.Application.Commands.Task;
+using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
-using Employee.Core.Interfaces;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
-    public class GetTaskByIdQueryHandlerTests
+    public class TasksControllerTests
     {
-        private readonly Mock<ITasksRepository> _mockRepo;
-        private readonly GetTaskByIdQueryHandler _handler;
+        private readonly Mock<ISender> _mockSender;
+        private readonly TasksController _controller;
 
-        public GetTaskByIdQueryHandlerTests()
+        public TasksControllerTests()
         {
-            _mockRepo = new Mock<ITasksRepository>();
-            _handler = new GetTaskByIdQueryHandler(_mockRepo.Object);
+            _mockSender = new Mock<ISender>();
+            _controller = new TasksController(_mockSender.Object);
         }
 
         [Fact]
-        public async Task Handle_ValidEmployeeId_ReturnsTaskList()
+        public async Task GetAllTasks_ReturnsOkResult_WithTaskList()
+        {
+            // Arrange
+            var tasks = new List<TaskEntity> { new TaskEntity { TaskId = Guid.NewGuid() } };
+            _mockSender.Setup(s => s.Send(It.IsAny<GetAllTasksQuery>(), default))
+                       .ReturnsAsync(tasks);
+
+            // Act
+            var result = await _controller.GetAllTasks();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(tasks, okResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTaskById_ReturnsOkResult_WithTaskList()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
-            var expectedTasks = new List<TaskEntity>
+            var tasks = new List<TaskEntity>
         {
-            new TaskEntity
-            {
-                TaskId = Guid.NewGuid(),
-                Description = "Fix login bug",
-                AssignedDate = DateTime.UtcNow,
-                DueDate = DateTime.UtcNow.AddDays(5),
-                Status = "Pending",
-                AssignedBy = Guid.NewGuid(),
-                EmployeeId = employeeId,
-                FeatureId = Guid.NewGuid()
-            }
+            new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId },
+            new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
         };
-
-            _mockRepo.Setup(r => r.GetTaskByEmployeeIdAsync(employeeId))
-                     .ReturnsAsync(expectedTasks);
-
-            var query = new GetTaskByIdQuery(employeeId);
+            _mockSender.Setup(s => s.Send(It.Is<GetTaskByIdQuery>(q => q.Id == employeeId), default))
+                       .ReturnsAsync(tasks);
 
             // Act
-            var result = await _handler.Handle(query, default);
+            var result = await _controller.GetTaskById(employeeId);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Single(result);
-            Assert.Equal("Fix login bug", result.First().Description);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(tasks, okResult.Value);
         }
 
         [Fact]
-        public async Task Handle_NoTasksForEmployee_ReturnsEmptyList()
+        public async Task AddTaskAsync_ReturnsOkResult_WithCreatedTask()
         {
             // Arrange
-            var employeeId = Guid.NewGuid();
-
-            _mockRepo.Setup(r => r.GetTaskByEmployeeIdAsync(employeeId))
-                     .ReturnsAsync(new List<TaskEntity>());
-
-            var query = new GetTaskByIdQuery(employeeId);
+            var task = new TaskEntity { TaskId = Guid.NewGuid() };
+            _mockSender.Setup(s => s.Send(It.IsAny<AddTaskCommand>(), default))
+                       .ReturnsAsync(task);
 
             // Act
-            var result = await _handler.Handle(query, default);
+            var result = await _controller.AddTaskAsync(task);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Empty(result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(task, okResult.Value);
+        }
+
+        [Fact]
+        public async Task UpdateTask_ReturnsOkResult_WhenEntityExists()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var task = new TaskEntity { TaskId = id };
+            _mockSender.Setup(s => s.Send(It.IsAny<UpdateTaskCommand>(), default))
+                       .ReturnsAsync(task);
+
+            // Act
+            var result = await _controller.UpdateTask(id, task);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(task, okResult.Value);
+        }
+
+        [Fact]
+        public async Task UpdateTask_ReturnsBadRequest_WhenEntityNotFound()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var task = new TaskEntity { TaskId = id };
+            _mockSender.Setup(s => s.Send(It.IsAny<UpdateTaskCommand>(), default))
+                       .ReturnsAsync((TaskEntity?)null);
+
+            // Act
+            var result = await _controller.UpdateTask(id, task);
+
+            // Assert
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Entity Not Found to Update.", badRequest.Value);
+        }
+
+        [Fact]
+        public async Task DeleteTask_ReturnsOkResult()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var response = true;
+            _mockSender.Setup(s => s.Send(It.IsAny<DeleteTaskCommand>(), default))
+                       .ReturnsAsync(response);
+
+            // Act
+            var result = await _controller.DeleteTask(id);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(response, okResult.Value);
         }
     }
 }
