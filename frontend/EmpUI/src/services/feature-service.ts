@@ -18,6 +18,13 @@ export const featureService = baseService.injectEndpoints({
       }),
       providesTags: ["feature"],
     }),
+    empFeatures: builder.query<User, string>({
+      query: (empId) => ({
+        url: API_END_POINTS.feature + `?EmployeeId=${empId}`,
+        method: "GET",
+      }),
+      providesTags: ["employee-features"],
+    }),
     featureSaved: builder.mutation<Feature, Feature>({
       query: (feature) => {
         const requestUrl = feature?.featureId
@@ -48,6 +55,7 @@ export const featureService = baseService.injectEndpoints({
 export const {
   useLazyFeaturesQuery,
   useFeatureSavedMutation,
+  useEmpFeaturesQuery,
   useFeatureQuery,
   useDeleteFeatureMutation,
 } = featureService;

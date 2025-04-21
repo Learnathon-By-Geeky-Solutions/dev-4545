@@ -7,6 +7,7 @@ import { AppError, QueryParams } from "@models/utils-model";
 import {
   useLazyFeaturesQuery,
   useFeatureQuery,
+  useEmpFeaturesQuery,
   useFeatureSavedMutation,
 } from "@services/feature-service";
 import { formatQueryParams } from "@utils/helpers";
@@ -82,5 +83,13 @@ export const useFeature = (featureId: number) => {
   return {
     isLoading,
     feature,
+  };
+};
+export const useEmpFeatures = (empId: string) => {
+  const { isLoading, data: features } = useEmpFeaturesQuery(empId);
+
+  return {
+    isLoading,
+    features,
   };
 };

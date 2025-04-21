@@ -11,6 +11,7 @@ import { usePerformance } from "@hooks/use-performances";
 import PerformanceForm from "@features/performances/performance-form";
 import { useState } from "react";
 import { useEmpTasks } from "@hooks/use-tasks";
+import { useEmpFeatures } from "@hooks/use-features";
 
 import { 
   CalendarOutlined, 
@@ -20,9 +21,12 @@ import {
   ClockCircleOutlined,
   NumberOutlined,
   TeamOutlined,
+  ProjectOutlined, 
   IdcardOutlined,
+  InfoCircleOutlined,
   AppstoreOutlined
 } from '@ant-design/icons';
+
 
 
 
@@ -33,6 +37,7 @@ const UserDetails = () => {
   const { isLoading, user: employeeDetails } = useUser(empId);
   const { performance } = usePerformance(empId);
   const { tasks } = useEmpTasks(empId);
+  const { features } = useEmpFeatures(empId);
 
   const handleEditPerformance = () => {
     setShowPerformanceForm(true);
@@ -74,6 +79,25 @@ const UserDetails = () => {
         default: return "default";
       }
     };
+    
+      const getFeatureStatus = (startDate, endDate) => {
+        const now = new Date();
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        if (now < start) return { text: "Upcoming", color: "blue", status: "processing" };
+        if (now > end) return { text: "Completed", color: "green", status: "success" };
+        return { text: "In Progress", color: "orange", status: "warning" };
+      };
+    
+      const calculateDuration = (startDate, endDate) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return `${diffDays} days`;
+      };
+    
   
 
   return (
@@ -319,7 +343,134 @@ const UserDetails = () => {
         />
       )}
     </Card>
-{/* Task section */}
+{/* Features section */}
+<Card
+      title={
+        <Title level={4} style={{ margin: 0 }}>Project Features</Title>
+      }
+      style={{ marginTop: 24 }}
+      loading={isLoading}
+      bordered
+    >
+      {features && features.length > 0 ? (
+        <div className="feature-list">
+          {features.map((feature) => {
+            const status = getFeatureStatus(feature.startDate, feature.endDate);
+            
+            return (
+              <Card
+                key={feature.featureId}
+                type="inner"
+                style={{ marginBottom: 16 }}
+                title={
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Space>
+                      <Badge status={status.status} />
+                      <Text strong>{feature.featureName || "Unnamed Feature"}</Text>
+                    </Space>
+                    <Tag color={status.color}>
+                      {status.text}
+                    </Tag>
+                  </div>
+                }
+              >
+                {/* Description Section */}
+                <div style={{ 
+                  backgroundColor: "#f9f9f9", 
+                  padding: "12px 16px", 
+                  borderRadius: "4px",
+                  marginBottom: "16px"
+                }}>
+                  <Space direction="vertical" style={{ width: "100%" }}>
+                    <div>
+                      <InfoCircleOutlined style={{ marginRight: 8 }} />
+                      <Text strong>Description:</Text>
+                    </div>
+                    <Text style={{ paddingLeft: 24 }}>
+                      {feature.description || "No description provided"}
+                    </Text>
+                  </Space>
+                </div>
+                
+                <Row gutter={[16, 16]}>
+                  {/* First row */}
+                  <Col xs={24} md={12}>
+                    <Space>
+                      <AppstoreOutlined />
+                      <Text strong>Feature ID:</Text>
+                      <Tooltip title={feature.featureId}>
+                        <Text copyable={{ text: feature.featureId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                          {feature.featureId}
+                        </Text>
+                      </Tooltip>
+                    </Space>
+                  </Col>
+                  
+                  <Col xs={24} md={12}>
+                    <Space>
+                      <ProjectOutlined />
+                      <Text strong>Project ID:</Text>
+                      <Tooltip title={feature.projectId}>
+                        <Text copyable={{ text: feature.projectId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                          {feature.projectId}
+                        </Text>
+                      </Tooltip>
+                    </Space>
+                  </Col>
+                  
+                  {/* Second row */}
+                  <Col xs={24} md={12}>
+                    <Space>
+                      <CalendarOutlined />
+                      <Text strong>Start Date:</Text>
+                      <Tag color="blue">
+                        {new Date(feature.startDate).toLocaleDateString()}
+                      </Tag>
+                    </Space>
+                  </Col>
+                  
+                  <Col xs={24} md={12}>
+                    <Space>
+                      <CalendarOutlined />
+                      <Text strong>End Date:</Text>
+                      <Tag color="orange">
+                        {new Date(feature.endDate).toLocaleDateString()}
+                      </Tag>
+                    </Space>
+                  </Col>
+                  
+                  {/* Duration row */}
+                  <Col span={24}>
+                    <Divider style={{ margin: '8px 0' }} />
+                    <Card 
+                      size="small" 
+                      style={{ backgroundColor: '#f0f5ff', border: '1px solid #d6e4ff' }}
+                    >
+                      <Space>
+                        <ClockCircleOutlined />
+                        <Text strong>Duration:</Text>
+                        <Text>{calculateDuration(feature.startDate, feature.endDate)}</Text>
+                      </Space>
+                    </Card>
+                  </Col>
+                </Row>
+              </Card>
+            );
+          })}
+        </div>
+      ) : (
+        <Empty 
+          description={<Text strong>No features yet!</Text>} 
+          style={{ padding: '40px 0' }}
+        />
+      )}
+    </Card>
           </div>
         </Spin>
       </PageContent>
