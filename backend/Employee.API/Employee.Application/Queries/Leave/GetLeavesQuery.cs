@@ -5,7 +5,7 @@ using MediatR;
 namespace Employee.Application.Queries.Leave
 {
     public record GetLeaveQuery() : IRequest<IEnumerable<LeaveEntity>>;
-    public class GetSalayQueryHandler(ILeaveRepository LeaveRepository)
+    public class GetLeaveQueryHanlder(ILeaveRepository LeaveRepository)
         : IRequestHandler<GetLeaveQuery, IEnumerable<LeaveEntity>>
     {
 
