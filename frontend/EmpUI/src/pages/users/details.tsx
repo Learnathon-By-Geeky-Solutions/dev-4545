@@ -9,6 +9,7 @@ import { useAppSelector } from "@/store";
 import { usePerformance } from "@hooks/use-performances";
 import PerformanceForm from "@features/performances/performance-form";
 import { useState } from "react";
+import { useEmpTasks } from "@hooks/use-tasks";
 
 const UserDetails = () => {
   const { id: empId } = useParams();
@@ -16,11 +17,36 @@ const UserDetails = () => {
 
   const { isLoading, user: employeeDetails } = useUser(empId);
   const { performance } = usePerformance(empId);
+  const { tasks } = useEmpTasks(empId);
+  console.log("EMPLOYEE TASKS", tasks);
 
    console.log("performance ", performance);
 
   const handleEditPerformance = () => {
     setShowPerformanceForm(true);
+  };
+
+  // Helper function to determine status color
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "green";
+      case "in progress":
+        return "blue";
+      case "pending":
+        return "orange";
+      case "delayed":
+        return "red";
+      default:
+        return "default";
+    }
+  };
+
+  // Helper function to check if task is overdue
+  const isOverdue = (dueDate) => {
+    const today = new Date();
+    const taskDueDate = new Date(dueDate);
+    return taskDueDate < today;
   };
 
   return (
@@ -136,6 +162,69 @@ const UserDetails = () => {
                 isEditMode={true}
               />
             ) : null}
+            {/* Task section */}
+            <Card
+              title="Assigned Tasks"
+              style={{ marginTop: "24px" }}
+              loading={isLoading}
+            >
+              {tasks && tasks.length > 0 ? (
+                <div className="task-list">
+                  {tasks.map((task) => (
+                    <Card
+                      key={task.taskId}
+                      type="inner"
+                      style={{ marginBottom: "16px" }}
+                      title={
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <span>{task.description}</span>
+                          <Tag color={getStatusColor(task.status)}>
+                            {task.status}
+                          </Tag>
+                        </div>
+                      }
+                    >
+                      <Row gutter={[16, 16]}>
+                        <Col span={12}>
+                          <div>
+                            <strong>Assigned Date:</strong>{" "}
+                            {new Date(task.assignedDate).toLocaleDateString()}
+                          </div>
+                        </Col>
+                        <Col span={12}>
+                          <div>
+                            <strong>Due Date:</strong>{" "}
+                            <span
+                              style={{
+                                color: isOverdue(task.dueDate)
+                                  ? "#ff4d4f"
+                                  : "inherit",
+                              }}
+                            >
+                              {new Date(task.dueDate).toLocaleDateString()}
+                              {isOverdue(task.dueDate) && " (Overdue)"}
+                            </span>
+                          </div>
+                        </Col>
+                        <Col span={24}>
+                          <div>
+                            <strong>Feature ID:</strong> {task.featureId}
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <h1>No tasks yet!</h1>
+              )}
+            </Card>
           </div>
         </Spin>
       </PageContent>

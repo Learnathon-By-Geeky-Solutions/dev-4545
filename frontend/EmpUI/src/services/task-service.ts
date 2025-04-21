@@ -18,6 +18,13 @@ export const taskService = baseService.injectEndpoints({
       }),
       providesTags: ["task"],
     }),
+    empTasks: builder.query<User, string>({
+      query: (empId) => ({
+        url: API_END_POINTS.empTasks + `?EmployeeId=${empId}`,
+        method: "GET",
+      }),
+      providesTags: ["employee-tasks"],
+    }),
     taskSaved: builder.mutation<User, User>({
       query: (task) => {
         const requestUrl = task?.taskId
@@ -26,7 +33,6 @@ export const taskService = baseService.injectEndpoints({
         const requestMethod = task?.taskId ? "PUT" : "POST";
 
         console.log("task request method ", requestUrl, requestMethod);
-
         return {
           url: requestUrl,
           method: requestMethod,
@@ -47,6 +53,7 @@ export const taskService = baseService.injectEndpoints({
 
 export const {
   useLazyTasksQuery,
+  useEmpTasksQuery,
   useTaskSavedMutation,
   useTaskQuery,
   useDeleteTaskMutation,

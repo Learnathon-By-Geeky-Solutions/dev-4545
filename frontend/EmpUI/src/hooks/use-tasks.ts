@@ -8,6 +8,7 @@ import {
   useLazyTasksQuery,
   useTaskQuery,
   useTaskSavedMutation,
+  useEmpTasksQuery,
 } from "@services/task-service";
 import { formatQueryParams } from "@utils/helpers";
 
@@ -82,5 +83,14 @@ export const useTask = (taskId: number) => {
   return {
     isLoading,
     task,
+  };
+};
+// Hook to fetch a emp tasks by emp id
+export const useEmpTasks = (empId: string) => {
+  const { isLoading, data: tasks } = useEmpTasksQuery(empId);
+
+  return {
+    isLoading,
+    tasks,
   };
 };

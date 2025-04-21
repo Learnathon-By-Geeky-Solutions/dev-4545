@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Form, Input, Button, Checkbox, Typography } from 'antd';
-import { LockOutlined, UnlockOutlined, UserOutlined } from '@ant-design/icons';
-import useAuth from '@hooks/use-auth';
+import { useState } from "react";
+import { Form, Input, Button, Checkbox, Typography } from "antd";
+import { LockOutlined, UnlockOutlined, UserOutlined } from "@ant-design/icons";
+import useAuth from "@hooks/use-auth";
 
 const { Link } = Typography;
 
@@ -17,16 +17,16 @@ const LoginForm = () => {
   const onFinish = (values: LoginFormProps) => {
     onLogin({
       email: values.email,
-      password: values.password
+      password: values.password,
     });
   };
-  
+
   return (
     <Form
       layout="vertical"
       initialValues={{
-        email: "sakib@example.com",
-        password: "123456",
+        email: "",
+        password: "",
         remember: true,
       }}
       requiredMark={false}
