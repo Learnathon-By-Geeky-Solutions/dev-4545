@@ -4,12 +4,27 @@ import UserForm from "@features/users/user-form";
 import { useUser } from "@hooks/use-users";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
-import { Button, Card, Col, Form, Input, Row, Tag } from "antd";
+import { Button, Card, Col, Form, Input, Row, Tag,Empty } from "antd";
+import {Typography, Descriptions, Space, Divider, Badge, Tooltip } from 'antd';
 import { useAppSelector } from "@/store";
 import { usePerformance } from "@hooks/use-performances";
 import PerformanceForm from "@features/performances/performance-form";
 import { useState } from "react";
 import { useEmpTasks } from "@hooks/use-tasks";
+
+import { 
+  CalendarOutlined, 
+  UserOutlined, 
+  TagOutlined, 
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  NumberOutlined,
+  TeamOutlined,
+  IdcardOutlined,
+  AppstoreOutlined
+} from '@ant-design/icons';
+
+
 
 const UserDetails = () => {
   const { id: empId } = useParams();
@@ -24,27 +39,42 @@ const UserDetails = () => {
   };
 
   // Helper function to determine status color
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "green";
-      case "in progress":
-        return "blue";
-      case "pending":
-        return "orange";
-      case "delayed":
-        return "red";
-      default:
-        return "default";
-    }
-  };
+ 
 
-  // Helper function to check if task is overdue
-  const isOverdue = (dueDate) => {
-    const today = new Date();
-    const taskDueDate = new Date(dueDate);
-    return taskDueDate < today;
-  };
+
+  const { Title, Text } = Typography;
+  
+
+
+    // Helper functions
+    const isOverdue = (dueDate) => {
+      return new Date(dueDate) < new Date();
+    };
+  
+    const getStatusColor = (status) => {
+      if (!status || status === "string") return "default";
+      
+      switch (status.toLowerCase()) {
+        case "completed": return "green";
+        case "in progress": return "blue";
+        case "pending": return "orange";
+        case "overdue": return "red";
+        default: return "default";
+      }
+    };
+  
+    const getStatusBadgeStatus = (status) => {
+      if (!status || status === "string") return "default";
+      
+      switch (status.toLowerCase()) {
+        case "completed": return "success";
+        case "in progress": return "processing";
+        case "pending": return "warning";
+        case "overdue": return "error";
+        default: return "default";
+      }
+    };
+  
 
   return (
     <>
@@ -161,143 +191,141 @@ const UserDetails = () => {
             ) : null}
             {/* Task section */}
             <Card
-  title={
-    <div className="card-title" style={{ fontSize: "18px", fontWeight: "600", color: "#1890ff" }}>
-      Assigned Tasks
-    </div>
-  }
-  style={{ 
-    marginTop: "24px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-    borderRadius: "8px"
-  }}
-  loading={isLoading}
-  headStyle={{ backgroundColor: "#f9fafc", borderBottom: "1px solid #f0f0f0" }}
-  bodyStyle={{ padding: "0" }}
->
-  {tasks && tasks.length > 0 ? (
-    <div className="task-list">
-      {tasks.map((task) => (
-        <Card
-          key={task.taskId}
-          type="inner"
-          style={{ 
-            marginBottom: "16px", 
-            borderRadius: "6px",
-            border: "1px solid #f0f0f0",
-            overflow: "hidden"
-          }}
-          title={
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center"
-              }}
-            >
-              <span style={{ fontWeight: "500", fontSize: "16px" }}>{task.description}</span>
-              <Tag 
-                color={getStatusColor(task.status)}
-                style={{ 
-                  borderRadius: "4px", 
-                  padding: "4px 12px", 
-                  fontWeight: "500" 
-                }}
-              >
-                {task.status}
-              </Tag>
-            </div>
-          }
-          headStyle={{ backgroundColor: "#fafafa" }}
-          bodyStyle={{ padding: "16px" }}
-        >
-          <Row gutter={[16, 20]}>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Task ID:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.taskId}</span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Description:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.description}</span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Assigned Date:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>
-                  {new Date(task.assignedDate).toLocaleDateString()}
-                </span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Due Date:</span>
-                <span
+      title={
+        <Title level={4} style={{ margin: 0 }}>Assigned Tasks</Title>
+      }
+      style={{ marginTop: 24 }}
+      loading={isLoading}
+      bordered
+    >
+      {tasks && tasks.length > 0 ? (
+        <div className="task-list">
+          {tasks.map((task,index) => (
+            <Card
+              key={task.taskId}
+              type="inner"
+              style={{ marginBottom: 16 }}
+              title={
+                <div
                   style={{
-                    color: isOverdue(task.dueDate) ? "#ff4d4f" : "#8c8c8c",
-                    fontSize: "14px",
                     display: "flex",
-                    alignItems: "center"
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {new Date(task.dueDate).toLocaleDateString()}
-                  {isOverdue(task.dueDate) && (
-                    <span style={{ color: "#ff4d4f", marginLeft: "8px", fontWeight: "500" }}>
-                      (Overdue)
-                    </span>
-                  )}
-                </span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Status:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.status}</span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Assigned By:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.assignedBy}</span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Employee ID:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.employeeId}</span>
-              </div>
-            </Col>
-            <Col xs={24} sm={12}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ fontWeight: "500", marginRight: "8px", color: "#595959" }}>Feature ID:</span>
-                <span style={{ color: "#8c8c8c", fontSize: "14px" }}>{task.featureId}</span>
-              </div>
-            </Col>
-          </Row>
-        </Card>
-      ))}
-    </div>
-  ) : (
-    <div style={{ 
-      padding: "40px 20px", 
-      textAlign: "center", 
-      color: "#8c8c8c", 
-      fontSize: "16px",
-      backgroundColor: "#fafafa",
-      borderRadius: "0 0 8px 8px"
-    }}>
-      No tasks yet!
-    </div>
-  )}
-</Card>
+                  <Space>
+                    <Badge status={getStatusBadgeStatus(task.status)} />
+                    <Text strong>{"Task No:"|| "No Description"}</Text>{index+1} 
+                  </Space>
+                  <Tag color={getStatusColor(task.status)}>
+                    {task.status === "string" ? "Not Set" : task.status}
+                  </Tag>
+                </div>
+              }
+            >
+              <Row gutter={[16, 16]}>
+                {/* First row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <IdcardOutlined />
+                    <Text strong>Task ID:</Text>
+                    <Tooltip title={task.taskId}>
+                      <Text copyable={{ text: task.taskId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.taskId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <TagOutlined />
+                    <Text strong>Description:</Text>
+                    <Text>{task.description || "No Description"}</Text>
+                  </Space>
+                </Col>
+                
+                {/* Second row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text strong>Assigned Date:</Text>
+                    <Text>{new Date(task.assignedDate).toLocaleDateString()}</Text>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text strong>Due Date:</Text>
+                    <Text
+                      type={isOverdue(task.dueDate) ? "danger" : null}
+                    >
+                      {new Date(task.dueDate).toLocaleDateString()}
+                      {isOverdue(task.dueDate) && (
+                        <Tag color="red" style={{ marginLeft: 8 }}>Overdue</Tag>
+                      )}
+                    </Text>
+                  </Space>
+                </Col>
+                
+                <Divider style={{ margin: '8px 0' }} />
+                
+                {/* Third row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <TeamOutlined />
+                    <Text strong>Assigned By:</Text>
+                    <Tooltip title={task.assignedBy}>
+                      <Text copyable={{ text: task.assignedBy }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.assignedBy}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <UserOutlined />
+                    <Text strong>Employee ID:</Text>
+                    <Tooltip title={task.employeeId}>
+                      <Text copyable={{ text: task.employeeId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.employeeId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                {/* Fourth row */}
+                <Col span={24}>
+                  <Space>
+                    <AppstoreOutlined />
+                    <Text strong>Feature ID:</Text>
+                    <Tooltip title={task.featureId}>
+                      <Text copyable={{ text: task.featureId }} style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.featureId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+              </Row>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Empty 
+          description={<Text strong>No tasks yet!</Text>} 
+          style={{ padding: '40px 0' }}
+        />
+      )}
+    </Card>
+{/* Task section */}
           </div>
         </Spin>
       </PageContent>
     </>
   );
 };
+
 
 export default UserDetails;
