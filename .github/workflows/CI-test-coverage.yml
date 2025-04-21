@@ -5,12 +5,10 @@ on:
     branches:
       - main
       - test1
-      - test2
   pull_request:
     branches:
       - main  
       - test1
-      - test2
       
 jobs:
   build-and-analyze:
