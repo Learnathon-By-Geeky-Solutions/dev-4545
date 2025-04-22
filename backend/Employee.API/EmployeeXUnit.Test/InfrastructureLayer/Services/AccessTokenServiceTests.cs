@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Moq;
 using Xunit;
 
-namespace Employee.Infrastructure.Tests.Services
+namespace EmployeeXUnit.Test.InfrastructureLayer.Services
 {
     public class AccessTokenServiceTests
     {
