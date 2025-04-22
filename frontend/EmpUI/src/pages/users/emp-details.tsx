@@ -34,7 +34,7 @@ const EmployeeDetails = () => {
   const { performance } = usePerformance(empId);
    const { tasks } = useEmpTasks(empId);
    const { features } = useEmpFeatures(empId);
-  // const { projects }= useEmpProjects(empId);
+   const { projects }= useEmpProjects(empId);
 
   
   const { Title, Text, Paragraph } = Typography;
@@ -469,6 +469,69 @@ const EmployeeDetails = () => {
         />
       )}
     </Card>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Title level={2}>Projects</Title>
+      
+      {projects && projects.length > 0 ? (
+        projects.map(project => (
+          <Badge.Ribbon 
+            key={project.projectId}
+            text={isProjectActive(project.endDate) ? "Active" : "Completed"} 
+            color={isProjectActive(project.endDate) ? "green" : "blue"}
+          >
+            <Card
+              hoverable
+              style={{ width: '100%' }}
+              actions={[
+                <Tooltip title="Edit Project">
+                  <EditOutlined key="edit" />
+                </Tooltip>,
+                <Tooltip title="Delete Project">
+                  <DeleteOutlined key="delete" onClick={() => handleDelete(project.projectId)} />
+                </Tooltip>
+              ]}
+            >
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <div>
+                  <Title level={4}>{project.projectName}</Title>
+                  <Text type="secondary">{project.projectId}</Text>
+                </div>
+                
+                <Space>
+                  <Tag icon={<UserOutlined />} color="blue">
+                    {project.client}
+                  </Tag>
+                  <Tag icon={<CalendarOutlined />} color="green">
+                    {calculateDuration(project.startDate, project.endDate)} months
+                  </Tag>
+                </Space>
+                
+                <Paragraph>
+                  <InfoCircleOutlined /> {project.description}
+                </Paragraph>
+                
+                <Divider style={{ margin: '12px 0' }} />
+                
+                <Space size="large">
+                  <div>
+                    <Text type="secondary">Start Date</Text>
+                    <div>{formatDate(project.startDate)}</div>
+                  </div>
+                  <div>
+                    <Text type="secondary">End Date</Text>
+                    <div>{formatDate(project.endDate)}</div>
+                  </div>
+                </Space>
+              </Space>
+            </Card>
+          </Badge.Ribbon>
+        ))
+      ) : (
+        <Card>
+          <Text>No projects available</Text>
+        </Card>
+      )}
+    </Space>
       
           </div>
         </Spin>
