@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController(ISender sender) : ControllerBase
@@ -16,8 +16,6 @@ namespace Employee.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
-            
-            
             var result = await sender.Send(new GetEmployeeQuery());
             return Ok(result);
         }
@@ -38,7 +36,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SE")]
         [HttpPut]
         public async Task<IActionResult> UpdateEmployee(Guid Id, EmployeeEntity employee)
         {
