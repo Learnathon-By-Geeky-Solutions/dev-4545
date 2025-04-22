@@ -108,6 +108,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Act
             var result = await _controller.UpdateSalaryByEmpId(employeeId, salary);
 
+
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             okResult.Value.Should().BeEquivalentTo(salary);
