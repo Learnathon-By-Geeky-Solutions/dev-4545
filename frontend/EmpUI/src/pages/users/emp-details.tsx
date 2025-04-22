@@ -32,13 +32,10 @@ const EmployeeDetails = () => {
   const { isLoading, user: employeeDetails } = useUser(empId);
   const [showPerformanceForm, setShowPerformanceForm] = useState(false);
   const { performance } = usePerformance(empId);
-  // const { tasks } = useEmpTasks(empId);
+   const { tasks } = useEmpTasks(empId);
   // const { features } = useEmpFeatures(empId);
   // const { projects }= useEmpProjects(empId);
 
-  const handleEditPerformance = () => {
-    setShowPerformanceForm(true);
-  };
   
   const { Title, Text, Paragraph } = Typography;
   
@@ -155,11 +152,7 @@ const EmployeeDetails = () => {
              {performance && !showPerformanceForm ? (
               <Card
                 title="Performance Review"
-                extra={
-                  <Button type="primary" onClick={handleEditPerformance}>
-                    Edit Performance
-                  </Button>
-                }
+               
               >
                 <Row gutter={24}>
                   <Col span={24}>
@@ -218,6 +211,136 @@ const EmployeeDetails = () => {
                 isEditMode={true}
               />
             ) : null}
+            {/* Task section */}
+            <Card
+      title={
+        <Title level={4} style={{ margin: 0 }}>Assigned Tasks</Title>
+      }
+      style={{ marginTop: 24 }}
+      loading={isLoading}
+      bordered
+    >
+      {tasks && tasks.length > 0 ? (
+        <div className="task-list">
+          {tasks.map((task,index) => (
+            <Card
+              key={task.taskId}
+              type="inner"
+              style={{ marginBottom: 16 }}
+              title={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Space>
+                    <Badge status={getStatusBadgeStatus(task.status)} />
+                    <Text strong>{"Task No:"|| "No Description"}</Text>{index+1} 
+                  </Space>
+                  <Tag color={getStatusColor(task.status)}>
+                    {task.status === "string" ? "Not Set" : task.status}
+                  </Tag>
+                </div>
+              }
+            >
+              <Row gutter={[16, 16]}>
+                {/* First row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <IdcardOutlined />
+                    <Text strong>Task ID:</Text>
+                    <Tooltip title={task.taskId}>
+                      <Text copyable={{ text: task.taskId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.taskId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <TagOutlined />
+                    <Text strong>Description:</Text>
+                    <Text>{task.description || "No Description"}</Text>
+                  </Space>
+                </Col>
+                
+                {/* Second row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text strong>Assigned Date:</Text>
+                    <Text>{new Date(task.assignedDate).toLocaleDateString()}</Text>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text strong>Due Date:</Text>
+                    <Text
+                      type={isOverdue(task.dueDate) ? "danger" : null}
+                    >
+                      {new Date(task.dueDate).toLocaleDateString()}
+                      {isOverdue(task.dueDate) && (
+                        <Tag color="red" style={{ marginLeft: 8 }}>Overdue</Tag>
+                      )}
+                    </Text>
+                  </Space>
+                </Col>
+                
+                <Divider style={{ margin: '8px 0' }} />
+                
+                {/* Third row */}
+                <Col xs={24} md={12}>
+                  <Space>
+                    <TeamOutlined />
+                    <Text strong>Assigned By:</Text>
+                    <Tooltip title={task.assignedBy}>
+                      <Text copyable={{ text: task.assignedBy }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.assignedBy}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                <Col xs={24} md={12}>
+                  <Space>
+                    <UserOutlined />
+                    <Text strong>Employee ID:</Text>
+                    <Tooltip title={task.employeeId}>
+                      <Text copyable={{ text: task.employeeId }} style={{ maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.employeeId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+                
+                {/* Fourth row */}
+                <Col span={24}>
+                  <Space>
+                    <AppstoreOutlined />
+                    <Text strong>Feature ID:</Text>
+                    <Tooltip title={task.featureId}>
+                      <Text copyable={{ text: task.featureId }} style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', display: 'inline-block' }}>
+                        {task.featureId}
+                      </Text>
+                    </Tooltip>
+                  </Space>
+                </Col>
+              </Row>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <Empty 
+          description={<Text strong>No tasks yet!</Text>} 
+          style={{ padding: '40px 0' }}
+        />
+      )}
+    </Card>
       
           </div>
         </Spin>
