@@ -11,6 +11,7 @@ namespace Employee.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PerformancesController(ISender sender) : ControllerBase
     {
         [Authorize(Roles = "Admin")]
