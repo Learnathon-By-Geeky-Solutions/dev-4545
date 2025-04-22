@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    // development
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["frontend/EmpUI/src/*"],
+      "@assets/*": ["frontend/EmpUI/src/assets/*"],
+      "@components/*": ["frontend/EmpUI/src/components/*"],
+      "@features/*": ["frontend/EmpUI/src/features/*"],
+      "@hooks/*": ["frontend/EmpUI/src/hooks/*"],
+      "@layouts/*": ["frontend/EmpUI/src/layouts/*"],
+      "@models/*": ["frontend/EmpUI/src/models/*"],
+      "@pages/*": ["frontend/EmpUI/src/pages/*"],
+      "@reducers/*": ["frontend/EmpUI/src/reducers/*"],
+      "@services/*": ["frontend/EmpUI/src/services/*"],
+      "@contexts/*": ["frontend/EmpUI/src/contexts/*"],
+      "@utils/*": ["frontend/EmpUI/src/utils/*"],
+    },
+
+    /* Bundler mode */
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": ["frontend/EmpUI/src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
