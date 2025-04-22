@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FeaturesController(ISender sender) : ControllerBase
     {
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllFeatures()
         {
             var result = await sender.Send(new GetAllFeaturesQuery());
@@ -29,6 +30,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddFeatureAsync([FromBody] FeatureEntity Feature)
         {
             var result = await sender.Send(new AddFeatureCommand(Feature));
@@ -36,6 +38,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> UpdateFeature(Guid Id, FeatureEntity Feature)
         {
             var result = await sender.Send(new UpdateFeatureCommand(Id, Feature));
@@ -43,6 +46,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFeature(Guid Id)
         {
             var result = await sender.Send(new DeleteFeatureCommand(Id));

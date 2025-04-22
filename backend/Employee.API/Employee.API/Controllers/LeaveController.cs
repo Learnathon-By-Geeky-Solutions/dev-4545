@@ -2,6 +2,7 @@
 using Employee.Application.Queries.Leave;
 using Employee.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,15 +10,18 @@ namespace Employee.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LeaveController(ISender sender) : ControllerBase
     {
         [HttpPost]
+        [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> InsertLeave(LeaveEntity Leave)
         {
             var result = await sender.Send(new AddLeaveCommand(Leave));
             return Ok(result);
 
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetLeaves()
         {
@@ -25,6 +29,7 @@ namespace Employee.API.Controllers
             return Ok(result);
 
         }
+        [Authorize(Roles = "Admin,SE")]
         [HttpGet("GetLeaveByEmployeeId")]
         public async Task<IActionResult> GetLeaveByEmpId(Guid EmployeeId)
         {
@@ -32,9 +37,9 @@ namespace Employee.API.Controllers
             return Ok(result);
 
         }
-
+        [Authorize(Roles = "Admin,SE")]
         [HttpPut]
-        public async Task<IActionResult> UpdateSalayByEmpId(Guid EmployeeId, LeaveEntity LeaveEntity)
+        public async Task<IActionResult> UpdateLeaveByEmpId(Guid EmployeeId, LeaveEntity LeaveEntity)
         {
             var result = await sender.Send(new UpdateLeaveCommand(EmployeeId, LeaveEntity));
             if (result == null)
@@ -44,6 +49,7 @@ namespace Employee.API.Controllers
             return Ok(result);
 
         }
+        [Authorize(Roles = "Admin,SE")]
         [HttpDelete]
         public async Task<IActionResult> DeleteLeaveByEmpId(Guid EmployeeId)
         {
