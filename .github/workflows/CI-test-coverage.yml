@@ -7,12 +7,14 @@ on:
       - test1
       - test2
       - deploy-backend
+      - backend-test
   pull_request:
     branches:
       - main  
       - test1
       - test2
       - deploy-backend
+      - backend-test
       
 jobs:
   build-and-analyze:
