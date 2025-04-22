@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectsController(ISender sender): ControllerBase
     {
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllProjects()
         {
             var result = await sender.Send(new GetAllProjectsQuery());
@@ -29,6 +30,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddProjectAsync([FromBody] ProjectEntity Project)
         {
             var result = await sender.Send(new AddProjectCommand(Project));
@@ -36,6 +38,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> UpdateProject(Guid Id, ProjectEntity Project)
         {
             var result = await sender.Send(new UpdateProjectCommand(Id, Project));
@@ -45,6 +48,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProject(Guid Id)
         {
             var result = await sender.Send(new DeleteProjectCommand(Id));
