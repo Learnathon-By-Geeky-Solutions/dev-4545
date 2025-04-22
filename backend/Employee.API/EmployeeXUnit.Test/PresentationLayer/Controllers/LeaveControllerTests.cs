@@ -67,7 +67,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             _mockSender.Setup(s => s.Send(It.IsAny<UpdateLeaveCommand>(), default))
                        .ReturnsAsync(updatedLeave);
 
-            var result = await _controller.UpdateSalayByEmpId(employeeId, updatedLeave);
+            var result = await _controller.UpdateLeaveByEmpId(employeeId, updatedLeave);
 
             result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeEquivalentTo(updatedLeave);
         }
