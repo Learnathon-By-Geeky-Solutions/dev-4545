@@ -104,7 +104,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Entity Not Found to Update.", badRequest.Value);
+            Assert.Equal("Entity not found to update.", badRequest.Value);
         }
 
         [Fact]
