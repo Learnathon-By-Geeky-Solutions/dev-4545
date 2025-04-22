@@ -1,0 +1,59 @@
+name: SonarCloud Analysis with dotnet-coverage
+
+on:
+  push:
+    branches:
+      - main
+      - test1
+      - test2
+      - deploy-backend
+  pull_request:
+    branches:
+      - main  
+      - test1
+      - test2
+      - deploy-backend
+      
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest  # Use ubuntu-latest for cross-platform compatibility
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Setup .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+          
+        
+      # 3. Install dotnet-coverage tool globally
+      - name: Install dotnet-coverage
+        run: dotnet tool install --global dotnet-coverage
+
+      # 4. Begin SonarCloud analysis
+      - name: SonarCloud Begin Analysis
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /k:"Learnathon-By-Geeky-Solutions_dev-4545" /o:"learnathon-by-geeky-solutions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.test.inclusions="backend/Employee.API/EmployeeXUnit.Test" /d:sonar.inclusions="backend/Employee.API/**" /d:sonar.exclusions="**/frontend/**,**/bin/**,**/obj/**,**/Migrations/**,**/*.cshtml,**/*.css,**/*.cshtml.cs" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="backend/Employee.API/EmployeeXUnit.Test/coverage.xml"
+
+      # 5. Build the solution
+      - name: Build solution
+        run: dotnet build --no-incremental backend/Employee.API
+        
+      - name: Set environment variable for directory
+        run: echo "PROJECT_DIR=backend/Employee.API/EmployeeXUnit.Test" >> $GITHUB_ENV
+
+      # 6. Collect test coverage with dotnet-coverage
+      - name: Collect coverage using dotnet-coverage
+        run: |
+          dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+        working-directory: ${{ env.PROJECT_DIR }}
+        
+
+      # 7. End SonarCloud analysis
+      - name: SonarCloud End Analysis
+        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
