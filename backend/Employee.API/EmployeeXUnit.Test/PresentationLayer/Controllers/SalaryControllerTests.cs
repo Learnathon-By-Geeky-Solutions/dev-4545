@@ -106,7 +106,8 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                        .ReturnsAsync(salary);
 
             // Act
-            var result = await _controller.UpdateSalayByEmpId(employeeId, salary);
+            var result = await _controller.UpdateSalaryByEmpId(employeeId, salary);
+
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -130,11 +131,11 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 
 
             // Act
-            var result = await _controller.UpdateSalayByEmpId(employeeId, salary);
+            var result = await _controller.UpdateSalaryByEmpId(employeeId, salary);
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            badRequestResult.Value.Should().Be("Entity Not Found to Update.");
+            badRequestResult.Value.Should().Be("Entity not found to update.");
         }
 
         [Fact]
