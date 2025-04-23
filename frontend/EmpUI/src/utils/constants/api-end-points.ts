@@ -16,8 +16,9 @@ const API_END_POINTS = {
   performance: "/Performances/EmployeeId",
   salaries: "/Salary",
   salary: "/Salary/GetSalaryByEmployeeId",
-  empTasks: "/Tasks/EmployeeId",
-  empFeatures:"/Features/EmployeeId"
+  empTasks: "/Tasks",
+  empFeatures:"/Features/EmployeeId",
+  empProjects:"/Projects/EmployeeId"
 };
 
 export default API_END_POINTS;
