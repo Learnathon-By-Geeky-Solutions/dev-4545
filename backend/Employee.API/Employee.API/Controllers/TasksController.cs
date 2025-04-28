@@ -55,7 +55,7 @@ namespace Employee.API.Controllers
         public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskEntity taskEntity)
         {
             var forvalidation = await _sender.Send(new GetTaskByTaskIdQuery(id));
-            if (forvalidation != null)
+            if (forvalidation == null)
             {
                 return BadRequest("Entity Not Found.");
             }
