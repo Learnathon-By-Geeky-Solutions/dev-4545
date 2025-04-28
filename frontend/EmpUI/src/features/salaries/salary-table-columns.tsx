@@ -8,6 +8,7 @@ import {
   Typography,
   Card,
   Table,
+  Tooltip,
 } from "antd";
 import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { User } from "@models/user-model";
@@ -32,8 +33,7 @@ const SalaryActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       onClick: () => onDelete(salaryId),
     },
   ];
-  const columns: TableProps<User>["columns"] = [ 
-    
+  const columns: TableProps<User>["columns"] = [
     {
       title: "Salary Id",
       key: "salaryId",
@@ -65,9 +65,19 @@ const SalaryActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       title: "Employee Id",
       key: "employeeId",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
-          {record?.employeeId}
-        </Tag>
+        <Tooltip title={record.employeeId}>
+          <Text
+            copyable={{ text: record.employeeId }}
+            style={{
+              maxWidth: "150px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "inline-block",
+            }}
+          >
+            {record.employeeId}
+          </Text>
+        </Tooltip>
       ),
     },
 

@@ -37,7 +37,7 @@ const DefaultLayout = () => {
       <Layout>
         <Sidebar />
         <Layout className={"pl-64"}>
-          <Header />
+          {/* <Header /> */}
           <Content>
             <Outlet />
           </Content>
