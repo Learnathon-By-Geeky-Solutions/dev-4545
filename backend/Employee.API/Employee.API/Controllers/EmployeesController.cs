@@ -7,52 +7,64 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
     [ApiController]
-    public class EmployeesController(ISender sender) : ControllerBase
+    [Route("api/[controller]")]
+    [Authorize]                          // must at least be authenticated
+    public class EmployeesController(ISender sender, IAuthorizationService authz) : ControllerBase
     {
+        private readonly ISender _sender = sender;
+        private readonly IAuthorizationService _authz = authz;
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
-        {
-            var result = await sender.Send(new GetEmployeeQuery());
-            return Ok(result);
-        }
+            => Ok(await _sender.Send(new GetEmployeeQuery()));
 
         [Authorize(Roles = "Admin,SE")]
-        [HttpGet("employee")]
-        public async Task<IActionResult> GetEmployeeById(Guid Id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetEmployeeById(Guid id)
         {
-            var result = await sender.Send(new GetEmployeeByIdQuery(Id));
+            var authResult = await _authz.AuthorizeAsync(User, id, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
+            var result = await _sender.Send(new GetEmployeeByIdQuery(id));
             return Ok(result);
         }
 
+
+        // --- Admin only: add
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddEmployeeAsync([FromBody] EmployeeEntity employee)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeEntity e)
+            => Ok(await _sender.Send(new AddEmployeeCommand(e)));
+
+        // --- Admin or “own” employee: update
+        [Authorize(Roles = "Admin,SE")]
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateEmployee(Guid id, [FromBody] EmployeeEntity e)
         {
-            var result = await sender.Send(new AddEmployeeCommand(employee));
-            return Ok(result);
+            // policy check: will succeed for Admin OR if id == my employeeId claim
+            var authResult = await _authz.AuthorizeAsync(User, id, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
+
+            var updated = await _sender.Send(new UpdateEmployeeCommand(id, e));
+            return updated is null
+                ? NotFound()
+                : Ok(updated);
         }
 
+        // --- Admin or “own” employee: delete
         [Authorize(Roles = "Admin,SE")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateEmployee(Guid Id, EmployeeEntity employee)
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteEmployee(Guid id)
         {
-            var result = await sender.Send(new UpdateEmployeeCommand(Id,employee));
-            if (result == null)
-            {
-                return BadRequest("Not found the entity to update");
-            }
-            return Ok(result);
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteEmployee(Guid Id)
-        {
-            var result = await sender.Send(new DeleteEmployeeCommand(Id));
-            return Ok(result);
+            var authResult = await _authz.AuthorizeAsync(User, id, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
+
+            await _sender.Send(new DeleteEmployeeCommand(id));
+            return NoContent();
         }
     }
 }

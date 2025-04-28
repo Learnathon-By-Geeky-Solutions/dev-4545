@@ -23,9 +23,16 @@ namespace Employee.API.Controllers
         }
         [Authorize(Roles = "Admin,SE")]
         [HttpGet("EmployeeId")]
+        public async Task<IActionResult> GetProjectByEmployeeId(Guid EmployeeId)
+        {
+            var result = await sender.Send(new GetProjectByEmployeeIdQuery(EmployeeId));
+            return Ok(result);
+        }
+        [Authorize(Roles = "Admin,SE")]
+        [HttpGet("Id")]
         public async Task<IActionResult> GetProjectById(Guid EmployeeId)
         {
-            var result = await sender.Send(new GetProjectByIdQuery(EmployeeId));
+            var result = await sender.Send(new GetProjectByEmployeeIdQuery(EmployeeId));
             return Ok(result);
         }
 
