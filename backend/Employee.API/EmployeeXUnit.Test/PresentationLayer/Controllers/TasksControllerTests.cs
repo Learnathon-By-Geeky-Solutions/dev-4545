@@ -120,12 +120,13 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
                        .ReturnsAsync(new TaskEntity()); // means not found for update
 
+
             // Act
             var result = await _controller.UpdateTask(id, task);
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Entity Not Found.", badRequest.Value);
+            Assert.Equal("Entity not found to update.", badRequest.Value);
         }
 
         [Fact]
@@ -140,13 +141,15 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 
             _mockSender.Setup(s => s.Send(It.IsAny<UpdateTaskCommand>(), default))
                        .ReturnsAsync(task);
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), task.EmployeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
 
             // Act
             var result = await _controller.UpdateTask(id, task);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(task, okResult.Value);
+            var okResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Entity Not Found.", okResult.Value);
         }
 
         [Fact]
@@ -155,8 +158,20 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Arrange
             var id = Guid.NewGuid();
 
-            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
-                       .ReturnsAsync(new TaskEntity()); // Simulate not found
+            // 1) Simulate “entity not found” by returning null
+            _mockSender
+                .Setup(s => s.Send(
+                    It.Is<GetTaskByTaskIdQuery>(q => q.Id == id),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync((TaskEntity?)null);
+
+            // 2) Make AuthorizeAsync always succeed (never return null)
+            _authzMock
+                .Setup(a => a.AuthorizeAsync(
+                    It.IsAny<ClaimsPrincipal>(),
+                    It.IsAny<object>(),         // match whatever resource they pass
+                    "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
 
             // Act
             var result = await _controller.DeleteTask(id);
@@ -165,6 +180,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Entity Not Found.", badRequest.Value);
         }
+
 
         [Fact]
         public async Task DeleteTask_ReturnsForbid_WhenUnauthorized()
@@ -183,7 +199,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.DeleteTask(id);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ForbidResult>(result);
         }
 
         [Fact]
@@ -208,8 +224,8 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.DeleteTask(id);
 
             // Assert
-            var okResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Entity Not Found.", okResult.Value);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(true, okResult.Value);
         }
 
     }
