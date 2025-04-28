@@ -4,11 +4,11 @@ using MediatR;
 
 namespace Employee.Application.Commands.Task
 {
-    public record UpdateTaskCommand(Guid Id, TaskEntity TaskEntity) : IRequest<TaskEntity>;
+    public record UpdateTaskCommand(Guid Id, TaskEntity TaskEntity) : IRequest<TaskEntity?>;
     public class UpdateTaskCommandHandler(ITasksRepository taskRepository)
-        : IRequestHandler<UpdateTaskCommand, TaskEntity>
+        : IRequestHandler<UpdateTaskCommand, TaskEntity?>
     {
-        public async Task<TaskEntity> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
+        public async Task<TaskEntity?> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
         {
             return await taskRepository.UpdateTask(request.Id, request.TaskEntity);
         }
