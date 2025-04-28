@@ -12,8 +12,10 @@ namespace Employee.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class PerformancesController(ISender sender) : ControllerBase
+    public class PerformancesController(ISender sender, IAuthorizationService authz) : ControllerBase
     {
+        private readonly IAuthorizationService _authz = authz;
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllPerformances()
@@ -25,6 +27,9 @@ namespace Employee.API.Controllers
         [HttpGet("EmployeeId")]
         public async Task<IActionResult> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
+            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
             var result = await sender.Send(new GetPerformancesByIdQuery(EmployeeId));
             return Ok(result);
         }

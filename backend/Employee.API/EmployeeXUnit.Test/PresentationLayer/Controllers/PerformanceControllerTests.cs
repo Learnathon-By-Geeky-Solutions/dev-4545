@@ -4,20 +4,28 @@ using Employee.Application.Queries.Performance;
 using Employee.Core.Entities;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
     public class PerformanceControllerTests
     {
         private readonly Mock<ISender> _senderMock;
+        private readonly Mock<IAuthorizationService> _authzMock;
         private readonly PerformancesController _controller;
 
         public PerformanceControllerTests()
         {
             _senderMock = new Mock<ISender>();
-            _controller = new PerformancesController(_senderMock.Object);
+            _authzMock = new Mock<IAuthorizationService>();
+            _controller = new PerformancesController(_senderMock.Object, _authzMock.Object);
         }
 
         [Fact]
@@ -45,8 +53,14 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Arrange
             var performanceId = Guid.NewGuid();
             var performance = new PerformanceEntity { Id = performanceId, Rating = "Good" };
+
+            // Mock the necessary dependencies
             _senderMock.Setup(s => s.Send(It.Is<GetPerformancesByIdQuery>(q => q.EmployeeId == performanceId), default))
                        .ReturnsAsync(performance);
+
+            // Mock the authorization service to allow access
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), performanceId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
 
             // Act
             var result = await _controller.GetPerformancesByEmployeeId(performanceId);
@@ -54,6 +68,24 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             okResult.Value.Should().BeEquivalentTo(performance);
+        }
+
+
+        [Fact]
+        public async Task GetPerformanceById_ShouldReturnForbid_WhenUnauthorized()
+        {
+            // Arrange
+            var performanceId = Guid.NewGuid();
+
+            // Mock failure for authorization check
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), performanceId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Failed());
+
+            // Act
+            var result = await _controller.GetPerformancesByEmployeeId(performanceId);
+
+            // Assert
+            Assert.IsType<ForbidResult>(result);
         }
 
         [Fact]
@@ -96,8 +128,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var performanceId = Guid.NewGuid();
             var performance = new PerformanceEntity { Id = performanceId, Rating = "Non-Existent" };
             _senderMock.Setup(s => s.Send(It.IsAny<UpdatePerformanceCommand>(), default))
-                .ReturnsAsync((PerformanceEntity?)null!);
-
+                .ReturnsAsync((PerformanceEntity?)null);
 
             // Act
             var result = await _controller.UpdatePerformance(performanceId, performance);

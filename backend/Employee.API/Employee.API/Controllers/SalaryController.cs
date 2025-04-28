@@ -12,14 +12,10 @@ namespace Employee.API.Controllers
     [Authorize] // Require authenticated user for all actions by default
     [Route("api/[controller]")]
     [ApiController]
-    public class SalaryController : ControllerBase
+    public class SalaryController(ISender sender, IAuthorizationService authz) : ControllerBase
     {
-        private readonly ISender _sender;
-
-        public SalaryController(ISender sender)
-        {
-            _sender = sender;
-        }
+        private readonly ISender _sender = sender;
+        private readonly IAuthorizationService _authz = authz;
 
         // Only Admin can insert a salary
         [HttpPost]
@@ -42,9 +38,16 @@ namespace Employee.API.Controllers
         // Admin and SE can view salary by employee ID
         [HttpGet("{employeeId}")]
         [Authorize(Roles = "Admin,SE")]
-        public async Task<IActionResult> GetSalaryByEmpId(Guid employeeId)
+        public async Task<IActionResult> GetSalaryByEmpId(Guid EmployeeId)
         {
-            var result = await _sender.Send(new GetSalariesByEmployeeIdQuery(employeeId));
+            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
+            var result = await _sender.Send(new GetSalariesByEmployeeIdQuery(EmployeeId));
+            if (result == null)
+            {
+                return BadRequest("There is no salary updated for the employee."); 
+            }
             return Ok(result);
         }
 

@@ -1,14 +1,15 @@
 ﻿using Employee.API.Controllers;
 using Employee.Application.Commands.Feature;
 using Employee.Application.Queries.Feature;
+using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
 using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
@@ -16,23 +17,37 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
     public class FeaturesControllerTests
     {
         private readonly Mock<ISender> _mockSender;
+        private readonly Mock<IAuthorizationService> _authzMock;
         private readonly FeaturesController _controller;
 
         public FeaturesControllerTests()
         {
             _mockSender = new Mock<ISender>();
-            _controller = new FeaturesController(_mockSender.Object);
+            _authzMock = new Mock<IAuthorizationService>();
+            _controller = new FeaturesController(_mockSender.Object, _authzMock.Object);
+
+            // Setup dummy User for authorization
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, "Admin")
+            }, "mock"));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
         }
 
         [Fact]
-        public async Task GetAllFeatures_ShouldReturn_Ok_With_Features()
+        public async Task GetAllFeatures_ShouldReturn_Ok_With_FeatureList()
         {
             // Arrange
             var features = new List<FeatureEntity>
-        {
-            new FeatureEntity {FeatureId = Guid.NewGuid(), FeatureName = "Feature1"},
-            new FeatureEntity {FeatureId = Guid.NewGuid(), FeatureName = "Feature2"}
-        };
+            {
+                new FeatureEntity { FeatureId = Guid.NewGuid(), FeatureName = "Feature1" },
+                new FeatureEntity { FeatureId = Guid.NewGuid(), FeatureName = "Feature2" }
+            };
 
             _mockSender.Setup(s => s.Send(It.IsAny<GetAllFeaturesQuery>(), default))
                        .ReturnsAsync(features);
@@ -46,22 +61,17 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetFeaturesById_ShouldReturnOkWithFeatureList()
+        public async Task GetFeaturesById_ShouldReturn_Ok_When_Authorized()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
             var features = new List<FeatureEntity>
             {
-                new FeatureEntity
-                {
-                    FeatureId = Guid.NewGuid(),
-                    ProjectId = Guid.NewGuid(),
-                    FeatureName = "Dashboard",
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(5),
-                    Description = "Dashboard feature"
-                }
+                new FeatureEntity { FeatureId = Guid.NewGuid(), FeatureName = "FeatureA" }
             };
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
 
             _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.EmployeeId == employeeId), default))
                        .ReturnsAsync(features);
@@ -70,8 +80,24 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.GetFeaturesById(employeeId);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(features);
+            result.Should().BeOfType<OkObjectResult>()
+                  .Which.Value.Should().BeEquivalentTo(features);
+        }
+
+        [Fact]
+        public async Task GetFeaturesById_ShouldReturn_Forbid_When_Unauthorized()
+        {
+            // Arrange
+            var employeeId = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Failed());
+
+            // Act
+            var result = await _controller.GetFeaturesById(employeeId);
+
+            // Assert
+            result.Should().BeOfType<ForbidResult>();
         }
 
         [Fact]
@@ -92,25 +118,78 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task UpdateFeature_ShouldReturn_Ok_With_UpdatedFeature()
+        public async Task UpdateFeature_ShouldReturn_Ok_When_Authorized_And_Updated()
         {
             // Arrange
-            var featureId = Guid.NewGuid();
-            var updatedFeature = new FeatureEntity { FeatureId = featureId, FeatureName = "UpdatedFeature" };
+            var id = Guid.NewGuid();
+            var feature = new FeatureEntity { FeatureId = id, FeatureName = "UpdatedFeature" };
+            var taskEntity = new TaskEntity { EmployeeId = Guid.NewGuid() };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(taskEntity);
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), taskEntity.EmployeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
 
             _mockSender.Setup(s => s.Send(It.IsAny<UpdateFeatureCommand>(), default))
-                       .ReturnsAsync(updatedFeature);
+                       .ReturnsAsync(feature);
 
             // Act
-            var result = await _controller.UpdateFeature(featureId, updatedFeature);
+            var result = await _controller.UpdateFeature(id, feature);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>()
-                  .Which.Value.Should().BeEquivalentTo(updatedFeature);
+                  .Which.Value.Should().BeEquivalentTo(feature);
         }
 
         [Fact]
-        public async Task DeleteFeature_ShouldReturn_Ok_With_DeletedFeature()
+        public async Task UpdateFeature_ShouldReturn_BadRequest_When_EntityNotFound()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var feature = new FeatureEntity { FeatureId = id, FeatureName = "MissingFeature" };
+            var taskEntity = new TaskEntity { EmployeeId = Guid.NewGuid() };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(taskEntity);
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), taskEntity.EmployeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
+
+            _mockSender.Setup(s => s.Send(It.IsAny<UpdateFeatureCommand>(), default))
+                       .ReturnsAsync((FeatureEntity?)null);
+
+            // Act
+            var result = await _controller.UpdateFeature(id, feature);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>()
+                  .Which.Value.Should().Be("Entity Not Found.");
+        }
+
+        [Fact]
+        public async Task UpdateFeature_ShouldReturn_Forbid_When_Unauthorized()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var feature = new FeatureEntity { FeatureId = id, FeatureName = "UnauthorizedFeature" };
+            var taskEntity = new TaskEntity { EmployeeId = Guid.NewGuid() };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(taskEntity);
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), taskEntity.EmployeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Failed());
+
+            // Act
+            var result = await _controller.UpdateFeature(id, feature);
+
+            // Assert
+            result.Should().BeOfType<ForbidResult>();
+        }
+
+        [Fact]
+        public async Task DeleteFeature_ShouldReturn_Ok_When_Deleted()
         {
             // Arrange
             var featureId = Guid.NewGuid();
@@ -123,7 +202,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.DeleteFeature(featureId);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result);
+            result.Should().BeOfType<OkObjectResult>();
         }
     }
 }
