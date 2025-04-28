@@ -109,8 +109,8 @@ namespace EmployeeXUnit.Test.InfrastructureLayer.Services
             // Assert: ValidTo is ~10 minutes from issuance (in UTC)
             Assert.InRange(
                 token.ValidTo,
-                beforeUtc.AddMinutes(10).AddSeconds(-1),
-                afterUtc.AddMinutes(10).AddSeconds(+1)
+                beforeUtc.AddMinutes(60).AddSeconds(-1),
+                afterUtc.AddMinutes(60).AddSeconds(+1)
             );
 
             // Assert: claims

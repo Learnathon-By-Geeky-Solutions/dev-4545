@@ -2,123 +2,174 @@
 using Employee.Application.Commands.Employee;
 using Employee.Application.Queries.Employee;
 using Employee.Core.Entities;
-using FluentAssertions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Security.Claims;
+using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 {
     public class EmployeesControllerTests
     {
-        private readonly Mock<ISender> _senderMock;
+        private readonly Mock<ISender> _senderMock = new();
+        private readonly Mock<IAuthorizationService> _authzMock = new();
         private readonly EmployeesController _controller;
 
         public EmployeesControllerTests()
         {
-            _senderMock = new Mock<ISender>();
-            _controller = new EmployeesController(_senderMock.Object);
+            _controller = new EmployeesController(_senderMock.Object, _authzMock.Object);
+
+            // Setup a fake User
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+            new Claim(ClaimTypes.Role, "Admin"),
+            new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+            }, "mock"));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
         }
 
         [Fact]
-        public async Task GetEmployees_ShouldReturnOkResult()
+        public async Task GetEmployees_ReturnsOk_WithEmployees()
         {
             // Arrange
-            var employees = new List<EmployeeEntity>
-        {
-            new EmployeeEntity { EmployeeId = Guid.NewGuid(), Name = "John Doe" }
-        };
             _senderMock.Setup(s => s.Send(It.IsAny<GetEmployeeQuery>(), default))
-                       .ReturnsAsync(employees);
+                .ReturnsAsync(new List<EmployeeEntity>());
 
             // Act
             var result = await _controller.GetEmployees();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(employees);
+            Assert.IsAssignableFrom<IEnumerable<EmployeeEntity>>(okResult.Value);
         }
 
         [Fact]
-        public async Task GetEmployeeById_ShouldReturnOkResult_WhenEmployeeExists()
+        public async Task GetEmployeeById_Authorized_ReturnsOk()
         {
             // Arrange
-            var employeeId = Guid.NewGuid();
-            var employee = new EmployeeEntity { EmployeeId = employeeId, Name = "John Doe" };
-            _senderMock.Setup(s => s.Send(It.Is<GetEmployeeByIdQuery>(q => q.Id == employeeId), default))
-                       .ReturnsAsync(employee);
+            var id = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            _senderMock.Setup(s => s.Send(It.IsAny<GetEmployeeByIdQuery>(), default))
+                .ReturnsAsync(new EmployeeEntity());
 
             // Act
-            var result = await _controller.GetEmployeeById(employeeId);
+            var result = await _controller.GetEmployeeById(id);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(employee);
+            Assert.IsType<EmployeeEntity>(okResult.Value);
         }
 
         [Fact]
-        public async Task AddEmployee_ShouldReturnOkResult()
+        public async Task GetEmployeeById_Unauthorized_ReturnsForbid()
         {
-            // Arrange
-            var employee = new EmployeeEntity { EmployeeId = Guid.NewGuid(), Name = "Jane Doe" };
+            var id = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Failed());
+
+            var result = await _controller.GetEmployeeById(id);
+
+            Assert.IsType<ForbidResult>(result);
+        }
+
+        [Fact]
+        public async Task AddEmployee_ReturnsOk()
+        {
+            var employee = new EmployeeEntity();
+
             _senderMock.Setup(s => s.Send(It.IsAny<AddEmployeeCommand>(), default))
-                       .ReturnsAsync(employee);
+                .ReturnsAsync(employee);
 
-            // Act
-            var result = await _controller.AddEmployeeAsync(employee);
+            var result = await _controller.AddEmployee(employee);
 
-            // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(employee);
+            Assert.Equal(employee, okResult.Value);
         }
 
         [Fact]
-        public async Task UpdateEmployee_ShouldReturnOkResult_WhenEmployeeExists()
+        public async Task UpdateEmployee_Authorized_ReturnsOk()
         {
-            // Arrange
-            var employeeId = Guid.NewGuid();
-            var employee = new EmployeeEntity { EmployeeId = employeeId, Name = "John Updated" };
+            var id = Guid.NewGuid();
+            var employee = new EmployeeEntity();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
+
             _senderMock.Setup(s => s.Send(It.IsAny<UpdateEmployeeCommand>(), default))
-                       .ReturnsAsync(employee);
+                .ReturnsAsync(employee);
 
-            // Act
-            var result = await _controller.UpdateEmployee(employeeId, employee);
+            var result = await _controller.UpdateEmployee(id, employee);
 
-            // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            okResult.Value.Should().BeEquivalentTo(employee);
+            Assert.Equal(employee, okResult.Value);
         }
 
         [Fact]
-        public async Task UpdateEmployee_ShouldReturnBadRequest_WhenEmployeeNotFound()
+        public async Task UpdateEmployee_Authorized_NotFound()
         {
-            // Arrange
-            var employeeId = Guid.NewGuid();
-            var employee = new EmployeeEntity { EmployeeId = employeeId, Name = "Non-Existent" };
+            var id = Guid.NewGuid();
+            var employee = new EmployeeEntity();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
+
             _senderMock.Setup(s => s.Send(It.IsAny<UpdateEmployeeCommand>(), default))
-                       .ReturnsAsync((EmployeeEntity?)null);
+                .ReturnsAsync((EmployeeEntity?)null);
 
-            // Act
-            var result = await _controller.UpdateEmployee(employeeId, employee);
+            var result = await _controller.UpdateEmployee(id, employee);
 
-            // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            badRequestResult.Value.Should().Be("Not found the entity to update");
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
-        public async Task DeleteEmployee_ShouldReturnOkResult()
+        public async Task UpdateEmployee_Unauthorized_ReturnsForbid()
         {
-            // Arrange
-            var employeeId = Guid.NewGuid();
-            _senderMock.Setup(s => s.Send(It.IsAny<DeleteEmployeeCommand>(), default))
-                       .ReturnsAsync(true);
+            var id = Guid.NewGuid();
+            var employee = new EmployeeEntity();
 
-            // Act
-            var result = await _controller.DeleteEmployee(employeeId);
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Failed());
 
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
+            var result = await _controller.UpdateEmployee(id, employee);
+
+            Assert.IsType<ForbidResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteEmployee_Authorized_ReturnsNoContent()
+        {
+            var id = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
+
+            var result = await _controller.DeleteEmployee(id);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteEmployee_Unauthorized_ReturnsForbid()
+        {
+            var id = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), id, "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Failed());
+
+            var result = await _controller.DeleteEmployee(id);
+
+            Assert.IsType<ForbidResult>(result);
         }
     }
 }

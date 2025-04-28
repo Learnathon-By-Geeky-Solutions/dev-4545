@@ -6,6 +6,7 @@ namespace Employee.Core.Interfaces
     {
         Task<IEnumerable<TaskEntity>> GetAllTasks();
         Task<IEnumerable<TaskEntity>> GetTaskByEmployeeIdAsync(Guid EmployeeId);
+        Task<TaskEntity?> GetTaskByTaskId(Guid Id);
         Task<TaskEntity> AddTaskAsync(TaskEntity taskEntity);
         Task<TaskEntity?> UpdateTask(Guid id, TaskEntity taskEntity);
         Task<bool> DeleteTask(Guid id);
