@@ -11,7 +11,7 @@ const UserDetails = () => {
         <Row gutter={24}>
           <Col span={8}>
             <Form.Item label="Name">
-              <Input value={user.name} disabled />
+              <Input value={user.name} />
             </Form.Item>
           </Col>
           <Col span={8}>

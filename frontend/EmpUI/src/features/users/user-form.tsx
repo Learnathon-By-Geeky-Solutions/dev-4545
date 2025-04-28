@@ -23,7 +23,11 @@ const USER_ROLES = [
   },
 ];
 
-const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
+const UserForm = ({
+  initialValues,
+  isEditMode = false,
+  userId = null,
+}: UserFormProps) => {
   const [form] = Form.useForm();
 
   const { onSaved, isLoading } = useUserForm();
@@ -50,7 +54,8 @@ const UserForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
 
     const userData = _.omit(values, "confirm_password");
     console.log(userData);
-    onSaved(userData);
+
+    onSaved(userData, isEditMode, userId);
   };
 
   return (

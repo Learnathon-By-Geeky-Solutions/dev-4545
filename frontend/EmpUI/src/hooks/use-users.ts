@@ -63,9 +63,11 @@ export const useUserForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (user: User) => {
+  const onSaved = (user: User, isEditMode: boolean, userId: string) => {
     userSaved({
       ...user,
+      isEditMode,
+      userId,
     });
   };
 

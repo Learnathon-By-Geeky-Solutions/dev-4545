@@ -9,7 +9,7 @@ export const userService = baseService.injectEndpoints({
         // url: employeeId
         //   ? `${API_END_POINTS.employee}?Id=${employeeId}`
         //   : API_END_POINTS.employee,
-        url: `${API_END_POINTS.employees}/${employeeId}`,
+        url: API_END_POINTS.employee + `/${employeeId}`,
         method: "GET",
       }),
       providesTags: ["user"],
@@ -24,17 +24,26 @@ export const userService = baseService.injectEndpoints({
     }),
     user: builder.query<User, string>({
       query: (employeeId) => ({
-        url: `${API_END_POINTS.employees}/${employeeId}`,
+        url: API_END_POINTS.employee + `/${employeeId}`,
         method: "GET",
       }),
       providesTags: ["user"],
     }),
     userSaved: builder.mutation<User, User>({
       query: (user) => {
+        console.log("from user service", user);
+
+        const { isEditMode, userId, ...userData } = user;
+
+        const requestUrl = isEditMode
+          ? API_END_POINTS.employee + `/${userId}`
+          : API_END_POINTS.employees;
+        const requestMethod = isEditMode ? "PUT" : "POST";
         return {
-          url: API_END_POINTS.employees,
-          method: "POST",
-          body: user,
+          // url: API_END_POINTS.employees,
+          url: requestUrl,
+          method: requestMethod,
+          body: userData,
         };
       },
       invalidatesTags: ["users", "user"],
