@@ -1,4 +1,5 @@
-﻿using Employee.Application.Common.Interfaces;
+﻿using Employee.Application.Common.Authorization;
+using Employee.Application.Common.Interfaces;
 using Employee.Application.Interfaces;
 using Employee.Core.Interfaces;
 using Employee.Infrastructure.Data;
@@ -6,6 +7,7 @@ using Employee.Infrastructure.Repositories;
 using Employee.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Employee.Infrastructure
@@ -24,7 +26,18 @@ namespace Employee.Infrastructure
                 options.InstanceName = "MyApp:";
 
             });
-            
+            services.AddAuthorizationCore(options =>
+            {
+                options.AddPolicy("CanModifyOwnEmployee", policy =>
+                    policy.Requirements.Add(new OwnEmployeeRequirement()));
+            });
+
+
+            services.AddSingleton<IAuthorizationHandler, OwnEmployeeHandler>();
+
+            // Register your handler (from Application via DI)
+
+
             services.AddScoped<IAccessTokenService,AccessTokenService>();
             services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();

@@ -3,8 +3,12 @@ using Employee.Application.Commands.Task;
 using Employee.Application.Queries.Task;
 using Employee.Core.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Security.Claims;
 using Xunit;
 
 namespace EmployeeXUnit.Test.PresentationLayer.Controllers
@@ -12,12 +16,26 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
     public class TasksControllerTests
     {
         private readonly Mock<ISender> _mockSender;
+        private readonly Mock<IAuthorizationService> _authzMock;
         private readonly TasksController _controller;
 
         public TasksControllerTests()
         {
             _mockSender = new Mock<ISender>();
-            _controller = new TasksController(_mockSender.Object);
+            _authzMock = new Mock<IAuthorizationService>();
+            _controller = new TasksController(_mockSender.Object, _authzMock.Object);
+
+            // Fake authenticated user
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, "Admin")
+            }, "mock"));
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = user }
+            };
         }
 
         [Fact]
@@ -37,15 +55,18 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetTaskById_ReturnsOkResult_WithTaskList()
+        public async Task GetTaskById_ReturnsOkResult_WhenAuthorized()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
             var tasks = new List<TaskEntity>
-        {
-            new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId },
-            new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
-        };
+            {
+                new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
+            };
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
+
             _mockSender.Setup(s => s.Send(It.Is<GetTaskByIdQuery>(q => q.Id == employeeId), default))
                        .ReturnsAsync(tasks);
 
@@ -55,6 +76,22 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(tasks, okResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTaskById_ReturnsForbid_WhenUnauthorized()
+        {
+            // Arrange
+            var employeeId = Guid.NewGuid();
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Failed());
+
+            // Act
+            var result = await _controller.GetTaskById(employeeId);
+
+            // Assert
+            Assert.IsType<ForbidResult>(result);
         }
 
         [Fact]
@@ -74,11 +111,33 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task UpdateTask_ReturnsOkResult_WhenEntityExists()
+        public async Task UpdateTask_ReturnsBadRequest_WhenEntityNotFoundInValidation()
         {
             // Arrange
             var id = Guid.NewGuid();
             var task = new TaskEntity { TaskId = id };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(new TaskEntity()); // means not found for update
+
+            // Act
+            var result = await _controller.UpdateTask(id, task);
+
+            // Assert
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Entity Not Found.", badRequest.Value);
+        }
+
+        [Fact]
+        public async Task UpdateTask_ReturnsOkResult_WhenEntityUpdated()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var task = new TaskEntity { TaskId = id };
+
+            _mockSender.SetupSequence(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync((TaskEntity?)null); // Validation passes
+
             _mockSender.Setup(s => s.Send(It.IsAny<UpdateTaskCommand>(), default))
                        .ReturnsAsync(task);
 
@@ -91,37 +150,67 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task UpdateTask_ReturnsBadRequest_WhenEntityNotFound()
+        public async Task DeleteTask_ReturnsBadRequest_WhenEntityNotFoundInValidation()
         {
             // Arrange
             var id = Guid.NewGuid();
-            var task = new TaskEntity { TaskId = id };
-            _mockSender.Setup(s => s.Send(It.IsAny<UpdateTaskCommand>(), default))
-                       .ReturnsAsync((TaskEntity?)null);
 
-            // Act
-            var result = await _controller.UpdateTask(id, task);
-
-            // Assert
-            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Entity not found to update.", badRequest.Value);
-        }
-
-        [Fact]
-        public async Task DeleteTask_ReturnsOkResult()
-        {
-            // Arrange
-            var id = Guid.NewGuid();
-            var response = true;
-            _mockSender.Setup(s => s.Send(It.IsAny<DeleteTaskCommand>(), default))
-                       .ReturnsAsync(response);
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(new TaskEntity()); // Simulate not found
 
             // Act
             var result = await _controller.DeleteTask(id);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(response, okResult.Value);
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Entity Not Found.", badRequest.Value);
         }
+
+        [Fact]
+        public async Task DeleteTask_ReturnsForbid_WhenUnauthorized()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var taskEntity = new TaskEntity { TaskId = id, EmployeeId = Guid.NewGuid() };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(taskEntity);
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), taskEntity.EmployeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Failed());
+
+            // Act
+            var result = await _controller.DeleteTask(id);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+       
+        public async Task DeleteTask_ReturnsOkResult_WhenAuthorized()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var employeeId = Guid.NewGuid();
+            var taskEntity = new TaskEntity { TaskId = id, EmployeeId = employeeId };
+
+            _mockSender.Setup(s => s.Send(It.IsAny<GetTaskByTaskIdQuery>(), default))
+                       .ReturnsAsync(taskEntity); // should return a valid taskEntity, not null
+
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
+
+            _mockSender.Setup(s => s.Send(It.IsAny<DeleteTaskCommand>(), default))
+                       .ReturnsAsync(true);
+
+            // Act
+            var result = await _controller.DeleteTask(id);
+
+            // Assert
+            var okResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Entity Not Found.", okResult.Value);
+        }
+
     }
 }

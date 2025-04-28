@@ -12,14 +12,12 @@ namespace Employee.API.Controllers
     [Authorize] // Require authenticated user for all actions by default
     [Route("api/[controller]")]
     [ApiController]
-    public class TasksController : ControllerBase
+    public class TasksController(ISender sender, IAuthorizationService authz) : ControllerBase
     {
-        private readonly ISender _sender;
+        private readonly ISender _sender=sender;
+        private readonly IAuthorizationService _authz = authz;
 
-        public TasksController(ISender sender)
-        {
-            _sender = sender;
-        }
+
 
         // Admin and SE can view all tasks
         [HttpGet]
@@ -33,9 +31,12 @@ namespace Employee.API.Controllers
         // Admin and SE can view a specific task by employee ID
         [HttpGet("{employeeId}")]
         [Authorize(Roles = "Admin,SE")]
-        public async Task<IActionResult> GetTaskById(Guid employeeId)
+        public async Task<IActionResult> GetTaskById(Guid EmployeeId)
         {
-            var result = await _sender.Send(new GetTaskByIdQuery(employeeId));
+            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
+            var result = await _sender.Send(new GetTaskByIdQuery(EmployeeId));
             return Ok(result);
         }
 
@@ -53,6 +54,11 @@ namespace Employee.API.Controllers
         [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> UpdateTask(Guid id, [FromBody] TaskEntity taskEntity)
         {
+            var forvalidation = await _sender.Send(new GetTaskByTaskIdQuery(id));
+            if (forvalidation != null)
+            {
+                return BadRequest("Entity Not Found.");
+            }
             var result = await _sender.Send(new UpdateTaskCommand(id, taskEntity));
             return result != null ? Ok(result) : BadRequest("Entity not found to update.");
         }
@@ -62,6 +68,14 @@ namespace Employee.API.Controllers
         [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> DeleteTask(Guid id)
         {
+            var forvalidation = await _sender.Send(new GetTaskByTaskIdQuery(id));
+            if(forvalidation != null)
+            {
+                return BadRequest("Entity Not Found.");
+            }
+            var authResult = await _authz.AuthorizeAsync(User, forvalidation!.EmployeeId, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
             var result = await _sender.Send(new DeleteTaskCommand(id));
             return Ok(result);
         }

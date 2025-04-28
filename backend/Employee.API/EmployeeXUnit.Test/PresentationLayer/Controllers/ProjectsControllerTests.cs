@@ -66,7 +66,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
     };
 
-            _senderMock.Setup(s => s.Send(It.Is<GetProjectByIdQuery>(q => q.EmployeeId == employeeId), default))
+            _senderMock.Setup(s => s.Send(It.Is<GetProjectByEmployeeIdQuery>(q => q.EmployeeId == employeeId), default))
                        .ReturnsAsync(projects);
 
             // Act
