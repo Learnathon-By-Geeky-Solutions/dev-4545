@@ -8,6 +8,7 @@ import {
   Typography,
   Card,
   Table,
+  Tooltip,
 } from "antd";
 import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { Leave } from "@models/leave-model";
@@ -44,7 +45,21 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       sorter: true,
       key: "employeeName",
       render: (_, record) => {
-        return <Text>{record?.employeeId}</Text>;
+        return (
+          <Tooltip title={record.employeeId}>
+            <Text
+              copyable={{ text: record.employeeId }}
+              style={{
+                maxWidth: "150px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "inline-block",
+              }}
+            >
+              {record.employeeId}
+            </Text>
+          </Tooltip>
+        );
       },
     },
     {

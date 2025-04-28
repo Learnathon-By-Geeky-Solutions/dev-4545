@@ -1,9 +1,10 @@
-import { Card, Col, Form, Input, Row, Tag } from 'antd';
-import { useAppSelector } from '@/store';
+import { Card, Col, Form, Input, Row, Tag } from "antd";
+import { useAppSelector } from "@/store";
 
 const UserDetails = () => {
   const user = useAppSelector((state) => state.user);
-  
+  console.log("settings page ", user);
+
   return (
     <Card title="Information">
       <Form layout="vertical">
@@ -22,7 +23,9 @@ const UserDetails = () => {
         <Row gutter={24}>
           <Col span={8}>
             <Form.Item label="Stack">
-              <Tag key='stack' color="geekblue">{user.stack}</Tag>
+              <Tag key="stack" color="geekblue">
+                {user.stack}
+              </Tag>
             </Form.Item>
           </Col>
         </Row>
