@@ -28,6 +28,13 @@ export const leaveService = baseService.injectEndpoints({
       },
       invalidatesTags: ["leaves", "leave"],
     }),
+    empLeave: builder.query<User, string>({
+      query: (empId) => ({
+        url:  API_END_POINTS.leave + `?EmployeeId=${empId}`,
+        method: "GET",
+      }),
+      providesTags: ["employee-leave"],
+    }),
     deleteLeave: builder.mutation<void, number>({
       query: (leaveId) => ({
         url: `${API_END_POINTS.leaves}?Id=${leaveId}`,
@@ -42,5 +49,6 @@ export const {
   useLazyLeavesQuery,
   useLeaveSavedMutation,
   useLeaveQuery,
+  useEmpLeaveQuery,
   useDeleteLeaveMutation,
 } = leaveService;

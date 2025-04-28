@@ -9,7 +9,7 @@ export const userService = baseService.injectEndpoints({
         // url: employeeId
         //   ? `${API_END_POINTS.employee}?Id=${employeeId}`
         //   : API_END_POINTS.employee,
-        url: `${API_END_POINTS.employee}?Id=${employeeId}`,
+        url: `${API_END_POINTS.employees}/${employeeId}`,
         method: "GET",
       }),
       providesTags: ["user"],
@@ -24,7 +24,7 @@ export const userService = baseService.injectEndpoints({
     }),
     user: builder.query<User, string>({
       query: (employeeId) => ({
-        url: API_END_POINTS.employee + `?Id=${employeeId}`,
+        url: `${API_END_POINTS.employees}/${employeeId}`,
         method: "GET",
       }),
       providesTags: ["user"],

@@ -44,7 +44,11 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       sorter: true,
       key: "employeeName",
       render: (_, record) => {
-        return <Text>{record?.employeeId}</Text>;
+          return (
+            <Link to={`/users/details/${record.employeeId}`}>
+              <Text>{record?.employeeId}</Text>;
+            </Link>
+          );
       },
     },
     {
@@ -84,7 +88,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
 
         return (
           <Tag color={color} className="uppercase">
-            {record?.status}
+            {record?.status==0?"Pending":"Accepted"}
           </Tag>
         );
       },

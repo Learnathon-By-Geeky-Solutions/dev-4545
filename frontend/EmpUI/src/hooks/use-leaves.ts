@@ -8,6 +8,7 @@ import {
   useLazyLeavesQuery,
   useLeaveQuery,
   useLeaveSavedMutation,
+  useEmpLeaveQuery,
 } from "@services/leave-service";
 import { formatQueryParams } from "@utils/helpers";
 
@@ -78,6 +79,14 @@ export const useLeaveForm = () => {
 // Hook to fetch a single leave by ID
 export const useLeave = (leaveId: number) => {
   const { isLoading, data: leave } = useLeaveQuery(leaveId);
+
+  return {
+    isLoading,
+    leave,
+  };
+};
+export const useEmpLeave = (empId: string) => {
+  const { isLoading, data: leave } = useEmpLeaveQuery(empId);
 
   return {
     isLoading,

@@ -12,6 +12,7 @@ import Leaves from "@pages/Leaves";
 import Performances from "@pages/performances";
 import Salary from "@pages/salary";
 import EmployeeDetails from "@pages/users/emp-details";
+import leave from "@pages/leave";
 
 const routes = [
   {
@@ -114,6 +115,14 @@ const routes = [
     path: "details",
     breadcrumb: "UserDetails",
     component: EmployeeDetails,
+    exact: true,
+    children: [],
+    roles: ["SE"], // Both roles can access
+  },
+  {
+    path: "leave",
+    breadcrumb: "Userleave",
+    component: leave,
     exact: true,
     children: [],
     roles: ["SE"], // Both roles can access
