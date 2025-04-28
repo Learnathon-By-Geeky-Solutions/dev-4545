@@ -36,4 +36,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApplicationLayer\Commands\Project\" />
+    <Folder Include="ApplicationLayer\Queries\Project\" />
+  </ItemGroup>
+
 </Project>

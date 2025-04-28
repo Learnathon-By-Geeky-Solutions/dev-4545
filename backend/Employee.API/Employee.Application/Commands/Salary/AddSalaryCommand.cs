@@ -6,14 +6,14 @@ using Microsoft.VisualBasic;
 
 namespace Employee.Application.Commands.Salary
 {
-    public record AddSalaryCommand(SalaryEntity salary) : IRequest<SalaryEntity>;
+    public record AddSalaryCommand(SalaryEntity Salary) : IRequest<SalaryEntity>;
 
     public class AddSalaryCommandHandler(ISalaryRepository salaryRepository)
         : IRequestHandler<AddSalaryCommand, SalaryEntity>
     {
         public async Task<SalaryEntity> Handle(AddSalaryCommand request, CancellationToken cancellationToken)
         {
-            return await salaryRepository.AddSalary(request.salary);
+            return await salaryRepository.AddSalary(request.Salary);
         }
     }
 }
