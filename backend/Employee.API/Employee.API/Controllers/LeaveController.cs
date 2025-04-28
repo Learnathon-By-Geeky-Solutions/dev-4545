@@ -3,7 +3,6 @@ using Employee.Application.Queries.Leave;
 using Employee.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee.API.Controllers
@@ -13,63 +12,59 @@ namespace Employee.API.Controllers
     [Authorize]
     public class LeaveController(ISender sender, IAuthorizationService authz) : ControllerBase
     {
+        private readonly ISender _sender = sender;
         private readonly IAuthorizationService _authz = authz;
+
+        private async Task<IActionResult> AuthorizeAndExecuteAsync(Guid employeeId, Func<Task<IActionResult>> action)
+        {
+            var authResult = await _authz.AuthorizeAsync(User, employeeId, "CanModifyOwnEmployee");
+            return authResult.Succeeded ? await action() : Forbid();
+        }
 
         [HttpPost]
         [Authorize(Roles = "Admin,SE")]
-        public async Task<IActionResult> InsertLeave(Guid EmployeeId,LeaveEntity Leave)
-        {
-            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
-            var result = await sender.Send(new AddLeaveCommand(Leave));
-            return Ok(result);
+        public Task<IActionResult> InsertLeave(Guid employeeId, LeaveEntity leave) =>
+            AuthorizeAndExecuteAsync(employeeId, async () =>
+            {
+                var result = await _sender.Send(new AddLeaveCommand(leave));
+                return Ok(result);
+            });
 
-        }
-        [Authorize(Roles = "Admin")]
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetLeaves()
         {
-            var result = await sender.Send(new GetLeaveQuery());
+            var result = await _sender.Send(new GetLeaveQuery());
             return Ok(result);
-
         }
-        [Authorize(Roles = "Admin,SE")]
+
         [HttpGet("GetLeaveByEmployeeId")]
-        public async Task<IActionResult> GetLeaveByEmpId(Guid EmployeeId)
-        {
-            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
-            var result = await sender.Send(new GetLeavesByEmployeeIdQuery(EmployeeId));
-            return Ok(result);
-
-        }
         [Authorize(Roles = "Admin,SE")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateLeaveByEmpId(Guid EmployeeId, LeaveEntity LeaveEntity)
-        {
-            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
-            var result = await sender.Send(new UpdateLeaveCommand(EmployeeId, LeaveEntity));
-            if (result == null)
+        public Task<IActionResult> GetLeaveByEmpId(Guid employeeId) =>
+            AuthorizeAndExecuteAsync(employeeId, async () =>
             {
-                return BadRequest("Not found the entity to update.");
-            }
-            return Ok(result);
+                var result = await _sender.Send(new GetLeavesByEmployeeIdQuery(employeeId));
+                return Ok(result);
+            });
 
-        }
+        [HttpPut]
         [Authorize(Roles = "Admin,SE")]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteLeaveByEmpId(Guid EmployeeId)
-        {
-            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
-            var result = await sender.Send(new DeleteLeaveByEmpIdCommand(EmployeeId));
-            return Ok(result);
+        public Task<IActionResult> UpdateLeaveByEmpId(Guid employeeId, LeaveEntity leaveEntity) =>
+            AuthorizeAndExecuteAsync(employeeId, async () =>
+            {
+                var result = await _sender.Send(new UpdateLeaveCommand(employeeId, leaveEntity));
+                return result == null
+                    ? BadRequest("Not found the entity to update.")
+                    : Ok(result);
+            });
 
-        }
+        [HttpDelete]
+        [Authorize(Roles = "Admin,SE")]
+        public Task<IActionResult> DeleteLeaveByEmpId(Guid employeeId) =>
+            AuthorizeAndExecuteAsync(employeeId, async () =>
+            {
+                var result = await _sender.Send(new DeleteLeaveByEmpIdCommand(employeeId));
+                return Ok(result);
+            });
     }
 }
