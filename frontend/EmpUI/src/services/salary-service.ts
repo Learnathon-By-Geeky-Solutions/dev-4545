@@ -40,8 +40,8 @@ export const salaryService = baseService.injectEndpoints({
       invalidatesTags: ["salaries", "salary"],
     }),
     deleteSalary: builder.mutation<void, number>({
-      query: (salaryId) => ({
-        url: `${API_END_POINTS.salaries}?Id=${taskId}`,
+      query: (employeeId) => ({
+        url: `${API_END_POINTS.salaries}/${employeeId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["salaries"], // This will auto-refresh the tasks list

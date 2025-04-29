@@ -10,27 +10,37 @@ import {
   Table,
   Tooltip,
 } from "antd";
-import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import { User } from "@models/user-model";
-import useFilter from "@hooks/utility-hooks/use-filter";
-import { columns } from "./task-table-columns";
-import { useTasks } from "@hooks/use-tasks";
 import { usePerformances } from "@hooks/use-performances";
+import { useDeletePerformanceMutation } from "@services/performance-service";
 
 const { Text } = Typography;
 
 const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
   const { isLoading, data } = usePerformances();
+  const [deletePerformance] = useDeletePerformanceMutation();
 
-  const getActions = (taskId: number): MenuProps["items"] => [
+  const delPerformance = async (performanceId: string) => {
+    console.log("Deleting:", performanceId);
+    try {
+      await deletePerformance(performanceId).unwrap();
+      console.log("Deleted:", performanceId);
+      // Refresh the task list
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getActions = (performanceId: string): MenuProps["items"] => [
     {
-      key: `delete-${taskId}`,
+      key: `delete-${performanceId}`,
       label: (
         <span>
           <DeleteOutlined /> Delete
         </span>
       ),
-      onClick: () => onDelete(taskId),
+      onClick: () => delPerformance(performanceId),
     },
   ];
   const columns: TableProps<User>["columns"] = [
@@ -40,7 +50,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       sorter: true,
       key: "reviewedBy",
       render: (_, record) => {
-         console.log("Full Record:", record);
+        console.log("Full Record:", record);
         return <Text>{record?.reviewerId}</Text>;
       },
     },
@@ -95,7 +105,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       width: 100,
       render: (_: unknown, record: DataType) => (
         <Dropdown
-          menu={{ items: getActions(record.taskId) }}
+          menu={{ items: getActions(record.id) }}
           overlayClassName="grid-action"
           trigger={["click"]}
         >
@@ -106,7 +116,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
   ];
 
   return (
-    <Card title={"Tasks"}>
+    <Card title={"Performances"}>
       <Table
         columns={columns}
         dataSource={data || []}
