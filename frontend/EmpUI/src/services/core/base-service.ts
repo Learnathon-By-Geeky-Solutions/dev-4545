@@ -16,6 +16,7 @@ const baseService = createApi({
     "performances",
     "performance",
     "salaries",
+    "Salaries",
     "salary",
     "employee-tasks",
     "employee-features",

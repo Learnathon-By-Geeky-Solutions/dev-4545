@@ -25,6 +25,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useSalaryByEmployeeIdQuery } from "../../services/salary-service";
 
 const EmployeeDetails = () => {
   const empId = localStorage.getItem("employeeId");
@@ -34,6 +35,7 @@ const EmployeeDetails = () => {
   const { tasks } = useEmpTasks(empId);
   const { features } = useEmpFeatures(empId);
   const { projects } = useEmpProjects(empId);
+  const { salary } = useSalaryByEmployeeIdQuery(empId);
 
   const { Title, Text, Paragraph } = Typography;
 
@@ -137,6 +139,12 @@ const EmployeeDetails = () => {
                         {employeeDetails?.stack}
                       </Tag>
                     </Form.Item>
+                    <Form.Item label="Stack">
+                      <Tag key="stack" color="geekblue">
+                        {salary?.amount}
+                      </Tag>
+                    </Form.Item>
+
                   </Col>
                 </Row>
                 <Row gutter={24}>
