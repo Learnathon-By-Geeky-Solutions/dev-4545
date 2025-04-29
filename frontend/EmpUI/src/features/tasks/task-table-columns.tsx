@@ -108,9 +108,20 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       title: "Feature Id",
       key: "featureId",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
-          {record?.featureId}
-        </Tag>
+        
+        <Tooltip title={record?.featureId}>
+        <Text
+          copyable={{ text: record.featureId }}
+          style={{
+            maxWidth: "150px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "inline-block",
+          }}
+        >
+          {record.featureId}
+        </Text>
+      </Tooltip>
       ),
     },
     {
