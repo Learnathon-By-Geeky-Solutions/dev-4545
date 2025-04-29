@@ -1,22 +1,20 @@
 import { useParams } from "react-router-dom";
 import { Spin } from "antd";
-import UserForm from "@features/users/user-form";
-import { useUser } from "@hooks/use-users";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
 import { useTask } from "@hooks/use-tasks";
+import TaskForm from "../../features/tasks/task-form";
 
 const TaskEdit = () => {
-  const params = useParams();
-  const taskId = Number(params.id);
+  const { id: taskId } = useParams();
   const { isLoading, task } = useTask(taskId);
 
   return (
     <>
-      <PageHeader title={"Task"} />
+      <PageHeader title={"Edit Task"} />
       <PageContent>
         <Spin spinning={isLoading}>
-          <UserForm initialValues={user} isEditMode />
+          <TaskForm initialValues={task} isEditMode taskId={taskId} />
         </Spin>
       </PageContent>
     </>

@@ -66,8 +66,8 @@ export const useTaskForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (task: Task, isEditMode: boolean) => {
-    taskSaved({task, isEditMode});
+  const onSaved = (task: Task, isEditMode: boolean, taskId: string) => {
+    taskSaved({ task, isEditMode, taskId });
   };
 
   return {
@@ -77,7 +77,7 @@ export const useTaskForm = () => {
 };
 
 // Hook to fetch a single task by ID
-export const useTask = (taskId: number) => {
+export const useTask = (taskId: any) => {
   const { isLoading, data: task } = useTaskQuery(taskId);
 
   return {

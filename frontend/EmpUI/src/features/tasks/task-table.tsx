@@ -4,12 +4,15 @@ import useFilter from "@hooks/utility-hooks/use-filter";
 import TableActions, { columns } from "./task-table-columns";
 import { useTaskForm } from "@hooks/use-tasks";
 import { useDeleteTaskMutation } from "@services/task-service";
+import { useTaskSavedMutation } from "@services/task-service";
 
 const TaskTable = () => {
   const [deleteTask] = useDeleteTaskMutation();
+  const { onSaved, isLoading } = useTaskForm();
 
-  const handleStatusChange = (id: number, status: string) => {
-    console.log("Status changed:", id, status);
+  const editTask = (taskId: string) => {
+    const isEditMode = true;
+    onSaved(taskId, isEditMode);
   };
 
   const handleDelete = async (taskId: number) => {
@@ -23,9 +26,7 @@ const TaskTable = () => {
     }
   };
 
-  return (
-    <TableActions onStatusChange={handleStatusChange} onDelete={handleDelete} />
-  );
+  return <TableActions onEdit={editTask} onDelete={handleDelete} />;
 };
 
 export default TaskTable;

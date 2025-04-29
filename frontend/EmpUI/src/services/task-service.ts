@@ -13,7 +13,7 @@ export const taskService = baseService.injectEndpoints({
     }),
     task: builder.query<User, string>({
       query: (taskId) => ({
-        url: API_END_POINTS.employee + `?Id=${taskId}`,
+        url: API_END_POINTS.task + `/${taskId}`,
         method: "GET",
       }),
       providesTags: ["task"],
@@ -27,11 +27,12 @@ export const taskService = baseService.injectEndpoints({
     }),
     taskSaved: builder.mutation<User, User>({
       query: (task) => {
-        const taskId = "";
         const requestUrl = task?.isEditMode
-          ? API_END_POINTS.task + `/${taskId}`
+          ? API_END_POINTS.task + `/${task.taskId}`
           : API_END_POINTS.tasks;
         const requestMethod = task?.isEditMode ? "PUT" : "POST";
+
+        console.log("from task service edit or create", task);
 
         return {
           url: requestUrl,
