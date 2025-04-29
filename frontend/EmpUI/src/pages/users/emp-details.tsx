@@ -25,6 +25,8 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useEmpSalary } from "../../hooks/use-salaries";
+
 
 const EmployeeDetails = () => {
   const empId = localStorage.getItem("employeeId");
@@ -34,6 +36,8 @@ const EmployeeDetails = () => {
   const { tasks } = useEmpTasks(empId);
   const { features } = useEmpFeatures(empId);
   const { projects } = useEmpProjects(empId);
+  const { salary} =useEmpSalary(empId);
+  
 
   const { Title, Text, Paragraph } = Typography;
 
@@ -109,6 +113,7 @@ const EmployeeDetails = () => {
     return `${diffDays} days`;
   };
 
+
   return (
     <>
       <PageHeader title={"User Details"} />
@@ -135,6 +140,14 @@ const EmployeeDetails = () => {
                     <Form.Item label="Stack">
                       <Tag key="stack" color="geekblue">
                         {employeeDetails?.stack}
+                      </Tag>
+                    </Form.Item>
+                  </Col>
+                  <Col>
+                  <Form.Item label="Salary">
+                      
+                      <Tag key="Salary" color="geekblue">
+                        {salary?.amount}
                       </Tag>
                     </Form.Item>
                   </Col>

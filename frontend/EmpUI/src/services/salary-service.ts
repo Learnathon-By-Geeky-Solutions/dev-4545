@@ -12,6 +12,16 @@ export const salaryService = baseService.injectEndpoints({
       }),
       providesTags: ["salaries"],
     }),
+    salaryByEmployeeId: builder.query<User, string>({
+      query: (employeeId) => ({
+        url: `${API_END_POINTS.salaries}/${employeeId}`,
+        method: "GET",
+      }),
+      // tag this single entry for granular cache updates
+      providesTags: (result, error, employeeId) => [
+        { type: "Salaries" as const, id: employeeId },
+      ],
+    }),
     salarySaved: builder.mutation<User, User>({
       query: (salary) => {
         const requestUrl = salaries?.salaryId
@@ -41,6 +51,7 @@ export const salaryService = baseService.injectEndpoints({
 
 export const {
   useLazySalariesQuery,
+  useSalaryByEmployeeIdQuery,
   useSalarySavedMutation,
   useSalaryQuery,
   useDeleteSalaryMutation,
