@@ -14,8 +14,6 @@
   - [Redis Configuration Process](#redis-configuration-process) ⚙️
 - [CI/CD Deployment](#cicd-deployment) 🚀
 - [SonarCloud Analysis](#sonarcloud-analysis) 📊
-- [Contributing](#contributing) 🤝
-- [License](#license) 📄
 - [Contact](#contact) 📞
 
 ---
@@ -31,6 +29,13 @@ The **Employee Management System** is a cutting-edge 🌐 web-based application 
 | Nazmus Sakib (Team Leader) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/arghya-n) |
 |  Md. Mubasshir Naib | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/MubasshirNaib) |
 |  Saikat Hossain Shohag | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/shohag1102) |
+
+
+## Mentor
+| Name | GitHub |
+|------|--------|
+| Sakib Mahmood | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/sakibmahmood98)|
+
 
 
 
