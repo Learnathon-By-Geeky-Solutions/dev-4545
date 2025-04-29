@@ -1,47 +1,42 @@
 import React, { useEffect } from 'react';
 import { Form, Card, Row, Col, Button, Input, DatePicker, Spin } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import { useProject, useProjectForm } from '@hooks/use-projects'; // Assumed hooks
+import { useProject, useProjectForm } from '@hooks/use-projects';
 import moment from 'moment';
 
 const { TextArea } = Input;
 
-const ProjectForm = ({ isEditMode = true, projectId }) => {
+const ProjectForm = ({ initialValues, isEditMode = true, projectId }) => {
   const [form] = Form.useForm();
-  const { project, loading: projectLoading, error } = useProject(projectId); // Fetch project data
+  const { project, loading: projectLoading, error } = useProject(projectId);
   const { onSaved, isLoading } = useProjectForm();
 
-  // Format initialValues based on project data
-  const initialValues = {
-    projectName: project?.projectName || '',
-    startDate: project?.startDate ? moment(project.startDate) : null,
-    endDate: project?.endDate ? moment(project.endDate) : null,
-    description: project?.description || '',
-    client: project?.client || '',
+  // Create formatted initial values with proper moment conversion
+  const formattedInitialValues = {
+    projectName: initialValues?.projectName || '',
+    startDate: initialValues?.startDate ? moment(initialValues.startDate) : null,
+    endDate: initialValues?.endDate ? moment(initialValues.endDate) : null,
+    description: initialValues?.description || '',
+    client: initialValues?.client || '',
   };
 
   // Update form when project data changes
   useEffect(() => {
     if (project && isEditMode) {
-      form.setFieldsValue(initialValues);
+      form.setFieldsValue({
+        ...project,
+        startDate: project.startDate ? moment(project.startDate) : null,
+        endDate: project.endDate ? moment(project.endDate) : null,
+      });
     }
   }, [project, isEditMode, form]);
 
-  // onFinished function
   const onFinished = (values) => {
-    // Format dates to ISO 8601 strings
-    if (values.startDate) {
-      values.startDate = values.startDate.toISOString();
-    }
-    if (values.endDate) {
-      values.endDate = values.endDate.toISOString();
-    }
-
-    const projectData = { ...values };
-
-    console.log('Formatted project data:', projectData);
-
-    // Call onSaved with the formatted data, isEditMode, and projectId
+    const projectData = {
+      ...values,
+      startDate: values.startDate?.toISOString(),
+      endDate: values.endDate?.toISOString(),
+    };
     onSaved(projectData, isEditMode, projectId);
   };
 
@@ -51,7 +46,7 @@ const ProjectForm = ({ isEditMode = true, projectId }) => {
         form={form}
         layout="vertical"
         autoComplete="off"
-        initialValues={initialValues}
+        initialValues={formattedInitialValues}
         onFinish={onFinished}
       >
         <Card

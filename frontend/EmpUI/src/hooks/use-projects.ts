@@ -66,9 +66,11 @@ export const useProjectForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (project: Project) => {
-    projectSaved(project);
+  const onSaved = (project: Project,isEditMode:boolean,projectId: string) => {
+    projectSaved({project,isEditMode,projectId});
   };
+  
+
 
   return {
     isLoading,

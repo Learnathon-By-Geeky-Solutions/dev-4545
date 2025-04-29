@@ -17,11 +17,20 @@ import { useProjects } from "@hooks/use-projects";
 
 const { Text } = Typography;
 
-const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
+const TableActions: React.FC<Props> = ({ onStatusChange,onEdit, onDelete }) => {
   const { isLoading, data } = useProjects();
   console.log("project data ", data);
 
   const getActions = (projectId: number): MenuProps["items"] => [
+    {
+      key: `edit-${projectId}`,
+      label: (
+        <Link to={`/projects/${projectId}`}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+      onClick: () => onEdit(projectId),
+    },
     {
       key: `delete-${projectId}`,
       label: (
