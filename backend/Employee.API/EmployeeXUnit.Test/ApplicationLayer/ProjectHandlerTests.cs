@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using Employee.Application.Commands.Project;
@@ -182,6 +183,58 @@ namespace EmployeeXUnit.Test.ApplicationLayer
 
             // Assert
             Assert.Empty(result);
+        }
+        [Fact]
+        public async Task Handle_ProjectExists_ReturnsProject()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            var project = new ProjectEntity { ProjectId = id, ProjectName = "Test Project" };
+            _repoMock
+                .Setup(repo => repo.GetProjectById(id))
+                .ReturnsAsync(project);
+            var query = new GetProjectByIdQuery(id);
+            var handler = new GetProjectByIdQueryHandler(_repoMock.Object);
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(project, result);
+            _repoMock.Verify(repo => repo.GetProjectById(id), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_ProjectDoesNotExist_ReturnsNull()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            _repoMock
+                .Setup(repo => repo.GetProjectById(id))
+                .ReturnsAsync((ProjectEntity?)null);
+            var query = new GetProjectByIdQuery(id);
+            var handler = new GetProjectByIdQueryHandler(_repoMock.Object);
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.Null(result);
+            _repoMock.Verify(repo => repo.GetProjectById(id), Times.Once);
+        }
+
+        [Fact]
+        public async Task Handle_PropagatesException()
+        {
+            // Arrange
+            var exception = new InvalidOperationException("Failure fetching project");
+            var id = Guid.NewGuid();
+            _repoMock
+                .Setup(repo => repo.GetProjectById(id))
+                .ThrowsAsync(exception);
+            var query = new GetProjectByIdQuery(id);
+            var handler = new GetProjectByIdQueryHandler(_repoMock.Object);
+            // Act & Assert
+            var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => handler.Handle(query, CancellationToken.None));
+            Assert.Equal("Failure fetching project", ex.Message);
         }
     }
 }

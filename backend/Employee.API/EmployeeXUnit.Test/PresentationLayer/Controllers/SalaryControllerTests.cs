@@ -91,7 +91,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.GetSalaryByEmpId(employeeId);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ForbidResult>(result);
         }
 
         [Fact]

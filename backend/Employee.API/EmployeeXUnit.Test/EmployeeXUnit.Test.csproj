@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ApplicationLayer\Queries\Project\**" />
+    <EmbeddedResource Remove="ApplicationLayer\Queries\Project\**" />
+    <None Remove="ApplicationLayer\Queries\Project\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="ApplicationLayer\Queries\Employee\GetEmployeeByIdQueryHandlerTests.cs" />
   </ItemGroup>
 
@@ -38,7 +44,6 @@
 
   <ItemGroup>
     <Folder Include="ApplicationLayer\Commands\Project\" />
-    <Folder Include="ApplicationLayer\Queries\Project\" />
   </ItemGroup>
 
 </Project>

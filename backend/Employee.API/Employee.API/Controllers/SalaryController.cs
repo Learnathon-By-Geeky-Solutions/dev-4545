@@ -40,9 +40,9 @@ namespace Employee.API.Controllers
         [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> GetSalaryByEmpId(Guid EmployeeId)
         {
-            //var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            //if (!authResult.Succeeded)
-            //    return Forbid();
+            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
+            if (!authResult.Succeeded)
+                return Forbid();
             var result = await _sender.Send(new GetSalariesByEmployeeIdQuery(EmployeeId));
             if (result == null)
             {
