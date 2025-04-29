@@ -23,10 +23,19 @@ interface Props {
   onDelete: (employeeId: number) => void;
 }
 
-const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
+const TableActions: React.FC<Props> = ({ onStatusChange,onEdit,onDelete }) => {
   const { isLoading, data } = useLeaves();
 
   const getActions = (employeeId: number): MenuProps["items"] => [
+    {
+      key: `edit-${employeeId}`,
+      label: (
+        <Link to={"/leaves/edit"}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+    
+    },
     {
       key: `delete-${employeeId}`,
       label: (

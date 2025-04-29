@@ -18,7 +18,7 @@ export const leaveService = baseService.injectEndpoints({
           : API_END_POINTS.leaves + `?employeeId=${leave.employeeId}`;
         const requestMethod = leave?.isEditMode ? "PUT" : "POST";
 
-        console.log("leave request method ", requestUrl, requestMethod);
+        console.log("leave request method ", requestUrl, requestMethod,leave);
 
         return {
           url: requestUrl,

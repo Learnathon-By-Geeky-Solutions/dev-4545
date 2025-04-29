@@ -58,16 +58,16 @@ export const useLeaveForm = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success("Leave saved successfully.");
-      navigate("/leave");
+      navigate("/");
     }
 
     if (isError && error) {
       message.error((error as AppError).data.error_description);
     }
   }, [isSuccess, isError, error]);
-
-  const onSaved = (leave: Leave) => {
-    leaveSaved(leave);
+  
+  const onSaved = (leave: Leave,isEditMode: boolean, employeeId:string) => {
+    leaveSaved({leave,isEditMode,employeeId});
   };
 
   return {

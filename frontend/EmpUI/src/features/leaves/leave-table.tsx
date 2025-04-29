@@ -20,7 +20,7 @@ const LeaveTable = () => {
   };
 
   return (
-    <TableActions onStatusChange={handleStatusChange} onDelete={handleDelete} />
+    <TableActions onStatusChange={handleStatusChange}  onDelete={handleDelete} />
   );
 };
 
