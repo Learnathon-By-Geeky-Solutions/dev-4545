@@ -26,8 +26,10 @@ import {
   AppstoreOutlined,
   EditOutlined,
   DeleteOutlined,
+  SaveOutlined,
 } from "@ant-design/icons";
 import { useEmpSalary } from "../../hooks/use-salaries";
+import TextArea from "antd/es/input/TextArea";
 
 const EmployeeDetails = () => {
   const empId = localStorage.getItem("employeeId");
@@ -46,15 +48,12 @@ const EmployeeDetails = () => {
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
-  // Helper function to check if a project is active
   const isProjectActive = (endDate) => {
     return new Date(endDate) >= new Date();
   };
 
-  // Handle delete project
   const handleDelete = (projectId) => {};
 
-  // Helper functions
   const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date();
   };
@@ -79,36 +78,48 @@ const EmployeeDetails = () => {
     return `${diffDays} days`;
   };
 
-  // new
-  // Inside the component, add these hooks
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [taskEdits, setTaskEdits] = useState({});
+
+  // Inside the component, modify these hooks
   const { onSaved, isLoading: isUpdatingTask } = useTaskForm("/details");
 
-  // Add this handler function
-  const handleStatusChange = (task, newStatus) => {
+  // Add this function to start editing a task
+  const startEditingTask = (task) => {
+    setEditingTaskId(task.taskId);
+    // Initialize the taskEdits with current values
+    setTaskEdits({
+      ...taskEdits,
+      [task.taskId]: {
+        description: task.description || "",
+        status: task.status,
+      },
+    });
+  };
+
+  // Add this function to handle changes to task fields
+  const handleTaskFieldChange = (taskId, field, value) => {
+    setTaskEdits({
+      ...taskEdits,
+      [taskId]: {
+        ...taskEdits[taskId],
+        [field]: value,
+      },
+    });
+  };
+
+  // Common function to save changes to both status and description
+  const saveTaskChanges = (task) => {
     const updatedTask = {
       ...task,
-      status: newStatus,
+      description: taskEdits[task.taskId]?.description || task.description,
+      status: taskEdits[task.taskId]?.status || task.status,
     };
     onSaved(updatedTask, true, task.taskId);
+    setEditingTaskId(null);
   };
 
-  // Update the getStatusColor and getStatusBadgeStatus functions
-  const getStatusColor = (status) => {
-    if (!status) return "default";
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "green";
-      case "in_progress":
-        return "blue";
-      case "pending":
-        return "orange";
-      case "overdue":
-        return "red";
-      default:
-        return "default";
-    }
-  };
-
+  // Function to get status badge status
   const getStatusBadgeStatus = (status) => {
     if (!status) return "default";
     switch (status.toLowerCase()) {
@@ -120,6 +131,23 @@ const EmployeeDetails = () => {
         return "warning";
       case "overdue":
         return "error";
+      default:
+        return "default";
+    }
+  };
+
+  // Function to get status color for tag
+  const getStatusColor = (status) => {
+    if (!status) return "default";
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "green";
+      case "in_progress":
+        return "blue";
+      case "pending":
+        return "orange";
+      case "overdue":
+        return "red";
       default:
         return "default";
     }
@@ -270,31 +298,42 @@ const EmployeeDetails = () => {
                             <Text strong>{"Task No:" || "No Description"}</Text>
                             {index + 1}
                           </Space>
-                          <Select
-                            value={task.status}
-                            style={{ width: 150 }}
-                            onChange={(value) =>
-                              handleStatusChange(task, value)
-                            }
-                            loading={isUpdatingTask}
-                          >
-                            <Select.Option value="pending">
-                              Pending
-                            </Select.Option>
-                            <Select.Option value="in_progress">
-                              In Progress
-                            </Select.Option>
-                            <Select.Option value="completed">
-                              Completed
-                            </Select.Option>
-                            <Select.Option value="overdue">
-                              Overdue
-                            </Select.Option>
-                          </Select>
+                          {editingTaskId === task.taskId ? (
+                            <Select
+                              value={
+                                taskEdits[task.taskId]?.status || task.status
+                              }
+                              style={{ width: 150 }}
+                              onChange={(value) =>
+                                handleTaskFieldChange(
+                                  task.taskId,
+                                  "status",
+                                  value
+                                )
+                              }
+                              loading={isUpdatingTask}
+                            >
+                              <Select.Option value="pending">
+                                Pending
+                              </Select.Option>
+                              <Select.Option value="in_progress">
+                                In Progress
+                              </Select.Option>
+                              <Select.Option value="completed">
+                                Completed
+                              </Select.Option>
+                              <Select.Option value="overdue">
+                                Overdue
+                              </Select.Option>
+                            </Select>
+                          ) : (
+                            <Tag color={getStatusColor(task.status)}>
+                              {task.status || "Unknown"}
+                            </Tag>
+                          )}
                         </div>
                       }
                     >
-                      {/* ... rest of the task card content ... */}
                       <Row gutter={[16, 16]}>
                         {/* First row */}
                         <Col xs={24} md={12}>
@@ -321,7 +360,36 @@ const EmployeeDetails = () => {
                           <Space>
                             <TagOutlined />
                             <Text strong>Description:</Text>
-                            <Text>{task.description || "No Description"}</Text>
+                            {editingTaskId === task.taskId ? (
+                              <Space>
+                                <TextArea
+                                  value={
+                                    taskEdits[task.taskId]?.description || ""
+                                  }
+                                  onChange={(e) =>
+                                    handleTaskFieldChange(
+                                      task.taskId,
+                                      "description",
+                                      e.target.value
+                                    )
+                                  }
+                                  style={{ width: 250 }}
+                                  autoSize
+                                />
+                              </Space>
+                            ) : (
+                              <Space>
+                                <Text>
+                                  {task.description || "No Description"}
+                                </Text>
+                                <Button
+                                  type="text"
+                                  icon={<EditOutlined />}
+                                  size="small"
+                                  onClick={() => startEditingTask(task)}
+                                />
+                              </Space>
+                            )}
                           </Space>
                         </Col>
 
@@ -416,6 +484,23 @@ const EmployeeDetails = () => {
                             </Tooltip>
                           </Space>
                         </Col>
+
+                        {/* Add Update Button below description when in edit mode */}
+                        {editingTaskId === task.taskId && (
+                          <Col
+                            span={24}
+                            style={{ marginTop: 16, textAlign: "right" }}
+                          >
+                            <Button
+                              type="primary"
+                              icon={<SaveOutlined />}
+                              onClick={() => saveTaskChanges(task)}
+                              loading={isUpdatingTask}
+                            >
+                              Update Task
+                            </Button>
+                          </Col>
+                        )}
                       </Row>
                     </Card>
                   ))}
