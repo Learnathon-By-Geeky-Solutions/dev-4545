@@ -9,6 +9,7 @@ import {
   PlusCircleOutlined,
 } from '@ant-design/icons';
 import { useEmpLeave } from '@hooks/use-leaves';
+import { Link } from 'react-router-dom';
 const { Title, Text } = Typography;
 
 const Index = () => {
@@ -65,15 +66,17 @@ const Index = () => {
           </Title>
         </Col>
         <Col>
+        <Link to={'/leave/create'}>
           <Button
             type="primary"
             icon={<PlusCircleOutlined />}
             size="large"
-            onClick={handleApplyLeave}
             style={{ borderRadius: 8 }}
           >
             Apply for Leave
           </Button>
+          
+        </Link>
         </Col>
       </Row>
 
@@ -116,14 +119,18 @@ const Index = () => {
           }
           extra={
             <Tooltip title={leaveData.status !== 0 ? 'Cannot edit approved/rejected leaves' : 'Edit leave'}>
+              <Link to={'/leave/create'}>
               <Button
                 icon={<EditOutlined />}
-                onClick={() => handleEdit(leaveData.leaveId)}
                 disabled={leaveData.status !== 0}
                 style={{ borderRadius: 8 }}
               >
                 Edit
               </Button>
+          
+               </Link>
+             
+              
             </Tooltip>
           }
         >

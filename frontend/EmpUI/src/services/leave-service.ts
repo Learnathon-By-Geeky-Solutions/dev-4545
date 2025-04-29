@@ -13,10 +13,10 @@ export const leaveService = baseService.injectEndpoints({
     }),
     leaveSaved: builder.mutation<Leave, Leave>({
       query: (leave) => {
-        const requestUrl = leave?.leaveId
-          ? API_END_POINTS.leaves + `/${leave.leaveId}`
+        const requestUrl = leave?.employeeId
+          ? API_END_POINTS.leaves + `?EmployeeId=${leave.employeeId}`
           : API_END_POINTS.leaves;
-        const requestMethod = leave?.leaveId ? "PUT" : "POST";
+        const requestMethod = leave?.employeeId ? "PUT" : "POST";
 
         console.log("leave request method ", requestUrl, requestMethod);
 

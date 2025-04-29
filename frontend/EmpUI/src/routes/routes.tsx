@@ -2,6 +2,7 @@ import Dashboard from "@pages/dashboard";
 import Settings from "@pages/settings";
 import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
+import LeaveCreate from "@pages/leave/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
 
@@ -13,6 +14,7 @@ import Performances from "@pages/performances";
 import Salary from "@pages/salary";
 import EmployeeDetails from "@pages/users/emp-details";
 import leave from "@pages/leave";
+import TaskCreate from "@pages/tasks/create";
 
 const routes = [
   {
@@ -59,6 +61,14 @@ const routes = [
     path: "tasks",
     breadcrumb: "Tasks",
     component: Tasks,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "tasks/create",
+    breadcrumb: "Tasks",
+    component: TaskCreate,
     exact: true,
     children: [],
     roles: ["Admin"],
@@ -122,10 +132,24 @@ const routes = [
   {
     path: "leave",
     breadcrumb: "Userleave",
-    component: leave,
+    component: "",
     exact: true,
-    children: [],
-    roles: ["SE"], // Both roles can access
+    roles: ["SE"],
+    children: [
+      {
+        path: "",
+        breadcrumb: "",
+        component: leave,
+        exact: true,
+      },
+      {
+        path: "create",
+        breadcrumb: "Create Leave",
+        component: LeaveCreate,
+        exact: true,
+      },
+    
+    ], 
   },
 ];
 
