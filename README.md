@@ -19,7 +19,17 @@
 ---
 
 ## Description 📝✨
-The **Employee Management System** is a cutting-edge 🌐 web-based application designed to simplify managing employee tasks, features, and projects. It offers a robust platform to track activities 📈, assign tasks ✅, and monitor progress 🚀. Built with modern tech and architectural patterns, it ensures scalability 📏, maintainability 🛠️, and top-notch performance ⚡.
+The **Employee Management System** is a cutting-edge 🌐 web-based application designed to simplify managing employee tasks, features, and projects. It offers a robust platform to track activities 📈, assign tasks ✅, and monitor progress 🚀. Built with modern tech and architectural patterns, it ensures scalability 📏, maintainability 🛠️.
+
+
+<div align="center">
+<br>
+
+[![live demo](https://img.shields.io/badge/live%20demo-view-blue?labelColor=00FFFF&style=for-the-badge)]()
+[![API DOC](https://img.shields.io/badge/API%20DOC-view-grey?labelColor=85EA2D&style=for-the-badge&logo=swagger&logoColor=black)](https://app.swaggerhub.com/apis-docs/NazmusSakibRhythm/employee-api/1.0)
+
+</br>
+</div>
 
 ---
 
@@ -103,7 +113,6 @@ The **Employee Management System** is a cutting-edge 🌐 web-based application 
    dotnet run
    ```
    - Access at `https://localhost:{Your PORT}`  
-
 ---
 
 ## Usage 🖥️🌟
