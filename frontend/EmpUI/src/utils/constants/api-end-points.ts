@@ -6,7 +6,7 @@ const API_END_POINTS = {
   employee: "/Employees",
   employees: "/Employees",
   tasks: "/Tasks",
-  task: "/Tasks/EmployeeId",
+  task: "/Tasks",
   projects: "/Projects",
   project: "/Projects/EmployeeId",
   features: "/Features",

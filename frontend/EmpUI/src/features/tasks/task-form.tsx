@@ -6,6 +6,7 @@ import { useUsers } from "@hooks/use-users";
 import { useFeatures } from "@hooks/use-features";
 import { validationMessage } from "@utils/helpers/message-helpers";
 import { useTaskForm } from "@hooks/use-tasks";
+import moment from "moment";
 
 // Define task statuses
 const TASK_STATUSES = [
@@ -66,7 +67,11 @@ interface TaskFormProps {
   isEditMode?: boolean;
 }
 
-const TaskForm = ({ initialValues, isEditMode = false }: TaskFormProps) => {
+const TaskForm = ({
+  initialValues,
+  isEditMode = false,
+  taskId = null,
+}: TaskFormProps) => {
   const [form] = Form.useForm();
   const { onSaved, isLoading } = useTaskForm();
   const { isLoading: employeesLoading, data: employees = [] } = useUsers();
@@ -89,27 +94,21 @@ const TaskForm = ({ initialValues, isEditMode = false }: TaskFormProps) => {
       form.setFieldsValue({
         ...initialValues,
         assignedDate: initialValues.assignedDate
-          ? new Date(initialValues.assignedDate)
+          ? moment(initialValues.assignedDate)
           : null,
-        dueDate: initialValues.dueDate ? new Date(initialValues.dueDate) : null,
+        dueDate: initialValues.dueDate ? moment(initialValues.dueDate) : null,
       });
     }
   }, [initialValues, form, isEditMode]);
 
   const onFinished = (values: any) => {
-    // Format dates to ISO strings
     const taskData: Task = {
       ...values,
-      assignedDate: values.assignedDate?.toISOString(),
-      dueDate: values.dueDate?.toISOString(),
+      assignedDate: values.assignedDate?.format("YYYY-MM-DD"),
+      dueDate: values.dueDate?.format("YYYY-MM-DD"),
     };
 
-    // Remove id if it's undefined (for creation)
-    if (!taskData.id) {
-      delete taskData.id;
-    }
-
-    onSaved(taskData, isEditMode);
+    onSaved(taskData, isEditMode, taskId);
   };
 
   return (

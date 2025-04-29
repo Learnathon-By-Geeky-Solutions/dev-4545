@@ -18,6 +18,7 @@ import leave from "@pages/leave";
 import TaskCreate from "@pages/tasks/create";
 import ProjectCreate from "@pages/projects/create";
 import FeatureCreate from "@pages/features/create";
+import TaskEdit from "@pages/tasks/edit";
 
 const routes = [
   {
@@ -65,7 +66,6 @@ const routes = [
     breadcrumb: "Tasks",
     component: Tasks,
     exact: true,
-    children: [],
     roles: ["Admin"],
   },
   {
@@ -76,6 +76,16 @@ const routes = [
     children: [],
     roles: ["Admin"],
   },
+
+  {
+    path: "tasks/:id",
+    breadcrumb: "Tasks",
+    component: TaskEdit,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+
   {
     path: "projects/create",
     breadcrumb: "Projects",
@@ -176,8 +186,7 @@ const routes = [
         component: LeaveCreate,
         exact: true,
       },
-    
-    ], 
+    ],
   },
 ];
 
