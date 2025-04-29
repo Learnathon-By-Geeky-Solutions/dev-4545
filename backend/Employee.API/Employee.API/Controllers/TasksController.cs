@@ -40,7 +40,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
         [HttpGet("{Id:guid}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> GetTaskById(Guid Id)
         {
             var result = await _sender.Send(new GetTaskByTaskIdQuery(Id));
