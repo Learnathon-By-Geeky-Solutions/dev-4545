@@ -205,7 +205,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.UpdateFeature(id, feature);
 
             // Assert
-            result.Should().BeOfType<ForbidResult>();
+            result.Should().BeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
