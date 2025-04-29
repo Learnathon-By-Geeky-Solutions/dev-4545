@@ -3,6 +3,7 @@ import Settings from "@pages/settings";
 import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
 import LeaveCreate from "@pages/leave/create";
+import LeavesCreate from "@pages/leaves/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
 
@@ -87,6 +88,14 @@ const routes = [
     path: "features/create",
     breadcrumb: "Features",
     component: FeatureCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "leaves/create",
+    breadcrumb: "Leaves",
+    component: LeavesCreate,
     exact: true,
     children: [],
     roles: ["Admin"],

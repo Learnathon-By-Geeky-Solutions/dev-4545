@@ -13,7 +13,7 @@ export const performanceService = baseService.injectEndpoints({
     }),
     performance: builder.query<Performance, string>({
       query: (employeeId) => ({
-        url: API_END_POINTS.performance + `?EmployeeId=${employeeId}`,
+        url: API_END_POINTS.performance + `/${employeeId}`,
         method: "GET",
       }),
       providesTags: ["performance"],

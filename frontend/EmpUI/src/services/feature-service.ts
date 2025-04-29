@@ -20,7 +20,7 @@ export const featureService = baseService.injectEndpoints({
     }),
     empFeatures: builder.query<User, string>({
       query: (empId) => ({
-        url: API_END_POINTS.empFeatures + `?EmployeeId=${empId}`,
+        url: API_END_POINTS.empFeatures + `/${empId}`,
         method: "GET",
       }),
       providesTags: ["employee-features"],
