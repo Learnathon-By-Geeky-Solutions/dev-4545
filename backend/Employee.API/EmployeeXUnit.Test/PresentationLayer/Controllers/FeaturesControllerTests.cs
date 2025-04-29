@@ -91,8 +91,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var employeeId = Guid.NewGuid();
             var featureId= Guid.NewGuid();
             var features = new FeatureEntity { FeatureId = featureId, FeatureName = "FeatureA" };
-            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
-                      .ReturnsAsync(AuthorizationResult.Success());
+           
 
             _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.Id == featureId), default))
                        .ReturnsAsync(features);

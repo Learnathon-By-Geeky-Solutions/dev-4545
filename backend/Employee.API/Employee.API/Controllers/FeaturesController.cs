@@ -40,9 +40,6 @@ namespace Employee.API.Controllers
         [HttpGet("{Id:guid}")]
         public async Task<IActionResult> GetFeaturesById(Guid Id)
         {
-            var authResult = await _authz.AuthorizeAsync(User, Id, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
             var result = await sender.Send(new GetFeatureByIdQuery(Id));
             return Ok(result);
         }
