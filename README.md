@@ -39,23 +39,32 @@ The **Employee Management System** is a cutting-edge 🌐 web-based application 
 
 
 
-## Features ✨🌈
+## Features ✨
 - ✅ **Task Management:** Create, assign, and track tasks with ease! 🗂️
 - 🛠️ **Feature Management:** Define and manage project features effortlessly. 🔧
 - 📊 **Project Oversight:** Keep an eye on progress and contributions. 👀
 - 🔐 **User Authentication:** Secure role-based access control. 🛡️
-- 📈 **Reporting:** Generate insightful employee and project reports. 📋
-- 🔔 **Notifications:** Stay updated with task alerts and deadlines. ⏰
+- 🏖️ **Application For Leave:** Employee can apply or update his status as in leave. 
+
 
 ---
 
 ## Technologies Used 🛠️💻
-- 🌟 **.NET 8:** Harnessing the latest .NET features for speed and power! ⚡
-- 🏛️ **Clean Architecture:** Modular, testable, and framework-independent design. 🧩
-- 🔄 **CQRS:** Separate commands and queries for scalable logic. ⚙️
-- 🚀 **Redis Caching:** Boost performance with lightning-fast caching. ⚡
-- 🗄️ **SQL Server:** Reliable and robust data storage. 💾
-- 🌐 **CI/CD Deployment:** Automated workflows for seamless delivery. 📦
+- ![.NET](https://img.shields.io/badge/.NET%208-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+
+- ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-Architectural%20Pattern-0A0A0A?style=for-the-badge)
+- ![CQRS](https://img.shields.io/badge/CQRS-Command%20Query%20Responsibility%20Segregation-6A1B9A?style=for-the-badge&logo=data:image/svg+xml;base64)
+
+- ![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+
+- ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+
+- ![CI/CD](https://img.shields.io/badge/CI%2FCD-Automated%20Pipelines-0A0A0A?style=for-the-badge)
+
+
+- ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+
 
 ---
 
@@ -178,12 +187,15 @@ Boosts performance with Redis:
 ---
 
 ## CI/CD Deployment 🚀🌐
-![Build Status](https://github.com/yourusername/EmployeeManagementSystem/actions/workflows/ci-cd.yml/badge.svg) ✅
+![Build Status](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/CI-test-coverage.yml/badge.svg) 
+
+
+![Build Status](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/pages/pages-build-deployment/badge.svg) 
 
 Automated pipeline:
 - **CI:** Builds and tests on each commit 🛠️.
 - **CD:** Deploys to staging/production on success 🌟.
-- **Config:** See [`.github/workflows/ci-cd.yml`] 📋.
+- **Config:** See [`.github/workflows/CI-CD.yml`] for Build & deploy. Also You can go through [`.github/workflows/CI-test-coverage.yml`] for test coverage pipeline 📋.
 
 ---
 
@@ -203,4 +215,4 @@ Key metrics for code quality:
 ---
 
 ## Contact 📞💬
-Reach out to [Your Name] at [sakib.hb7@gmail.com] 📧 or open a GitHub issue 🚨.
+Reach out to [`Nazmus Sakib`] at [`sakib.hb7@gmail.com`] 📧 or open a GitHub issue 🚨.
