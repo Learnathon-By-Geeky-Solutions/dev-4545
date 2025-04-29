@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const { TextArea } = Input;
 
-const LeaveApplicationForm = ({ isEditMode= true}) => {
+const LeaveApplicationForm = ({ isEditMode= false}) => {
   const [form] = Form.useForm();
   const empId = localStorage.getItem('employeeId');
   const { leave, loading: leaveLoading, error } = useEmpLeave(empId); // Call hook inside component
@@ -51,7 +51,7 @@ const LeaveApplicationForm = ({ isEditMode= true}) => {
     console.log('Formatted leave data:', leaveData);
 
     // Call onSaved with the formatted data, isEditMode, and leaveId
-    onSaved(leaveData, isEditMode, values.leaveId);
+    onSaved(leaveData, isEditMode=false, values.leaveId);
   };
   return (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
