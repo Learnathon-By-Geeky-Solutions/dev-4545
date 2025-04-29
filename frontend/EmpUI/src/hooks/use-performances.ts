@@ -66,8 +66,8 @@ export const usePerformanceForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = async (performance: Performance) => {
-    await performanceSaved(performance);
+  const onSaved = async (performance: Performance, isEditMode: boolean) => {
+    await performanceSaved({ performance, isEditMode });
   };
 
   return {
@@ -77,8 +77,8 @@ export const usePerformanceForm = () => {
 };
 
 // Hook to fetch a single performance by ID
-export const usePerformance = (performanceId: number) => {
-  const { isLoading, data: performance } = usePerformanceQuery(performanceId);
+export const usePerformance = (employeeId: number) => {
+  const { isLoading, data: performance } = usePerformanceQuery(employeeId);
 
   return {
     isLoading,

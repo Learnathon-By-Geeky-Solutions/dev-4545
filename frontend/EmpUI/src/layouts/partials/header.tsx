@@ -6,7 +6,7 @@ const { Header: AntdHeader} = Layout;
 const Header = () => {
   return (
     <AntdHeader className={'p-4 bg-white border-b'}>
-      <GlobalSearch />
+      {/* <GlobalSearch /> */}
     </AntdHeader>
   );
 };

@@ -3,7 +3,7 @@ const API_END_POINTS = {
   refreshToken: "/auth/refresh-token",
   user: "/auth/profile",
   users: "/users",
-  employee: "/Employees/employee",
+  employee: "/Employees",
   employees: "/Employees",
   tasks: "/Tasks",
   task: "/Tasks/EmployeeId",
@@ -12,13 +12,14 @@ const API_END_POINTS = {
   features: "/Features",
   feature: "/Features/EmployeeId",
   leaves: "/Leave",
+  leave:"/Leave/GetLeaveByEmployeeId",
   performances: "/Performances",
   performance: "/Performances/EmployeeId",
   salaries: "/Salary",
   salary: "/Salary/GetSalaryByEmployeeId",
   empTasks: "/Tasks",
-  empFeatures:"/Features/EmployeeId",
-  empProjects:"/Projects/EmployeeId"
+  empFeatures: "/Features/EmployeeId",
+  empProjects: "/Projects/EmployeeId",
 };
 
 export default API_END_POINTS;

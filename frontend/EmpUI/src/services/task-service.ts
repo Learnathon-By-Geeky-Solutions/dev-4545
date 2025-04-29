@@ -43,7 +43,7 @@ export const taskService = baseService.injectEndpoints({
     }),
     deleteTask: builder.mutation<void, number>({
       query: (taskId) => ({
-        url: `${API_END_POINTS.tasks}?Id=${taskId}`,
+        url: API_END_POINTS.tasks + `/${taskId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["tasks"], // This will auto-refresh the tasks list

@@ -14,7 +14,7 @@ const Users = () => {
       >
         <Link to={'/users/create'}>
           <Button type={'primary'} icon={<PlusCircleOutlined />}>
-            Create User
+            Create User 
           </Button>
         </Link>
       </PageHeader>

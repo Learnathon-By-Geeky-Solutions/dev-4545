@@ -33,16 +33,16 @@ const PerformanceForm = ({
   const onFinished = (values: Performance) => {
     // Prepare the performance data for submission
     const performanceData: Performance = {
-      id: isEditMode && initialValues ? initialValues.id : undefined,
+      id: initialValues.id,
       rating: values.rating.toString(),
       comments: values.comments,
       employeeId: employeeId,
-      date: new Date().toISOString(),
-      // Add any other required fields
-      reviewerId: values.reviewId, // Using the same reviewerId from the example
+      // date: new Date().toISOString(),
+      reviewerId: initialValues.reviewId,
     };
 
-    onSaved(performanceData);
+    console.log("onfinished form ", performanceData);
+    onSaved(performanceData, isEditMode);
   };
 
   return (

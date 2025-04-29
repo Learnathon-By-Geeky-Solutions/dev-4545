@@ -8,6 +8,7 @@ import {
   Typography,
   Card,
   Table,
+  Tooltip,
 } from "antd";
 import { DeleteOutlined, EditOutlined, MoreOutlined } from "@ant-design/icons";
 import { Leave } from "@models/leave-model";
@@ -44,7 +45,28 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       sorter: true,
       key: "employeeName",
       render: (_, record) => {
-        return <Text>{record?.employeeId}</Text>;
+          return (
+            <Link to={`/users/details/${record.employeeId}`}>
+              <Text>{record?.employeeId}</Text>;
+            </Link>
+          );
+
+        // return (
+        //   <Tooltip title={record.employeeId}>
+        //     <Text
+        //       copyable={{ text: record.employeeId }}
+        //       style={{
+        //         maxWidth: "150px",
+        //         overflow: "hidden",
+        //         textOverflow: "ellipsis",
+        //         display: "inline-block",
+        //       }}
+        //     >
+        //       {record.employeeId}
+        //     </Text>
+        //   </Tooltip>
+        // );
+
       },
     },
     {
@@ -84,7 +106,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
 
         return (
           <Tag color={color} className="uppercase">
-            {record?.status}
+            {record?.status==0?"Pending":"Accepted"}
           </Tag>
         );
       },

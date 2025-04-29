@@ -64,4 +64,9 @@ export const MAIN_MENU_ITEMS = [
     label: "User Details",
     icon: <FolderOpenOutlined />,
   },
+  {
+    key: "/leave",
+    label: "Leave Applications",
+    icon: <FolderOpenOutlined />,
+  },
 ];

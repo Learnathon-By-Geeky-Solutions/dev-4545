@@ -12,25 +12,30 @@ export const performanceService = baseService.injectEndpoints({
       providesTags: ["performances"],
     }),
     performance: builder.query<Performance, string>({
-      query: (performanceId) => ({
-        url: API_END_POINTS.performance + `?EmployeeId=${performanceId}`,
+      query: (employeeId) => ({
+        url: API_END_POINTS.performance + `?EmployeeId=${employeeId}`,
         method: "GET",
       }),
       providesTags: ["performance"],
     }),
     performanceSaved: builder.mutation<Performance, Performance>({
       query: (performance) => {
-        const requestUrl = performance?.Id
-          ? API_END_POINTS.performances + `/${performance.id}`
+        const requestUrl = performance?.isEditMode
+          ? API_END_POINTS.performances + `?Id=${performance.performance.id}`
           : API_END_POINTS.performances;
-        const requestMethod = performance?.id ? "PUT" : "PUT";
+        const requestMethod = performance?.isEditMode ? "PUT" : "POST";
 
-        console.log("performance request method ", requestUrl, requestMethod);
+        console.log(
+          "performance request method ",
+          performance,
+          requestUrl,
+          requestMethod
+        );
 
         return {
           url: requestUrl,
           method: requestMethod,
-          body: performance,
+          body: performance.performance,
         };
       },
       invalidatesTags: ["performances", "performance"],
