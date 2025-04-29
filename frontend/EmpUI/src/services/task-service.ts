@@ -27,16 +27,16 @@ export const taskService = baseService.injectEndpoints({
     }),
     taskSaved: builder.mutation<User, User>({
       query: (task) => {
-        const requestUrl = task?.taskId
-          ? API_END_POINTS.employee + `/${user.taskId}`
-          : API_END_POINTS.employee;
-        const requestMethod = task?.taskId ? "PUT" : "POST";
+        const taskId = "";
+        const requestUrl = task?.isEditMode
+          ? API_END_POINTS.task + `/${taskId}`
+          : API_END_POINTS.tasks;
+        const requestMethod = task?.isEditMode ? "PUT" : "POST";
 
-        console.log("task request method ", requestUrl, requestMethod);
         return {
           url: requestUrl,
           method: requestMethod,
-          body: user,
+          body: task.task,
         };
       },
       invalidatesTags: ["tasks", "task"],
