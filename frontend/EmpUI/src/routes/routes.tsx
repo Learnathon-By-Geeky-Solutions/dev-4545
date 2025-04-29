@@ -19,6 +19,7 @@ import TaskCreate from "@pages/tasks/create";
 import ProjectCreate from "@pages/projects/create";
 import FeatureCreate from "@pages/features/create";
 import TaskEdit from "@pages/tasks/edit";
+import PerformanceCreate from "@pages/performances/create";
 
 const routes = [
   {
@@ -81,6 +82,14 @@ const routes = [
     path: "tasks/:id",
     breadcrumb: "Tasks",
     component: TaskEdit,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "performances/create",
+    breadcrumb: "Performance",
+    component: PerformanceCreate,
     exact: true,
     children: [],
     roles: ["Admin"],
