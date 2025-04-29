@@ -51,14 +51,11 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("{Id:guid}")]
         [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> UpdateFeature(Guid Id, FeatureEntity Feature)
         {
-            var taskresult = await sender.Send(new GetTaskByTaskIdQuery(Id));
-            var authResult = await _authz.AuthorizeAsync(User, taskresult!.EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
+            
             var result = await sender.Send(new UpdateFeatureCommand(Id, Feature));
             if (result == null)
             {

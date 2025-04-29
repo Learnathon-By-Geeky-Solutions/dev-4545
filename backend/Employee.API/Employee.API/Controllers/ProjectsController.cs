@@ -45,7 +45,7 @@ namespace Employee.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin,SE")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProject(Guid Id, ProjectEntity Project)
         {
             var result = await sender.Send(new UpdateProjectCommand(Id, Project));
