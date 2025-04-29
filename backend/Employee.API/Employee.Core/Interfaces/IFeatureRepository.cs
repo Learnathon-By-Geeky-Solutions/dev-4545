@@ -11,6 +11,7 @@ namespace Employee.Core.Interfaces
     {
         Task<IEnumerable<FeatureEntity>> GetAllFeatures();
         Task<IEnumerable<FeatureEntity>> GetFeatureByEmployeeId(Guid EmployeeId);
+        Task<FeatureEntity?> GetFeatureById(Guid Id);
         Task<FeatureEntity> AddFeatureAsync(FeatureEntity feature);
         Task<FeatureEntity> UpdateFeature(Guid Id, FeatureEntity feature);
         Task<bool> DeleteFeature(Guid Id);

@@ -26,16 +26,23 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
         [Authorize(Roles = "Admin,SE")]
-        [HttpGet("EmployeeId")]
-        public async Task<IActionResult> GetFeaturesById(Guid EmployeeId)
+        [HttpGet("employees/{EmployeeId:guid}")]
+        public async Task<IActionResult> GetFeaturesByEmployeeId(Guid EmployeeId)
         {
             var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
             if (!authResult.Succeeded)
                 return Forbid();
-            var result = await sender.Send(new GetFeatureByIdQuery(EmployeeId));
+            var result = await sender.Send(new GetFeatureByEmployeeIdQuery(EmployeeId));
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin,SE")]
+        [HttpGet("{Id:guid}")]
+        public async Task<IActionResult> GetFeaturesById(Guid Id)
+        {
+            var result = await sender.Send(new GetFeatureByIdQuery(Id));
+            return Ok(result);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddFeatureAsync([FromBody] FeatureEntity Feature)

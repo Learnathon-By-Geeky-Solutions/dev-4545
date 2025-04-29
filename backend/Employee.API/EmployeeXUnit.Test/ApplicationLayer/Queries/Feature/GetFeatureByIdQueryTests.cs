@@ -26,8 +26,8 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Queries.Feature
             var mockRepo = new Mock<IFeatureRepository>();
             mockRepo.Setup(repo => repo.GetFeatureByEmployeeId(employeeId)).ReturnsAsync(features);
 
-            var handler = new GetFeatureByIdQueryHandler(mockRepo.Object);
-            var query = new GetFeatureByIdQuery(employeeId);
+            var handler = new GetFeatureByEmployeeIdQueryHandler(mockRepo.Object);
+            var query = new GetFeatureByEmployeeIdQuery(employeeId);
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);
@@ -47,8 +47,8 @@ namespace EmployeeXUnit.Test.ApplicationLayer.Queries.Feature
             mockRepo.Setup(repo => repo.GetFeatureByEmployeeId(employeeId))
                     .ReturnsAsync(new List<FeatureEntity>());
 
-            var handler = new GetFeatureByIdQueryHandler(mockRepo.Object);
-            var query = new GetFeatureByIdQuery(employeeId);
+            var handler = new GetFeatureByEmployeeIdQueryHandler(mockRepo.Object);
+            var query = new GetFeatureByEmployeeIdQuery(employeeId);
 
             // Act
             var result = await handler.Handle(query, CancellationToken.None);

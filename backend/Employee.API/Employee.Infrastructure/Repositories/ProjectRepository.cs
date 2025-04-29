@@ -29,6 +29,16 @@ namespace Employee.Infrastructure.Repositories
 
             return projects;
         }
+
+        public async Task<ProjectEntity?> GetProjectById(Guid Id)
+        {
+            var projects = await dbContext.Projects
+                .FirstOrDefaultAsync(x => x.ProjectId == Id);
+
+            return projects;
+        }
+
+
         public async Task<ProjectEntity> AddProjectAsync(ProjectEntity project)
         {
             project.ProjectId = Guid.NewGuid();

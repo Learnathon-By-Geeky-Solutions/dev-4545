@@ -56,6 +56,11 @@ namespace Employee.Infrastructure.Repositories
             return features;
         }
 
+        public async Task<FeatureEntity?> GetFeatureById(Guid Id)
+        {
+            var features = await dbContext.Features.FirstOrDefaultAsync(x => x.FeatureId == Id);
+            return features;
+        }
         public async Task<FeatureEntity> UpdateFeature(Guid Id, FeatureEntity feature)
         {
             var data = await dbContext.Features.FirstOrDefaultAsync(x => x.FeatureId == Id);
