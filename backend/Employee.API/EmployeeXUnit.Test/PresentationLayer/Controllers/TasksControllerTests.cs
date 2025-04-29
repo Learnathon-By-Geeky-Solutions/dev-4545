@@ -55,34 +55,30 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetTaskByEmployeeId_ReturnsOk_WhenAuthorized()
+        public async Task GetTaskById_ReturnsOkResult_WhenAuthorized()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
-            var task = new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId };
+            var tasks = new List<TaskEntity>
+            {
+                new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId },
+                new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
 
-            _authzMock
-                .Setup(a => a.AuthorizeAsync(
-                    It.IsAny<ClaimsPrincipal>(),
-                    employeeId,
-                    "CanModifyOwnEmployee"))
-                .ReturnsAsync(AuthorizationResult.Success());
+            };
 
-            _mockSender
-                .Setup(s => s.Send(
-                    It.Is<GetTaskByTaskIdQuery>(q => q.Id == employeeId),
-                    It.IsAny<CancellationToken>()))
-                .ReturnsAsync(task);
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
+
+            _mockSender.Setup(s => s.Send(It.Is<GetTaskByIdQuery>(q => q.Id == employeeId), default))
+                       .ReturnsAsync(tasks);
 
             // Act
             var result = await _controller.GetTaskByEmployeeId(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(task, okResult.Value);
+            Assert.Equal(tasks, okResult.Value);
         }
-
-
 
         [Fact]
         public async Task GetTaskById_ReturnsForbid_WhenUnauthorized()
