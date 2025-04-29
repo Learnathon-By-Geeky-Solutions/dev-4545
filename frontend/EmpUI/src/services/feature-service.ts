@@ -13,31 +13,32 @@ export const featureService = baseService.injectEndpoints({
     }),
     feature: builder.query<Feature, string>({
       query: (featureId) => ({
-        url: API_END_POINTS.features + `?Id=${featureId}`,
+        url: API_END_POINTS.features + `/${featureId}`,
         method: "GET",
       }),
       providesTags: ["feature"],
     }),
     empFeatures: builder.query<User, string>({
       query: (empId) => ({
-        url: API_END_POINTS.empFeatures + `?EmployeeId=${empId}`,
+        url: API_END_POINTS.empFeatures + `/${empId}`,
         method: "GET",
       }),
       providesTags: ["employee-features"],
     }),
     featureSaved: builder.mutation<Feature, Feature>({
       query: (feature) => {
-        const requestUrl = feature?.featureId
+        const requestUrl = feature?.isEditMode
           ? API_END_POINTS.features + `/${feature.featureId}`
           : API_END_POINTS.features;
-        const requestMethod = feature?.featureId ? "PUT" : "POST";
+        const requestMethod = feature?.isEditMode ? "PUT" : "POST";
+     
 
-        console.log("feature request method ", requestUrl, requestMethod);
+        console.log("feature request method ", requestUrl, feature);
 
         return {
           url: requestUrl,
           method: requestMethod,
-          body: feature,
+          body: feature.feature,
         };
       },
       invalidatesTags: ["features", "feature"],

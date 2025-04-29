@@ -6,7 +6,7 @@ const API_END_POINTS = {
   employee: "/Employees",
   employees: "/Employees",
   tasks: "/Tasks",
-  task: "/Tasks/EmployeeId",
+  task: "/Tasks",
   projects: "/Projects",
   project: "/Projects/EmployeeId",
   features: "/Features",
@@ -14,12 +14,12 @@ const API_END_POINTS = {
   leaves: "/Leave",
   leave:"/Leave/GetLeaveByEmployeeId",
   performances: "/Performances",
-  performance: "/Performances/EmployeeId",
+  performance: "/Performances",
   salaries: "/Salary",
   salary: "/Salary/GetSalaryByEmployeeId",
-  empTasks: "/Tasks",
-  empFeatures: "/Features/EmployeeId",
-  empProjects: "/Projects/EmployeeId",
+  empTasks: "/Tasks/employees",
+  empFeatures: "/Features/employees",
+  empProjects: "/Projects/employees",
 };
 
 export default API_END_POINTS;

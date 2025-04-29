@@ -40,7 +40,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       sorter: true,
       key: "reviewedBy",
       render: (_, record) => {
-        // console.log("Full Record:", record);
+         console.log("Full Record:", record);
         return <Text>{record?.reviewerId}</Text>;
       },
     },

@@ -2,6 +2,8 @@ import Dashboard from "@pages/dashboard";
 import Settings from "@pages/settings";
 import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
+import LeaveCreate from "@pages/leave/create";
+import LeavesCreate from "@pages/leaves/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
 
@@ -13,6 +15,12 @@ import Performances from "@pages/performances";
 import Salary from "@pages/salary";
 import EmployeeDetails from "@pages/users/emp-details";
 import leave from "@pages/leave";
+import TaskCreate from "@pages/tasks/create";
+import ProjectCreate from "@pages/projects/create";
+import FeatureCreate from "@pages/features/create";
+import TaskEdit from "@pages/tasks/edit";
+import FeatureEdit from "@pages/features/edit"
+import PerformanceCreate from "@pages/performances/create";
 
 const routes = [
   {
@@ -59,6 +67,63 @@ const routes = [
     path: "tasks",
     breadcrumb: "Tasks",
     component: Tasks,
+    exact: true,
+    roles: ["Admin"],
+  },
+  {
+    path: "tasks/create",
+    breadcrumb: "Tasks",
+    component: TaskCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+
+  {
+    path: "tasks/:id",
+    breadcrumb: "Tasks",
+    component: TaskEdit,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "performances/create",
+    breadcrumb: "Performance",
+    component: PerformanceCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+
+  {
+    path: "projects/create",
+    breadcrumb: "Projects",
+    component: ProjectCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "features/create",
+    breadcrumb: "Features",
+    component: FeatureCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "features/:id",
+    breadcrumb: "Features",
+    component: FeatureEdit,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "leaves/create",
+    breadcrumb: "Leaves",
+    component: LeavesCreate,
     exact: true,
     children: [],
     roles: ["Admin"],
@@ -111,6 +176,7 @@ const routes = [
     children: [],
     roles: ["Admin", "SE"], // Both roles can access
   },
+  
   {
     path: "details",
     breadcrumb: "UserDetails",
@@ -122,10 +188,23 @@ const routes = [
   {
     path: "leave",
     breadcrumb: "Userleave",
-    component: leave,
+    component: "",
     exact: true,
-    children: [],
-    roles: ["SE"], // Both roles can access
+    roles: ["SE"],
+    children: [
+      {
+        path: "",
+        breadcrumb: "",
+        component: leave,
+        exact: true,
+      },
+      {
+        path: "create",
+        breadcrumb: "Create Leave",
+        component: LeaveCreate,
+        exact: true,
+      },
+    ],
   },
 ];
 

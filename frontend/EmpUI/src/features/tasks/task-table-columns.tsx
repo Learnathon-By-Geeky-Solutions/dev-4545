@@ -18,31 +18,19 @@ import { useTasks } from "@hooks/use-tasks";
 
 const { Text } = Typography;
 
-const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
+const TableActions: React.FC<Props> = ({ onEdit, onDelete }) => {
   const { isLoading, data } = useTasks();
 
   const getActions = (taskId: number): MenuProps["items"] => [
-    // {
-    //   key: `set-status-${taskId}`,
-    //   label: "Set Status",
-    //   children: [
-    //     {
-    //       key: `set-status-pending-${taskId}`,
-    //       label: "Pending",
-    //       onClick: () => onStatusChange(taskId, "pending"),
-    //     },
-    //     {
-    //       key: `set-status-in-progress-${taskId}`,
-    //       label: "In Progress",
-    //       onClick: () => onStatusChange(taskId, "in-progress"),
-    //     },
-    //     {
-    //       key: `set-status-done-${taskId}`,
-    //       label: "Done",
-    //       onClick: () => onStatusChange(taskId, "done"),
-    //     },
-    //   ],
-    // },
+    {
+      key: `edit-${taskId}`,
+      label: (
+        <Link to={`/tasks/${taskId}`}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+      onClick: () => onEdit(taskId),
+    },
     {
       key: `delete-${taskId}`,
       label: (
@@ -108,9 +96,20 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       title: "Feature Id",
       key: "featureId",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
-          {record?.featureId}
-        </Tag>
+        
+        <Tooltip title={record?.featureId}>
+        <Text
+          copyable={{ text: record.featureId }}
+          style={{
+            maxWidth: "150px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "inline-block",
+          }}
+        >
+          {record.featureId}
+        </Text>
+      </Tooltip>
       ),
     },
     {
@@ -122,7 +121,6 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
         </Tag>
       ),
     },
-
     {
       title: "Action",
       key: "action",

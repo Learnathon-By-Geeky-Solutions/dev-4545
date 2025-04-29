@@ -1,50 +1,58 @@
 import React, { useEffect } from 'react';
-import { Form, Card, Row, Col, Button, Input, DatePicker, Spin } from 'antd';
+import { Form, Card, Row, Col, Button, Input, DatePicker, Select, Spin } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import { useProject, useProjectForm } from '@hooks/use-projects'; // Assumed hooks
+import { useEmpLeave,useLeaveForm } from '@hooks/use-leaves';
 import moment from 'moment';
 
 const { TextArea } = Input;
 
-const ProjectForm = ({ isEditMode = true, projectId }) => {
+const LeaveApplicationForm = ({ isEditMode= true}) => {
   const [form] = Form.useForm();
-  const { project, loading: projectLoading, error } = useProject(projectId); // Fetch project data
-  const { onSaved, isLoading } = useProjectForm();
+  const empId = localStorage.getItem('employeeId');
+  const { leave, loading: leaveLoading, error } = useEmpLeave(empId); // Call hook inside component
 
-  // Format initialValues based on project data
+  // Format initialValues based on leave data
   const initialValues = {
-    projectName: project?.projectName || '',
-    startDate: project?.startDate ? moment(project.startDate) : null,
-    endDate: project?.endDate ? moment(project.endDate) : null,
-    description: project?.description || '',
-    client: project?.client || '',
+    startDate: leave?.startDate ? moment(leave.startDate) : null,
+    endDate: leave?.endDate ? moment(leave.endDate) : null,
+    leaveType: leave?.leaveType || undefined,
+    reason: leave?.reason || '',
+    employeeId: empId || '',
   };
 
-  // Update form when project data changes
+  // Update form when leave data changes
   useEffect(() => {
-    if (project && isEditMode) {
+    if (leave && isEditMode) {
       form.setFieldsValue(initialValues);
     }
-  }, [project, isEditMode, form]);
-
-  // onFinished function
+  }, [leave, isEditMode, form]);
+  const { onSaved, isLoading } = useLeaveForm();
+  // Leave type options
+  const LEAVE_TYPES = [
+    { value: 'sick', label: 'Sick Leave' },
+    { value: 'vacation', label: 'Vacation' },
+    { value: 'personal', label: 'Personal Leave' },
+    { value: 'maternity', label: 'Maternity Leave' },
+    { value: 'paternity', label: 'Paternity Leave' },
+  ];
+  // Updated onFinished function
   const onFinished = (values) => {
-    // Format dates to ISO 8601 strings
+    // Format dates to strings
     if (values.startDate) {
-      values.startDate = values.startDate.toISOString();
+      values.startDate = values.startDate.format('YYYY-MM-DD');
     }
     if (values.endDate) {
-      values.endDate = values.endDate.toISOString();
+      values.endDate = values.endDate.format('YYYY-MM-DD');
     }
 
-    const projectData = { ...values };
+    // No fields to omit in this case (e.g., no confirm_password equivalent)
+    const leaveData = { ...values };
 
-    console.log('Formatted project data:', projectData);
+    console.log('Formatted leave data:', leaveData);
 
-    // Call onSaved with the formatted data, isEditMode, and projectId
-    onSaved(projectData, isEditMode, projectId);
+    // Call onSaved with the formatted data, isEditMode, and leaveId
+    onSaved(leaveData, isEditMode, values.leaveId);
   };
-
   return (
     <div style={{ padding: '24px', background: '#f0f2f5', minHeight: '100vh' }}>
       <Form
@@ -55,50 +63,31 @@ const ProjectForm = ({ isEditMode = true, projectId }) => {
         onFinish={onFinished}
       >
         <Card
-          title={isEditMode ? 'Edit Project' : 'Create Project'}
+          title={isEditMode ? 'Edit Leave Application' : 'Apply for Leave'}
           style={{
             borderRadius: 12,
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
             overflow: 'hidden',
           }}
         >
-          {projectLoading ? (
+          {leaveLoading ? (
             <Spin size="large" style={{ display: 'block', textAlign: 'center', marginTop: 50 }} />
           ) : error ? (
             <div style={{ textAlign: 'center', color: 'red' }}>
-              Failed to load project data. Please try again.
+              Failed to load leave data. Please try again.
             </div>
           ) : (
             <Row gutter={24}>
               <Col xs={24} sm={12}>
                 <Form.Item
-                  label="Project Name"
-                  name="projectName"
-                  rules={[{ required: true, message: 'Please enter project name' }]}
-                >
-                  <Input placeholder="Enter project name" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item
-                  label="Client"
-                  name="client"
-                  rules={[{ required: true, message: 'Please enter client' }]}
-                >
-                  <Input placeholder="Enter client name" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={12}>
-                <Form.Item
                   label="Start Date"
                   name="startDate"
-                  rules={[{ required: true, message: 'Please enter start date' }]}
+                  rules={[{ required: true  }]}
                 >
                   <DatePicker
-                    showTime
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     style={{ width: '100%' }}
-                    placeholder="Select start date and time"
+                    placeholder="Select Start Date"
                     disabledDate={(current) => current && current < moment().startOf('day')}
                   />
                 </Form.Item>
@@ -108,7 +97,7 @@ const ProjectForm = ({ isEditMode = true, projectId }) => {
                   label="End Date"
                   name="endDate"
                   rules={[
-                    { required: true, message: 'Please enter end date' },
+                    { required: true },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
                         if (!value || !getFieldValue('startDate') || value >= getFieldValue('startDate')) {
@@ -120,23 +109,44 @@ const ProjectForm = ({ isEditMode = true, projectId }) => {
                   ]}
                 >
                   <DatePicker
-                    showTime
-                    format="YYYY-MM-DD HH:mm:ss"
+                    format="YYYY-MM-DD"
                     style={{ width: '100%' }}
-                    placeholder="Select end date and time"
+                    placeholder="Select End Date"
                     disabledDate={(current) => current && current < moment().startOf('day')}
                   />
                 </Form.Item>
               </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item
+                  label="Leave Type"
+                  name="leaveType"
+                  rules={[{ required: true}]}
+                >
+                  <Select
+                    options={LEAVE_TYPES}
+                    placeholder="Select Leave Type"
+                    style={{ width: '100%' }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item
+                  label="Employee ID"
+                  name="employeeId"
+                  rules={[{ required: true }]}
+                >
+                  <Input placeholder="Employee ID" disabled />
+                </Form.Item>
+              </Col>
               <Col xs={24}>
                 <Form.Item
-                  label="Description"
-                  name="description"
-                  rules={[{ required: true, message: 'Please enter description' }]}
+                  label="Reason"
+                  name="reason"
+                  rules={[{ required: true }]}
                 >
                   <TextArea
                     rows={4}
-                    placeholder="Enter project description"
+                    placeholder="Enter reason for leave"
                     style={{ resize: 'none' }}
                   />
                 </Form.Item>
@@ -162,4 +172,4 @@ const ProjectForm = ({ isEditMode = true, projectId }) => {
   );
 };
 
-export default ProjectForm;
+export default LeaveApplicationForm;

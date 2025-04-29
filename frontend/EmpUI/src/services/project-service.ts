@@ -20,7 +20,7 @@ export const projectService = baseService.injectEndpoints({
     }),
     empProjects: builder.query<User, string>({
       query: (empId) => ({
-        url: API_END_POINTS.empProjects + `?EmployeeId=${empId}`,
+        url: API_END_POINTS.empProjects + `/${empId}`,
         method: "GET",
       }),
       providesTags: ["employee-projects"],

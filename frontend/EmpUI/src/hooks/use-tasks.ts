@@ -48,7 +48,7 @@ export const useTasks = () => {
 };
 
 // Hook to handle saving a task (create or update)
-export const useTaskForm = () => {
+export const useTaskForm = (goto = "/tasks") => {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ export const useTaskForm = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success("Task saved successfully.");
-      navigate("/tasks");
+      navigate(goto);
     }
 
     if (isError && error) {
@@ -66,8 +66,8 @@ export const useTaskForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (task: Task) => {
-    taskSaved(task);
+  const onSaved = (task: Task, isEditMode: boolean, taskId: string) => {
+    taskSaved({ task, isEditMode, taskId });
   };
 
   return {
@@ -77,7 +77,7 @@ export const useTaskForm = () => {
 };
 
 // Hook to fetch a single task by ID
-export const useTask = (taskId: number) => {
+export const useTask = (taskId: any) => {
   const { isLoading, data: task } = useTaskQuery(taskId);
 
   return {

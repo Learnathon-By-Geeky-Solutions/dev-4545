@@ -1,8 +1,15 @@
 import TableActions from "./feature-table-columns";
 import { useDeleteFeatureMutation } from "@services/feature-service";
+import { useFeatureForm } from "@hooks/use-features";
 
 const FeatureTable = () => {
   const [deleteFeature] = useDeleteFeatureMutation();
+  const { onSaved, isLoading } = useFeatureForm();
+
+  const editFeature = (featureId: string) => {
+    const isEditMode = true;
+    onSaved(featureId, isEditMode);
+  };
 
   const handleStatusChange = (id: number, status: string) => {
     console.log("Status changed:", id, status);
@@ -20,7 +27,7 @@ const FeatureTable = () => {
   };
 
   return (
-    <TableActions onStatusChange={handleStatusChange} onDelete={handleDelete} />
+    <TableActions onStatusChange={handleStatusChange} onEdit={editFeature} onDelete={handleDelete} />
   );
 };
 

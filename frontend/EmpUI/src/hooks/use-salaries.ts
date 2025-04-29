@@ -6,6 +6,7 @@ import { Salary } from "@models/salary-model";
 import { AppError, QueryParams } from "@models/utils-model";
 import {
   useLazySalariesQuery,
+  useSalaryByEmployeeIdQuery,
   useSalaryQuery,
   useSalarySavedMutation,
 } from "@services/salary-service";
@@ -78,6 +79,16 @@ export const useSalaryForm = () => {
 // Hook to fetch a single project by ID
 export const useSalary = (salaryId: number) => {
   const { isLoading, data: salary } = useSalaryQuery(salaryId);
+
+  return {
+    isLoading,
+    salary,
+  };
+};
+
+
+export const useEmpSalary = (employeeId: number) => {
+  const { isLoading, data: salary } = useSalaryByEmployeeIdQuery(employeeId);
 
   return {
     isLoading,

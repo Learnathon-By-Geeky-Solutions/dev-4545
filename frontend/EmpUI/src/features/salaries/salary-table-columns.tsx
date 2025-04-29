@@ -38,9 +38,20 @@ const SalaryActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       title: "Salary Id",
       key: "salaryId",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
-          {record?.salaryId}
-        </Tag>
+        
+        <Tooltip title={record?.salaryId}>
+        <Text
+          copyable={{ text: record?.salaryId }}
+          style={{
+            maxWidth: "150px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "inline-block",
+          }}
+        >
+          {record.employeeId}
+        </Text>
+      </Tooltip>
       ),
     },
     {

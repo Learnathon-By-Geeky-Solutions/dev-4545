@@ -109,7 +109,7 @@ const PerformanceForm = ({
     >
       <Card
         title={
-          isEditMode ? "Update Salary Review" : "Add Salary Review"
+          isEditMode ? "Update Performance Review" : "Add Performance Review"
         }
       >
         <Row gutter={24}>
@@ -177,7 +177,7 @@ const PerformanceForm = ({
             icon={<SaveOutlined />}
             loading={isLoading}
           >
-            {isEditMode ? "Update Salary" : "Save Salary"}
+            {isEditMode ? "Update Performance" : "Save Performance"}
           </Button>
         </Col>
       </Row>

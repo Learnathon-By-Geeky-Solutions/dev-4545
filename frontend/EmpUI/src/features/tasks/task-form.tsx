@@ -1,135 +1,236 @@
 import _ from "lodash";
 import { useEffect } from "react";
-import { Button, Card, Col, Form, Input, Row, Select } from "antd";
+import { Button, Card, Col, Form, Input, Row, Select, DatePicker } from "antd";
 import { SaveOutlined } from "@ant-design/icons";
-import { useUserForm } from "@hooks/use-users";
-import { User, UserPartial } from "@models/user-model";
+import { useUsers } from "@hooks/use-users";
+import { useFeatures } from "@hooks/use-features";
 import { validationMessage } from "@utils/helpers/message-helpers";
+import { useTaskForm } from "@hooks/use-tasks";
+import moment from "moment";
 
-interface UserFormProps {
-  initialValues?: UserPartial;
-  isEditMode?: boolean;
-}
-
-const USER_ROLES = [
+// Define task statuses
+const TASK_STATUSES = [
   {
-    label: "Admin",
-    value: "admin",
+    label: "Pending",
+    value: "pending",
   },
   {
-    label: "CEO",
-    value: "ceo",
+    label: "In Progress",
+    value: "in_progress",
   },
   {
-    label: "SE",
-    value: "se",
+    label: "Completed",
+    value: "completed",
   },
   {
-    label: "HR",
-    value: "hr",
+    label: "Cancelled",
+    value: "cancelled",
   },
 ];
 
-const TaskForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
-  const [form] = Form.useForm();
+// Task model interfaces
+interface Task {
+  description: string;
+  assignedDate: string;
+  dueDate: string;
+  status: string;
+  assignedBy: string;
+  employeeId: string;
+  featureId: string;
+}
 
-  const { onSaved, isLoading } = useUserForm();
+interface TaskPartial extends Partial<Task> {}
+
+// Employee interface based on your API response
+interface Employee {
+  employeeId: string;
+  name: string;
+  stack: string;
+  email: string;
+  dateOfJoin: string;
+  phone: string;
+  role: number;
+}
+
+// Feature interface based on your API response
+interface Feature {
+  featureId: string;
+  projectId: string;
+  featureName: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface TaskFormProps {
+  initialValues?: TaskPartial;
+  isEditMode?: boolean;
+}
+
+const TaskForm = ({
+  initialValues,
+  isEditMode = false,
+  taskId,
+}: TaskFormProps) => {
+  const [form] = Form.useForm();
+  const { onSaved, isLoading } = useTaskForm();
+  const { isLoading: employeesLoading, data: employees = [] } = useUsers();
+  const { isLoading: featuresLoading, data: features = [] } = useFeatures();
+
+  // Format employee options for the dropdown
+  const employeeOptions = employees.map((employee) => ({
+    label: employee.name,
+    value: employee.employeeId,
+  }));
+
+  // Format feature options for the dropdown
+  const featureOptions = features.map((feature) => ({
+    label: feature.featureName,
+    value: feature.featureId,
+  }));
 
   useEffect(() => {
     if (initialValues) {
       form.setFieldsValue({
         ...initialValues,
-        password: "",
-        confirm_password: "",
+        assignedDate: initialValues.assignedDate
+          ? moment(initialValues.assignedDate)
+          : null,
+        dueDate: initialValues.dueDate ? moment(initialValues.dueDate) : null,
       });
     }
   }, [initialValues, form, isEditMode]);
 
-  const onFinished = (values: User) => {
-    values.id = isEditMode ? (initialValues?.id ?? 0) : 0;
+  const onFinished = (values: any) => {
+    const taskData: Task = {
+      ...values,
+      assignedDate: values.assignedDate?.format("YYYY-MM-DD"),
+      dueDate: values.dueDate?.format("YYYY-MM-DD"),
+    };
 
-    const userData = _.omit(values, "confirm_password");
-    onSaved(userData);
+    onSaved(taskData, isEditMode, taskId);
   };
 
   return (
     <Form
       form={form}
       layout="vertical"
-      autoComplete={"off"}
+      autoComplete="off"
       initialValues={initialValues}
       onFinish={onFinished}
     >
-      <Card title="Update User">
+      <Card title={isEditMode ? "Update Task" : "Create Task"}>
         <Row gutter={24}>
-          <Col span={12}>
+          <Col span={24}>
             <Form.Item
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: validationMessage("name") }]}
-            >
-              <Input placeholder="Name" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Email"
-              name="email"
+              label="Description"
+              name="description"
               rules={[
-                { required: true, message: validationMessage("email") },
-                { type: "email", message: validationMessage("email", "email") },
+                { required: true, message: validationMessage("description") },
               ]}
             >
-              <Input placeholder="Email" />
+              <Input.TextArea rows={4} placeholder="Task description" />
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item
-              label="Password"
-              name="password"
+              label="Assigned Date"
+              name="assignedDate"
               rules={[
-                {
-                  required: !isEditMode,
-                  message: validationMessage("password"),
-                },
-                { min: 4, message: "Password must be at least 4 characters" },
+                { required: true, message: validationMessage("assigned date") },
               ]}
             >
-              <Input.Password placeholder="Password" />
+              <DatePicker style={{ width: "100%" }} />
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item
-              label="Re-enter Password"
-              name="confirm_password"
-              dependencies={["password"]}
+              label="Due Date"
+              name="dueDate"
               rules={[
-                {
-                  required: !isEditMode,
-                  message: validationMessage("confirm password"),
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("The two passwords do not match")
-                    );
-                  },
-                }),
+                { required: true, message: validationMessage("due date") },
               ]}
             >
-              <Input.Password placeholder="Re-enter Password" />
+              <DatePicker style={{ width: "100%" }} />
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item
-              label="Role"
-              name="role"
-              rules={[{ required: true, message: validationMessage("role") }]}
+              label="Status"
+              name="status"
+              rules={[{ required: true, message: validationMessage("status") }]}
+              initialValue="pending"
             >
-              <Select options={USER_ROLES} placeholder="Select role" />
+              <Select options={TASK_STATUSES} placeholder="Select status" />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item
+              label="Employee"
+              name="employeeId"
+              rules={[
+                { required: true, message: validationMessage("employee") },
+              ]}
+            >
+              <Select
+                options={employeeOptions}
+                placeholder="Select employee"
+                loading={employeesLoading}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label?.toString() || "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item
+              label="Feature"
+              name="featureId"
+              rules={[
+                { required: true, message: validationMessage("feature") },
+              ]}
+            >
+              <Select
+                options={featureOptions}
+                placeholder="Select feature"
+                loading={featuresLoading}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label?.toString() || "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item
+              label="Assigned By"
+              name="assignedBy"
+              rules={[
+                { required: true, message: validationMessage("assigned by") },
+              ]}
+            >
+              <Select
+                options={employeeOptions}
+                placeholder="Select who assigned this task"
+                loading={employeesLoading}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label?.toString() || "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -142,7 +243,7 @@ const TaskForm = ({ initialValues, isEditMode = false }: UserFormProps) => {
             icon={<SaveOutlined />}
             loading={isLoading}
           >
-            Save changes
+            {isEditMode ? "Update Task" : "Create Task"}
           </Button>
         </Col>
       </Row>

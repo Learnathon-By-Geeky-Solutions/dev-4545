@@ -37,7 +37,7 @@ const Sidebar = () => {
     <Sider>
       <div className="p-4">
         <Link to="/">
-          <Image src={Logo} preview={false} height={40} />
+          <Image src={Logo} preview={false} height={80} width={230} />
         </Link>
       </div>
 

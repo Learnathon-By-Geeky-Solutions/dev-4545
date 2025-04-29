@@ -46,11 +46,9 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
     {
       title: "Description",
       key: "description",
-      render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
-          {record?.description}
-        </Tag>
-      ),
+      render: (_, record) => {
+        return <Text>{record?.description}</Text>;
+      },
     },
     {
       title: "Start Date",
