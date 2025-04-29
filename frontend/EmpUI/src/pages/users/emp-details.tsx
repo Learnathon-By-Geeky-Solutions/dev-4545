@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Select, Spin } from "antd";
 import { useUser } from "@hooks/use-users";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useEmpTasks } from "@hooks/use-tasks";
 import { useEmpFeatures } from "@hooks/use-features";
 import { useEmpProjects } from "@hooks/use-projects";
+import { useTaskForm } from "@hooks/use-tasks";
+
 import {
   CalendarOutlined,
   UserOutlined,
@@ -27,7 +29,6 @@ import {
 } from "@ant-design/icons";
 import { useEmpSalary } from "../../hooks/use-salaries";
 
-
 const EmployeeDetails = () => {
   const empId = localStorage.getItem("employeeId");
   const { isLoading, user: employeeDetails } = useUser(empId);
@@ -36,8 +37,7 @@ const EmployeeDetails = () => {
   const { tasks } = useEmpTasks(empId);
   const { features } = useEmpFeatures(empId);
   const { projects } = useEmpProjects(empId);
-  const { salary} =useEmpSalary(empId);
-  
+  const { salary } = useEmpSalary(empId);
 
   const { Title, Text, Paragraph } = Typography;
 
@@ -57,40 +57,6 @@ const EmployeeDetails = () => {
   // Helper functions
   const isOverdue = (dueDate) => {
     return new Date(dueDate) < new Date();
-  };
-
-  const getStatusColor = (status) => {
-    if (!status || status === "string") return "default";
-
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "green";
-      case "in progress":
-        return "blue";
-      case "pending":
-        return "orange";
-      case "overdue":
-        return "red";
-      default:
-        return "default";
-    }
-  };
-
-  const getStatusBadgeStatus = (status) => {
-    if (!status || status === "string") return "default";
-
-    switch (status.toLowerCase()) {
-      case "completed":
-        return "success";
-      case "in progress":
-        return "processing";
-      case "pending":
-        return "warning";
-      case "overdue":
-        return "error";
-      default:
-        return "default";
-    }
   };
 
   const getFeatureStatus = (startDate, endDate) => {
@@ -113,6 +79,51 @@ const EmployeeDetails = () => {
     return `${diffDays} days`;
   };
 
+  // new
+  // Inside the component, add these hooks
+  const { onSaved, isLoading: isUpdatingTask } = useTaskForm("/details");
+
+  // Add this handler function
+  const handleStatusChange = (task, newStatus) => {
+    const updatedTask = {
+      ...task,
+      status: newStatus,
+    };
+    onSaved(updatedTask, true, task.taskId);
+  };
+
+  // Update the getStatusColor and getStatusBadgeStatus functions
+  const getStatusColor = (status) => {
+    if (!status) return "default";
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "green";
+      case "in_progress":
+        return "blue";
+      case "pending":
+        return "orange";
+      case "overdue":
+        return "red";
+      default:
+        return "default";
+    }
+  };
+
+  const getStatusBadgeStatus = (status) => {
+    if (!status) return "default";
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "success";
+      case "in_progress":
+        return "processing";
+      case "pending":
+        return "warning";
+      case "overdue":
+        return "error";
+      default:
+        return "default";
+    }
+  };
 
   return (
     <>
@@ -144,8 +155,7 @@ const EmployeeDetails = () => {
                     </Form.Item>
                   </Col>
                   <Col>
-                  <Form.Item label="Salary">
-                      
+                    <Form.Item label="Salary">
                       <Tag key="Salary" color="geekblue">
                         {salary?.amount}
                       </Tag>
@@ -228,7 +238,8 @@ const EmployeeDetails = () => {
                 isEditMode={true}
               />
             ) : null}
-            {/* Task section */}
+
+            {/*  task section */}
             <Card
               title={
                 <Title level={4} style={{ margin: 0 }}>
@@ -259,12 +270,31 @@ const EmployeeDetails = () => {
                             <Text strong>{"Task No:" || "No Description"}</Text>
                             {index + 1}
                           </Space>
-                          <Tag color={getStatusColor(task.status)}>
-                            {task.status === "string" ? "Not Set" : task.status}
-                          </Tag>
+                          <Select
+                            value={task.status}
+                            style={{ width: 150 }}
+                            onChange={(value) =>
+                              handleStatusChange(task, value)
+                            }
+                            loading={isUpdatingTask}
+                          >
+                            <Select.Option value="pending">
+                              Pending
+                            </Select.Option>
+                            <Select.Option value="in_progress">
+                              In Progress
+                            </Select.Option>
+                            <Select.Option value="completed">
+                              Completed
+                            </Select.Option>
+                            <Select.Option value="overdue">
+                              Overdue
+                            </Select.Option>
+                          </Select>
                         </div>
                       }
                     >
+                      {/* ... rest of the task card content ... */}
                       <Row gutter={[16, 16]}>
                         {/* First row */}
                         <Col xs={24} md={12}>

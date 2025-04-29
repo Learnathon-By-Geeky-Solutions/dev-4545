@@ -65,9 +65,9 @@ export const useFeatureForm = () => {
       message.error((error as AppError).data.error_description);
     }
   }, [isSuccess, isError, error]);
-
-  const onSaved = (feature: Feature) => {
-    featureSaved(feature);
+  
+  const onSaved = (feature: Feature, isEditMode: boolean,featureId: string) => {
+    featureSaved({feature,isEditMode,featureId} );
   };
 
   return {

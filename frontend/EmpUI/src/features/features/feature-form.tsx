@@ -1,57 +1,55 @@
 import React, { useEffect } from 'react';
 import { Form, Card, Row, Col, Button, Input, DatePicker, Select, Spin } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
-import { useFeature, useFeatureForm } from '@hooks/use-features'; // Assumed hooks
-import { useProjects } from '@hooks/use-projects'; // Assumed hook for projects
+import { useFeature, useFeatureForm } from '@hooks/use-features';
+import { useProjects } from '@hooks/use-projects';
 import { validationMessage } from '@utils/helpers/message-helpers';
 import moment from 'moment';
 
 const { TextArea } = Input;
-
-const FeatureForm = ({ isEditMode = false, featureId, initialValues = {} }) => {
+interface FeatureFormProps {
+ 
+  isEditMode?: boolean;
+}
+const FeatureForm = ({ initialValues, isEditMode=false, featureId}: FeatureFormProps) => {
   const [form] = Form.useForm();
-  const { feature, loading: featureLoading, error } = useFeature(featureId); // Fetch feature data
+  const { feature, loading: featureLoading, error } = useFeature(featureId);
   const { onSaved, isLoading } = useFeatureForm();
-  const { isLoading: projectsLoading, data: projects = [] } = useProjects(); // Fetch project options
+  const { isLoading: projectsLoading, data: projects = [] } = useProjects();
 
-  // Format project options for the dropdown
   const projectOptions = projects.map((project) => ({
     label: project.projectName,
     value: project.projectId,
   }));
 
-  // Format initialValues based on feature data or initialValues prop
+  // Proper initial values with moment conversion
   const formInitialValues = {
-    featureName: feature?.featureName || initialValues.featureName || '',
-    projectId: feature?.projectId || initialValues.projectId || undefined,
-    startDate: feature?.startDate ? moment(feature.startDate) : initialValues.startDate ? moment(initialValues.startDate) : null,
-    endDate: feature?.endDate ? moment(feature.endDate) : initialValues.endDate ? moment(initialValues.endDate) : null,
-    description: feature?.description || initialValues.description || '',
+    featureName: initialValues?.featureName || '',
+    projectId: initialValues?.projectId || undefined,
+    startDate: initialValues?.startDate ? moment(initialValues.startDate) : null,
+    endDate: initialValues?.endDate ? moment(initialValues.endDate) : null,
+    description: initialValues?.description || '',
   };
 
-  // Update form when feature data changes
+  // Corrected useEffect with proper field names
   useEffect(() => {
-    if ((feature || initialValues) && isEditMode) {
-      form.setFieldsValue(formInitialValues);
+    if (initialValues) {
+      form.setFieldsValue({
+        ...initialValues,
+        startDate: initialValues.startDate ? moment(initialValues.startDate) : null,
+        endDate: initialValues.endDate ? moment(initialValues.endDate) : null,
+      });
     }
-  }, [feature, initialValues, isEditMode, form]);
+  }, [initialValues, form,isEditMode]);
 
-  // onFinished function
   const onFinished = (values) => {
-    // Format dates to ISO 8601 strings
-    if (values.startDate) {
-      values.startDate = values.startDate.toISOString();
-    }
-    if (values.endDate) {
-      values.endDate = values.endDate.toISOString();
-    }
-
-    const featureData = { ...values };
-
-    console.log('Formatted feature data:', featureData);
-
-    // Call onSaved with the formatted data and isEditMode
-    onSaved(featureData, isEditMode);
+    const formattedValues = {
+      ...values,
+      startDate: values.startDate?.toISOString(),
+      endDate: values.endDate?.toISOString(),
+    };
+    console.log("onfinidhes", formattedValues)
+    onSaved(formattedValues, isEditMode, featureId);
   };
 
   return (
@@ -60,7 +58,7 @@ const FeatureForm = ({ isEditMode = false, featureId, initialValues = {} }) => {
         form={form}
         layout="vertical"
         autoComplete="off"
-        initialValues={formInitialValues}
+        initialValues={formInitialValues} // Use properly formatted initial values
         onFinish={onFinished}
       >
         <Card
