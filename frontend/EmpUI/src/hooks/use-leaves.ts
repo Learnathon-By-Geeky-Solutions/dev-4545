@@ -58,7 +58,7 @@ export const useLeaveForm = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success("Leave saved successfully.");
-      navigate("/leaves");
+      navigate("/leave");
     }
 
     if (isError && error) {

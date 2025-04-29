@@ -2,6 +2,7 @@ import Dashboard from "@pages/dashboard";
 import Settings from "@pages/settings";
 import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
+import LeaveCreate from "@pages/leave/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
 
@@ -122,10 +123,24 @@ const routes = [
   {
     path: "leave",
     breadcrumb: "Userleave",
-    component: leave,
+    component: "",
     exact: true,
-    children: [],
-    roles: ["SE"], // Both roles can access
+    roles: ["SE"],
+    children: [
+      {
+        path: "",
+        breadcrumb: "",
+        component: leave,
+        exact: true,
+      },
+      {
+        path: "create",
+        breadcrumb: "Create Leave",
+        component: LeaveCreate,
+        exact: true,
+      },
+    
+    ], 
   },
 ];
 
