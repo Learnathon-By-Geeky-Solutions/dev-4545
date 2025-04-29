@@ -16,6 +16,7 @@ import EmployeeDetails from "@pages/users/emp-details";
 import leave from "@pages/leave";
 import TaskCreate from "@pages/tasks/create";
 import ProjectCreate from "@pages/projects/create";
+import FeatureCreate from "@pages/features/create";
 
 const routes = [
   {
@@ -78,6 +79,14 @@ const routes = [
     path: "projects/create",
     breadcrumb: "Projects",
     component: ProjectCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "features/create",
+    breadcrumb: "Features",
+    component: FeatureCreate,
     exact: true,
     children: [],
     roles: ["Admin"],

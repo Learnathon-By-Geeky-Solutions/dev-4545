@@ -24,7 +24,8 @@ const baseService = createApi({
     "employee-leave",
     "leave",
     "task",
-    "project"
+    "project",
+    "feature"
   ],
   endpoints: () => ({}),
 });
