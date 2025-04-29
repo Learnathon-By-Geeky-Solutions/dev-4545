@@ -24,7 +24,7 @@ namespace Employee.API.Controllers
             return Ok(result);
         }
         [Authorize(Roles = "Admin,SE")]
-        [HttpGet("EmployeeId")]
+        [HttpGet("{EmployeeId:guid}")]
         public async Task<IActionResult> GetPerformancesByEmployeeId(Guid EmployeeId)
         {
             var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");

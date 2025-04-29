@@ -155,7 +155,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer
                 .Setup(r => r.GetProjectByEmployeeId(empId))
                 .ReturnsAsync(list);
 
-            var handler = new GetProjectByIdQueryHandler(_repoMock.Object);
+            var handler = new GetProjectByEmployeeIdQueryHandler(_repoMock.Object);
             var query = new GetProjectByEmployeeIdQuery(empId);
 
             // Act
@@ -175,7 +175,7 @@ namespace EmployeeXUnit.Test.ApplicationLayer
                 .Setup(r => r.GetProjectByEmployeeId(empId))
                 .ReturnsAsync(Array.Empty<ProjectEntity>());
 
-            var handler = new GetProjectByIdQueryHandler(_repoMock.Object);
+            var handler = new GetProjectByEmployeeIdQueryHandler(_repoMock.Object);
 
             // Act
             var result = await handler.Handle(new GetProjectByEmployeeIdQuery(empId), _ct);

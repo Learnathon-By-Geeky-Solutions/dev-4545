@@ -70,7 +70,34 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                        .ReturnsAsync(projects);
 
             // Act
-            var result = await _controller.GetProjectById(employeeId);
+            var result = await _controller.GetProjectByEmployeeId(employeeId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            okResult.Value.Should().BeEquivalentTo(projects);
+        }
+
+
+        [Fact]
+        public async Task GetProjectByEmployeeId_ShouldReturnOkResult_WithProject()
+        {
+            // Arrange
+            var projectId = Guid.NewGuid();
+            var projects = new ProjectEntity
+            {
+                ProjectId = projectId,
+                ProjectName = "ERP System",
+                Client = "ABC Corp",
+                StartDate = DateTime.Now.AddDays(-10),
+                EndDate = DateTime.Now.AddMonths(1),
+                Description = "An enterprise-level ERP system."
+            };
+
+            _senderMock.Setup(s => s.Send(It.Is<GetProjectByIdQuery>(q => q.Id == projectId), default))
+                       .ReturnsAsync(projects);
+
+            // Act
+            var result = await _controller.GetProjectById(projectId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);

@@ -61,7 +61,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetFeaturesById_ShouldReturn_Ok_When_Authorized()
+        public async Task GetFeaturesByEmployeeId_ShouldReturn_Ok_When_Authorized()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
@@ -73,11 +73,32 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
                       .ReturnsAsync(AuthorizationResult.Success());
 
-            _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.EmployeeId == employeeId), default))
+            _mockSender.Setup(s => s.Send(It.Is<GetFeatureByEmployeeIdQuery>(q => q.EmployeeId == employeeId), default))
                        .ReturnsAsync(features);
 
             // Act
-            var result = await _controller.GetFeaturesById(employeeId);
+            var result = await _controller.GetFeaturesByEmployeeId(employeeId);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>()
+                  .Which.Value.Should().BeEquivalentTo(features);
+        }
+
+        [Fact]
+        public async Task GetFeaturesById_ShouldReturn_Ok_When_Authorized()
+        {
+            // Arrange
+            var employeeId = Guid.NewGuid();
+            var featureId= Guid.NewGuid();
+            var features = new FeatureEntity { FeatureId = featureId, FeatureName = "FeatureA" };
+            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
+                      .ReturnsAsync(AuthorizationResult.Success());
+
+            _mockSender.Setup(s => s.Send(It.Is<GetFeatureByIdQuery>(q => q.Id == featureId), default))
+                       .ReturnsAsync(features);
+
+            // Act
+            var result = await _controller.GetFeaturesById(featureId);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>()
@@ -94,7 +115,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                       .ReturnsAsync(AuthorizationResult.Failed());
 
             // Act
-            var result = await _controller.GetFeaturesById(employeeId);
+            var result = await _controller.GetFeaturesByEmployeeId(employeeId);
 
             // Assert
             result.Should().BeOfType<ForbidResult>();

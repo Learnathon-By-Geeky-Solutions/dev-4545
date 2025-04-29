@@ -11,6 +11,7 @@ namespace Employee.Core.Interfaces
     {
         Task<IEnumerable<ProjectEntity>> GetAllProjects();
         Task<IEnumerable<ProjectEntity>> GetProjectByEmployeeId(Guid Id);
+        Task<ProjectEntity?> GetProjectById(Guid Id);
         Task<ProjectEntity> AddProjectAsync(ProjectEntity project);
         Task<ProjectEntity> UpdateProject(Guid Id, ProjectEntity project);
         Task<bool> DeleteProject(Guid Id);

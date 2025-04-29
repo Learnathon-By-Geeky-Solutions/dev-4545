@@ -11,7 +11,7 @@ namespace Employee.Application.Queries.Project
 {
     public record GetProjectByEmployeeIdQuery(Guid EmployeeId) : IRequest<IEnumerable<ProjectEntity>>;
 
-    public class GetProjectByIdQueryHandler(IProjectRepository projectRepository)
+    public class GetProjectByEmployeeIdQueryHandler(IProjectRepository projectRepository)
         : IRequestHandler<GetProjectByEmployeeIdQuery, IEnumerable<ProjectEntity>>
     {
         public async Task<IEnumerable<ProjectEntity>> Handle(GetProjectByEmployeeIdQuery request, CancellationToken cancellationToken)
