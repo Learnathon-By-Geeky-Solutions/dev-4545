@@ -61,7 +61,9 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var employeeId = Guid.NewGuid();
             var tasks = new List<TaskEntity>
             {
+                new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId },
                 new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
+
             };
 
             _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
@@ -71,7 +73,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
                        .ReturnsAsync(tasks);
 
             // Act
-            var result = await _controller.GetTaskById(employeeId);
+            var result = await _controller.GetTaskByEmployeeId(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -91,7 +93,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.GetTaskById(employeeId);
 
             // Assert
-            Assert.IsType<ForbidResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]

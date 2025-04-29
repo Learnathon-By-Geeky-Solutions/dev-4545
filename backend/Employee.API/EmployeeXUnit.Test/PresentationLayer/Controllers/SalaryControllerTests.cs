@@ -92,7 +92,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
 
 
             // Assert
-            Assert.IsType<ForbidResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]

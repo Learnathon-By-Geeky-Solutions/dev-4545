@@ -29,14 +29,21 @@ namespace Employee.API.Controllers
         }
 
         // Admin and SE can view a specific task by employee ID
-        [HttpGet("{employeeId}")]
+        [HttpGet("employees/{EmployeeId:guid}")]
         [Authorize(Roles = "Admin,SE")]
-        public async Task<IActionResult> GetTaskById(Guid EmployeeId)
+        public async Task<IActionResult> GetTaskByEmployeeId(Guid EmployeeId)
         {
             var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
             if (!authResult.Succeeded)
                 return Forbid();
             var result = await _sender.Send(new GetTaskByIdQuery(EmployeeId));
+            return Ok(result);
+        }
+        [HttpGet("{Id:guid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetTaskById(Guid Id)
+        {
+            var result = await _sender.Send(new GetTaskByTaskIdQuery(Id));
             return Ok(result);
         }
 
