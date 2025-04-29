@@ -22,10 +22,19 @@ interface Props {
   onDelete: (featureId: number) => void;
 }
 
-const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
+const TableActions: React.FC<Props> = ({ onStatusChange, onEdit ,  onDelete }) => {
   const { isLoading, data } = useFeatures();
 
   const getActions = (featureId: number): MenuProps["items"] => [
+    {
+      key: `edit-${featureId}`,
+      label: (
+        <Link to={`/features/${featureId}`}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+      onClick: () => onEdit(featureId),
+    },
     {
       key: `delete-${featureId}`,
       label: (

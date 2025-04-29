@@ -19,6 +19,7 @@ import TaskCreate from "@pages/tasks/create";
 import ProjectCreate from "@pages/projects/create";
 import FeatureCreate from "@pages/features/create";
 import TaskEdit from "@pages/tasks/edit";
+import FeatureEdit from "@pages/features/edit"
 import PerformanceCreate from "@pages/performances/create";
 
 const routes = [
@@ -107,6 +108,14 @@ const routes = [
     path: "features/create",
     breadcrumb: "Features",
     component: FeatureCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "features/:id",
+    breadcrumb: "Features",
+    component: FeatureEdit,
     exact: true,
     children: [],
     roles: ["Admin"],

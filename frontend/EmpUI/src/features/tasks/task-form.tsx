@@ -70,7 +70,7 @@ interface TaskFormProps {
 const TaskForm = ({
   initialValues,
   isEditMode = false,
-  taskId = null,
+  taskId,
 }: TaskFormProps) => {
   const [form] = Form.useForm();
   const { onSaved, isLoading } = useTaskForm();
