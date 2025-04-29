@@ -36,13 +36,13 @@ namespace Employee.API.Controllers
         }
 
         // Admin and SE can view salary by employee ID
-        [HttpGet("{employeeId}")]
+        [HttpGet("{EmployeeId:guid}")]
         [Authorize(Roles = "Admin,SE")]
         public async Task<IActionResult> GetSalaryByEmpId(Guid EmployeeId)
         {
-            var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
-            if (!authResult.Succeeded)
-                return Forbid();
+            //var authResult = await _authz.AuthorizeAsync(User, EmployeeId, "CanModifyOwnEmployee");
+            //if (!authResult.Succeeded)
+            //    return Forbid();
             var result = await _sender.Send(new GetSalariesByEmployeeIdQuery(EmployeeId));
             if (result == null)
             {
@@ -52,7 +52,7 @@ namespace Employee.API.Controllers
         }
 
         // Only Admin can update salary by employee ID
-        [HttpPut("{employeeId}")]
+        [HttpPut("{employeeId:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateSalaryByEmpId(Guid employeeId, [FromBody] SalaryEntity salaryEntity)
         {
@@ -61,7 +61,7 @@ namespace Employee.API.Controllers
         }
 
         // Only Admin can delete salary by employee ID
-        [HttpDelete("{employeeId}")]
+        [HttpDelete("{employeeId:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSalaryByEmpId(Guid employeeId)
         {
