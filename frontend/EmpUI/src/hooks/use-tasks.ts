@@ -48,7 +48,7 @@ export const useTasks = () => {
 };
 
 // Hook to handle saving a task (create or update)
-export const useTaskForm = () => {
+export const useTaskForm = (goto = "/tasks") => {
   const { message } = App.useApp();
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ export const useTaskForm = () => {
   useEffect(() => {
     if (isSuccess) {
       message.success("Task saved successfully.");
-      navigate("/tasks");
+      navigate(goto);
     }
 
     if (isError && error) {
