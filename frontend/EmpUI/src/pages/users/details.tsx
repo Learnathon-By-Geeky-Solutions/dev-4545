@@ -29,6 +29,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useEmpSalary, useSalaries } from "../../hooks/use-salaries";
 
 const UserDetails = () => {
   const { id: empId } = useParams();
@@ -39,6 +40,7 @@ const UserDetails = () => {
   const { tasks } = useEmpTasks(empId);
   const { features } = useEmpFeatures(empId);
   const { projects } = useEmpProjects(empId);
+  const {salary} =useEmpSalary(empId);
 
   console.log("performance details ", performance);
 
@@ -148,6 +150,13 @@ const UserDetails = () => {
                     <Form.Item label="Stack">
                       <Tag key="stack" color="geekblue">
                         {employeeDetails?.stack}
+                      </Tag>
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="Salary">
+                      <Tag key="salary" color="geekblue">
+                        {salary?.amount}
                       </Tag>
                     </Form.Item>
                   </Col>
