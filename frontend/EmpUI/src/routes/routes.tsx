@@ -112,6 +112,7 @@ const routes = [
     children: [],
     roles: ["Admin", "SE"], // Both roles can access
   },
+  
   {
     path: "details",
     breadcrumb: "UserDetails",
