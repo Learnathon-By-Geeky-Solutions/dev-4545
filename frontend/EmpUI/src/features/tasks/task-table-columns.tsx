@@ -68,9 +68,9 @@ const TableActions: React.FC<Props> = ({ onEdit, onDelete }) => {
       title: "Description",
       key: "description",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
+        <Text >
           {record?.description}
-        </Tag>
+        </Text>
       ),
     },
     {

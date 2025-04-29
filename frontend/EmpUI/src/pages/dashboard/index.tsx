@@ -2,6 +2,7 @@ import { Card, Typography } from "antd";
 import PageContent from "@layouts/partials/page-content";
 import PageHeader from "@layouts/partials/page-header";
 import Charts from "@/layouts/partials/charts";
+import { BoldOutlined } from "@ant-design/icons";
 
 const Dashboard = () => {
   return (
@@ -12,7 +13,7 @@ const Dashboard = () => {
       />
       <PageContent>
         <Card>
-          <Typography.Title level={3}>Welcome to react admin</Typography.Title>
+          <Typography.Title level={3}>Welcome to EmployEE Task Management System</Typography.Title>
         </Card>
 
         {/* Chart Layout */}
