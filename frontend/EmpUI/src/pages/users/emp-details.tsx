@@ -359,7 +359,7 @@ const EmployeeDetails = () => {
                         <Col xs={24} md={12}>
                           <Space>
                             <TagOutlined />
-                            <Text strong>Description:</Text>
+                            <Text strong>Comments:</Text>
                             {editingTaskId === task.taskId ? (
                               <Space>
                                 <TextArea
