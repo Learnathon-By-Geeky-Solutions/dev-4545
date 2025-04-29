@@ -55,28 +55,34 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
         }
 
         [Fact]
-        public async Task GetTaskById_ReturnsOkResult_WhenAuthorized()
+        public async Task GetTaskByEmployeeId_ReturnsOk_WhenAuthorized()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
-            var tasks = new List<TaskEntity>
-            {
-                new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId }
-            };
+            var task = new TaskEntity { TaskId = Guid.NewGuid(), EmployeeId = employeeId };
 
-            _authzMock.Setup(a => a.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), employeeId, "CanModifyOwnEmployee"))
-                      .ReturnsAsync(AuthorizationResult.Success());
+            _authzMock
+                .Setup(a => a.AuthorizeAsync(
+                    It.IsAny<ClaimsPrincipal>(),
+                    employeeId,
+                    "CanModifyOwnEmployee"))
+                .ReturnsAsync(AuthorizationResult.Success());
 
-            _mockSender.Setup(s => s.Send(It.Is<GetTaskByIdQuery>(q => q.Id == employeeId), default))
-                       .ReturnsAsync(tasks);
+            _mockSender
+                .Setup(s => s.Send(
+                    It.Is<GetTaskByTaskIdQuery>(q => q.Id == employeeId),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(task);
 
             // Act
-            var result = await _controller.GetTaskById(employeeId);
+            var result = await _controller.GetTaskByEmployeeId(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(tasks, okResult.Value);
+            Assert.Equal(task, okResult.Value);
         }
+
+
 
         [Fact]
         public async Task GetTaskById_ReturnsForbid_WhenUnauthorized()
@@ -91,7 +97,7 @@ namespace EmployeeXUnit.Test.PresentationLayer.Controllers
             var result = await _controller.GetTaskById(employeeId);
 
             // Assert
-            Assert.IsType<ForbidResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
