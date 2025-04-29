@@ -66,8 +66,8 @@ export const useTaskForm = () => {
     }
   }, [isSuccess, isError, error]);
 
-  const onSaved = (task: Task) => {
-    taskSaved(task);
+  const onSaved = (task: Task, isEditMode: boolean) => {
+    taskSaved({task, isEditMode});
   };
 
   return {
