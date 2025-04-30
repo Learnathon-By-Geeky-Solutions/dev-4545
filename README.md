@@ -157,16 +157,16 @@ Update `appsettings.json` with your environment values:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=EmployeeDB;Trusted_Connection=True;",
-    "RedisURL": "localhost:6379"
+    "DefaultConnection": "Your Connection String",
+    "RedisURL": "Your Redis URL"
   },
   "Jwt": {
     "Key": "your_super_secure_key_here",
-    "Issuer": "EmployeeAPI",
-    "Audience": "EmployeeClient"
+    "Issuer": "your Issuer",
+    "Audience": "Your Audience"
   },
   "Cors": {
-    "url": "http://localhost:3000" // React frontend URL
+    "url": "Your frontend URL" 
   }
 }
 ```
