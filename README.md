@@ -14,6 +14,20 @@
 
 ---
 
+## 📖 Table of Contents
+- [🚀 Features](#-features)
+- [👥 Team](#-team)
+- [🛠 Tech Stack](#-tech-stack)
+- [⚙️ Installation](#️-installation)
+- [📄 Configuration](#-configuration)
+- [🗄 Database Setup](#-database-setup)
+- [📊 Diagrams](#-diagrams)
+- [SonarCloud Analysis](#sonarcloud-analysis-)
+- [🚀 CI/CD Pipeline](#-cicd-pipeline)
+- [📞 Contact](#-contact)
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Backend:** ASP.NET 8 (C#)
@@ -57,19 +71,6 @@
 
 ---
 
-## 📖 Table of Contents
-- [🚀 Features](#-features)
-- [👥 Team](#-team)
-- [🛠 Tech Stack](#-tech-stack)
-- [⚙️ Installation](#️-installation)
-- [📄 Configuration](#-configuration)
-- [🗄 Database Setup](#-database-setup)
-- [📊 Diagrams](#-diagrams)
-- [SonarCloud Analysis](#sonarcloud-analysis-)
-- [🚀 CI/CD Pipeline](#-cicd-pipeline)
-- [📞 Contact](#-contact)
-
----
 
 ## 🚀 Features
 - **Role-Based Access Control** 👨💼👩💻
