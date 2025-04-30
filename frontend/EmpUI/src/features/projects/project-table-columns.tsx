@@ -63,27 +63,27 @@ const TableActions: React.FC<Props> = ({ onStatusChange,onEdit, onDelete }) => {
       title: "Start Date",
       key: "startDate",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
+        <Text >
           {record?.startDate}
-        </Tag>
+        </Text>
       ),
     },
     {
       title: "End Date",
       key: "endDate",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
+        <Text color="geekblue" className="uppercase">
           {record?.endDate}
-        </Tag>
+        </Text>
       ),
     },
     {
       title: "Project Name",
       key: "project",
       render: (_, record) => (
-        <Tag color="geekblue" className="uppercase">
+        <Text>
           {record?.projectName}
-        </Tag>
+        </Text>
       ),
     },
 

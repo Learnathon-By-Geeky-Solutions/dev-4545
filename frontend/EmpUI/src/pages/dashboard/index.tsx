@@ -13,7 +13,7 @@ const Dashboard = () => {
       />
       <PageContent>
         <Card>
-          <Typography.Title level={3}>Welcome to EmployEE Task Management System</Typography.Title>
+          <Typography.Title level={3}>Welcome to TaskTracking</Typography.Title>
         </Card>
 
         {/* Chart Layout */}
