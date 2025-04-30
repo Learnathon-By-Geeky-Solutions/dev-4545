@@ -1,228 +1,175 @@
 # Employee Management System 🌟🏢
 
-## Table of Contents 📑
-- [Description](#description) 📝
-- [Features](#features) ✨
-- [Technologies Used](#technologies-used) 🛠️
-- [Installation Instructions](#installation-instructions) 📦
-- [Usage](#usage) 🖥️
-- [Configuration](#configuration) ⚙️
-  - [appsettings.json Example](#appsettingsjson-example) 📄
-  - [Configuration Settings Explanation](#configuration-settings-explanation) 📝
-- [Database Setup](#database-setup) 🗄️
-- [Caching with Redis](#caching-with-redis) 🚀
-  - [Redis Configuration Process](#redis-configuration-process) ⚙️
-- [CI/CD Deployment](#cicd-deployment) 🚀
-- [SonarCloud Analysis](#sonarcloud-analysis) 📊
-- [Contact](#contact) 📞
-
----
-
-## Description 📝✨
-The **Employee Management System** is a cutting-edge 🌐 web-based application designed to simplify managing employee tasks, features, and projects. It offers a robust platform to track activities 📈, assign tasks ✅, and monitor progress 🚀. Built with modern tech and architectural patterns, it ensures scalability 📏, maintainability 🛠️.
-
-
 <div align="center">
-<br>
 
-[![live demo](https://img.shields.io/badge/live%20demo-view-blue?labelColor=00FFFF&style=for-the-badge)](https://employee-manage1.netlify.app/)
-[![API DOC](https://img.shields.io/badge/API%20DOC-view-grey?labelColor=85EA2D&style=for-the-badge&logo=swagger&logoColor=black)](https://app.swaggerhub.com/apis-docs/NazmusSakibRhythm/employee-api/1.0)
+[![.NET](https://img.shields.io/badge/.NET-8.0-%23512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+[![React](https://img.shields.io/badge/React-18.2-%2361DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![CI/CD](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/CI-test-coverage.yml/badge.svg)](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-AVAILABLE-green?style=for-the-badge)](https://employee-manage1.netlify.app/)
 
-</br>
 </div>
 
----
-
-## Team Members
-| Name | GitHub |
-|------|--------|
-| Nazmus Sakib (Team Leader) | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/arghya-n) |
-|  Md. Mubasshir Naib | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/MubasshirNaib) |
-|  Saikat Hossain Shohag | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/shohag1102) |
-
-
-## Mentor
-| Name | GitHub |
-|------|--------|
-| Sakib Mahmood | [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white)](https://github.com/sakibmahmood98)|
-
-
-
-
-## Features ✨
-- ✅ **Task Management:** Create, assign, and track tasks with ease! 🗂️
-- 🛠️ **Feature Management:** Define and manage project features effortlessly. 🔧
-- 📊 **Project Oversight:** Keep an eye on progress and contributions. 👀
-- 🔐 **User Authentication:** Secure role-based access control. 🛡️
-- 🏖️ **Application For Leave:** Employee can apply or update his status as in leave. 
-
+## 📖 Table of Contents
+- [🚀 Features](#-features)
+- [👥 Team](#-team)
+- [🛠 Tech Stack](#-tech-stack)
+- [⚙️ Installation](#️-installation)
+- [📄 Configuration](#-configuration)
+- [🗄 Database Setup](#-database-setup)
+- [📊 Diagrams](#-diagrams)
+- [🚀 CI/CD Pipeline](#-cicd-pipeline)
+- [📞 Contact](#-contact)
 
 ---
 
-## Technologies Used 🛠️💻
-- ![.NET](https://img.shields.io/badge/.NET%208-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
-- ![.NET Core](https://img.shields.io/badge/EF%20Core-4D26CE?style=flat-square)
-
-- ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-Architectural%20Pattern-0A0A0A?style=for-the-badge)
-- ![CQRS](https://img.shields.io/badge/CQRS-Command%20Query%20Responsibility%20Segregation-6A1B9A?style=for-the-badge&logo=data:image/svg+xml;base64)
-
-- ![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-
-- ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
-
-- ![CI/CD](https://img.shields.io/badge/CI%2FCD-Automated%20Pipelines-0A0A0A?style=for-the-badge)
-
-
-- ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
-
-
+## 🚀 Features
+- **Role-Based Access Control** 👨💼👩💻
+- **Task Management System** ✅📅
+- **Leave Application Workflow** 🏖️📩
+- **Real-time Caching with Redis** ⚡🔴
+- **Salary Management System** 💰📈
+- **Comprehensive Reporting** 📊📑
 
 ---
 
-## Installation Instructions 📦🛠️
-1. **Prerequisites:** 📋✅
-   - .NET 8 SDK 🌟
-   - SQL Server (local or remote) 🗄️
-   - Redis Server 🚀
-   - Git 🌿
+## 👥 Team & Mentorship
 
-2. **Clone the Repository:** 📥⬇️
-   ```bash
-   git clone https://github.com/Learnathon-By-Geeky-Solutions/dev-4545.git
-   cd dev-4545/Employee.API
-   ```
+### Team Members
+| Role          | Name                  | GitHub Profile                                      |
+|---------------|-----------------------|----------------------------------------------------|
+| Team Leader   | Nazmus Sakib          | [![GitHub](https://img.shields.io/badge/GitHub-arghya--n-blue)](https://github.com/arghya-n) |
+| Developer     | Md. Mubasshir Naib    | [![GitHub](https://img.shields.io/badge/GitHub-MubasshirNaib-green)](https://github.com/MubasshirNaib) |
+| Developer     | Saikat Hossain Shohag | [![GitHub](https://img.shields.io/badge/GitHub-shohag1102-red)](https://github.com/shohag1102) |
 
-3. **Restore Dependencies:** 🔄♻️
-   ```bash
-   dotnet restore
-   ```
-
-4. **Database Setup:** 🗄️🔧
-   - Ensure SQL Server is running 🟢.
-   - Update `appsettings.json` connection string 📝.
-   - Run migrations:
-     ```bash
-     dotnet ef database update --project Employee.Infrastructure
-     ```
-
-5. **Redis Setup:** 🚀⚡
-   - Install and run Redis locally or use a remote instance 🌐.
-   - Update `appsettings.json` Redis connection string 📝.
-
-6. **Run the Application:** ▶️🎉
-   ```bash
-   dotnet run
-   ```
-   - Access at `https://localhost:{Your PORT}`  
----
-
-## Usage 🖥️🌟
-The system offers role-based interfaces:
-- **Admin:** Manage users, roles, Assigns Project, Features & Tasks, Approve Leave and Update Salary ⚙️👑.
-
-- **Employee:** View his own project,features & tasks, update  his work status, and apply for leave 📩👷.
-
-**Get Started:**
-1. Log in with credentials 🔑.
-2. Explore features via the menu 🧭.
-3. Check in-app help for details ℹ️.
+### Mentor
+| Role          | Name            | GitHub Profile                                      |
+|---------------|-----------------|----------------------------------------------------|
+| Mentor        | Sakib Mahmood   | [![GitHub](https://img.shields.io/badge/GitHub-sakibmahmood98-lightgrey)](https://github.com/sakibmahmood98) |
 
 ---
 
-## Configuration ⚙️🔧
-Manage settings via `appsettings.json` and environment variables 🌍.
+## 🛠 Tech Stack
+### Backend
+![.NET 8](https://img.shields.io/badge/.NET%208-512BD4?logo=dotnet&logoColor=white)
+![Entity Framework Core](https://img.shields.io/badge/EF%20Core-4D26CE?logo=dotnet&logoColor=white)
+![CQRS Pattern](https://img.shields.io/badge/CQRS-Architecture-blueviolet)
+![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
 
-### appsettings.json Example 📄
+### Frontend
+![React 18](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Ant Design](https://img.shields.io/badge/Ant%20Design-0170FE?logo=ant-design&logoColor=white)
+
+**UI Template Courtesy:**  
+Professional dashboard template provided by [Vivasoft](https://vivasoftltd.com/)
+
+### DevOps
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=github-actions&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![SonarCloud](https://img.shields.io/badge/SonarCloud-F3702A?logo=sonarcloud&logoColor=white)
+
+---
+
+## ⚙️ Installation
+
+### Backend Setup
+```bash
+# Clone repository
+git clone https://github.com/Learnathon-By-Geeky-Solutions/dev-4545.git
+cd dev-4545/Employee.API
+
+# Restore dependencies
+dotnet restore
+
+# Configure database (update connection string in appsettings.json)
+dotnet ef database update --project Employee.Infrastructure
+
+# Run the API
+dotnet run
+```
+
+### Frontend Setup
+```bash
+cd frontend/EmpUI
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+---
+
+## 📄 Configuration
+Update `appsettings.json` with your environment values:
+
 ```json
 {
-    "Logging": {
-        "LogLevel": {
-            "Default": "Information",
-            "Microsoft.AspNetCore": "Warning"
-        }
-    },
-    "AllowedHosts": "*",
-    "ConnectionStrings": {
-        "DefaultConnection": "{ConnectionString}",
-        "RedisURL": "{RedisURL}"
-    },
-    "Jwt": {
-        "Key": "{JwtKey}",
-        "Issuer": "{JwtIssuer}",
-        "Audience": "{JwtAudience}"
-    },
-    "Cors": {
-        "url": "{ReactURL}"
-    }
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.;Database=EmployeeDB;Trusted_Connection=True;",
+    "RedisURL": "localhost:6379"
+  },
+  "Jwt": {
+    "Key": "your_super_secure_key_here",
+    "Issuer": "EmployeeAPI",
+    "Audience": "EmployeeClient"
+  },
+  "Cors": {
+    "url": "http://localhost:3000" // React frontend URL
+  }
 }
 ```
 
-### Configuration Settings Explanation 📝
-- **AllowedHosts:** Specifies allowed hosts for the application. `*` allows all hosts.
-- **ConnectionStrings:**
-  - `DefaultConnection`: Connection string for the SQL Server database.
-  - `RedisURL`: Connection string for the Redis server.
-- **Jwt:** Settings for JSON Web Token (JWT) authentication.
-  - `Key`: Secret key for signing JWT tokens.
-  - `Issuer`: Issuer of the JWT token.
-  - `Audience`: Audience for the JWT token.
-- **Cors:** Cross-Origin Resource Sharing settings.
-  - `url`: URL for the React frontend application.
+---
 
-Use `appsettings.Development.json` for development settings 🛠️ and secure sensitive data 🔒.
+## 🗄 Database Setup
+![ER Diagram](https://img.shields.io/badge/ER_Diagram-PDF-blue?style=flat-square) 
+[View ER Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/er-diagram.pdf)
 
 ---
 
-## Database Setup 🗄️💾
-Using SQL Server:
-1. Create a database 🆕.
-2. Update `appsettings.json` connection string 📝.
-3. Apply migrations: `dotnet ef database update` 🔄.
-
-Includes initial seeding for users and roles 🌱.
+## 📊 Diagrams
+| Diagram Type          | Link                                                                                   |
+|-----------------------|---------------------------------------------------------------------------------------|
+| **UML Diagram**       | [View UML Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/Employee%20Management%20UML.pdf) |
+| **Activity Diagram**  | [View Activity Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/Activity%20Diagram.pdf)     |
 
 ---
 
-## Caching with Redis 🚀⚡
-Boosts performance with Redis:
-- **Config:** Set connection string in `appsettings.json` 📝.
-- **Manage:** Use Redis CLI/tools to inspect or clear cache 🧹.
+## 🚀 CI/CD Pipeline
+![CI/CD Flow](https://img.shields.io/badge/Workflow-GitHub_Actions-blue?logo=github-actions)
 
-### Redis Configuration Process ⚙️
-1. **Install Redis:** Download and install Redis from [redis.io](https://redis.io/) if not already installed.
-2. **Run Redis Server:** Start the Redis server locally (e.g., `redis-server`) or ensure your remote Redis instance is accessible.
-3. **Update Connection String:** In `appsettings.json`, replace `RedisURL` with your Redis connection string (e.g., `localhost:6379`).
-4. **Verify Connection:** Use Redis CLI (e.g., `redis-cli ping`) or a Redis client to verify the connection. A `PONG` response indicates success.
-
----
-
-## CI/CD Deployment 🚀🌐
-![Build Status](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/CI-test-coverage.yml/badge.svg) 
-
-
-![Build Status](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/pages/pages-build-deployment/badge.svg) 
-
-Automated pipeline:
-- **CI:** Builds and tests on each commit 🛠️.
-- **CD:** Deploys to staging/production on success 🌟.
-- **Config:** See [`.github/workflows/CI-CD.yml`] for Build & deploy. Also You can go through [`.github/workflows/CI-test-coverage.yml`] for test coverage pipeline 📋.
+```mermaid
+graph LR
+A[Code Commit] --> B[Run Tests]
+B --> C{Passed?}
+C -->|Yes| D[Build & Package]
+C -->|No| E[Alert Developers]
+D --> F[Deploy to Staging]
+F --> G[Run Integration Tests]
+G --> H{Passed?}
+H -->|Yes| I[Deploy to Production]
+H -->|No| E
+```
 
 ---
 
-## SonarCloud Analysis 📊🔍
-Key metrics for code quality:
+## 📞 Contact
 
-| Metric 🎯        | Status 📈                                                                                   | Icon 🌟 |
-|------------------|---------------------------------------------------------------------------------------------|---------|
-| Quality Gate ✅  | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545) | 🏆      |
-| Bugs 🐞         | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)                 | 🚫      |
-| Vulnerabilities 🔓 | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545) | 🛡️      |
-| Code Smells 👃  | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)     | 🧹      |
-| Coverage 📏     | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)       | 📊      |
+| Team Member            | Email Address                          | GitHub Profile                                                      |
+|------------------------|----------------------------------------|---------------------------------------------------------------------|
+| **Nazmus Sakib**       | 📧 [sakib.hb7@gmail.com]()             | 🐙 [arghya-n](https://github.com/arghya-n)                          |
+| **Mubasshir Naib**     | 📧 [u1904089@student.cuet.ac.bd]()     | 🐙 [MubasshirNaib](https://github.com/MubasshirNaib)                |
+| **Saikat Hossain Shohag** | 📧 [u1904088@student.cuet.ac.bd]() | 🐙 [shohag1102](https://github.com/shohag1102)                      |
 
-
+[![Report Issue](https://img.shields.io/badge/REPORT_ISSUE-GITHUB-red?style=for-the-badge)](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/issues)
 
 ---
 
-## Contact 📞💬
-Reach out to [`Nazmus Sakib`] at [`sakib.hb7@gmail.com`] 📧 or open a GitHub issue 🚨.
+<div align="center">
+  <h3>🚀 Powered by Geeky Solutions Learnathon 2024 🚀</h3>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJX8KMkRkv3ipsAZCdn7mFDkrgdsl2Pa6Ow_RyOSUXButka0gA7oekX5n_nZMeqGjqiuk&usqp=CAU" width="100" alt="Geeky Solutions Logo">
+</div>
