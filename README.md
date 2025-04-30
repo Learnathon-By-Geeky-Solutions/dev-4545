@@ -61,6 +61,7 @@ The **Employee Management System** is a cutting-edge 🌐 web-based application 
 
 ## Technologies Used 🛠️💻
 - ![.NET](https://img.shields.io/badge/.NET%208-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+- ![.NET Core](https://upload.wikimedia.org/wikipedia/commons/e/ee/.NET_Core_Logo.svg)
 
 - ![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-Architectural%20Pattern-0A0A0A?style=for-the-badge)
 - ![CQRS](https://img.shields.io/badge/CQRS-Command%20Query%20Responsibility%20Segregation-6A1B9A?style=for-the-badge&logo=data:image/svg+xml;base64)
