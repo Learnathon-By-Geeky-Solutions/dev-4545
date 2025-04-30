@@ -7,6 +7,7 @@
 [![CI/CD](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions/workflows/CI-test-coverage.yml/badge.svg)](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/actions)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)
+[![API DOC](https://img.shields.io/badge/API%20DOC-view-grey?labelColor=85EA2D&style=for-the-badge&logo=swagger&logoColor=black)](https://app.swaggerhub.com/apis-docs/NazmusSakibRhythm/employee-api/1.0)
 [![Live Demo](https://img.shields.io/badge/LIVE_DEMO-AVAILABLE-green?style=for-the-badge)](https://tasktracker-learnathon.netlify.app/)
 
 </div>
@@ -19,6 +20,7 @@
 - [📄 Configuration](#-configuration)
 - [🗄 Database Setup](#-database-setup)
 - [📊 Diagrams](#-diagrams)
+- [SonarCloud Analysis](#sonarcloud-analysis-)
 - [🚀 CI/CD Pipeline](#-cicd-pipeline)
 - [📞 Contact](#-contact)
 
@@ -136,6 +138,20 @@ Update `appsettings.json` with your environment values:
 |-----------------------|---------------------------------------------------------------------------------------|
 | **UML Diagram**       | [View UML Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/doc/Employee%20Management%20UML.pdf) |
 | **Activity Diagram**  | [View Activity Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/doc/Activity%20Diagram.pdf)     |
+
+---
+
+## SonarCloud Analysis 📊🔍
+Key metrics for code quality:
+
+| Metric 🎯        | Status 📈                                                                                   | Icon 🌟 |
+|------------------|---------------------------------------------------------------------------------------------|---------|
+| Quality Gate ✅  | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545) | 🏆      |
+| Bugs 🐞         | [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)                 | 🚫      |
+| Vulnerabilities 🔓 | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545) | 🛡️      |
+| Code Smells 👃  | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)     | 🧹      |
+| Coverage 📏     | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Learnathon-By-Geeky-Solutions_dev-4545&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Learnathon-By-Geeky-Solutions_dev-4545)       | 📊      |
+
 
 ---
 
