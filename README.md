@@ -1,6 +1,6 @@
-# Employee Management System 🌟🏢
-
 <div align="center">
+
+# 🧑‍💻 Task Tracker – Learnathon Project
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-%23512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 [![React](https://img.shields.io/badge/React-18.2-%2361DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
@@ -11,6 +11,51 @@
 [![Live Demo](https://img.shields.io/badge/LIVE_DEMO-AVAILABLE-green?style=for-the-badge)](https://tasktracker-learnathon.netlify.app/)
 
 </div>
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** ASP.NET 8 (C#)
+- **Frontend:** React 18.2
+- **Architecture:** Clean Architecture
+- **CI/CD:** GitHub Actions
+- **Code Quality:** SonarCloud
+- **Documentation:** Swagger
+
+---
+## 🧱 **Clean Architecture Overview**
+
+**This project strictly adheres to [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles**, emphasizing:
+
+### **Layered Structure**
+- **🟢 Core Layer**: Contains enterprise-wide **business entities**, **validation rules**, and domain logic.
+- **🟡 Application Layer**: Implements **use cases**, **DTOs**, and interfaces (abstractions for external services).
+- **🔵 Infrastructure Layer**: Handles external concerns - **database operations**, API integrations, and framework-specific implementations.
+- **🟣 Presentation Layer**: React-based UI that consumes the backend API.
+
+### **Key Principles**
+- **🚀 Dependency Rule**: Inner layers **never depend on outer layers** (Core → Application → Infrastructure → Presentation).
+- **🧪 Testability**: Clear separation enables **unit testing** (Core/Application) and **integration testing** (Infrastructure).
+- **🔗 Dependency Injection**: Leverages .NET's DI to invert dependencies between layers.
+- **🌐 Decoupled Frontend**: React app communicates via API contracts, enabling independent scaling.
+
+**Why It Matters**: This architecture ensures long-term **maintainability**, **flexibility to change tech stacks**, and **team collaboration efficiency**.
+
+---
+
+## 📂 Project Structure
+📦 src
+
+├─ 🏗️ Employee.API         # Presentation Layer (ASP.NET Web API).
+
+├─ 🧠 Employee.Core       # Core Layer (Entities, Domain Services).
+
+├─ 🛠️ Employee.Application # Application Layer (Use Cases, DTOs, Interfaces).
+
+└─ 📦 Employee.Infrastructure # Infrastructure Layer (EF Core, Repositories).
+
+---
 
 ## 📖 Table of Contents
 - [🚀 Features](#-features)
