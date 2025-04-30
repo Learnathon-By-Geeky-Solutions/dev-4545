@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const { TextArea } = Input;
 
-const ProjectForm = ({ initialValues, isEditMode = true, projectId }) => {
+const ProjectForm = ({ initialValues, isEditMode = false, projectId }) => {
   const [form] = Form.useForm();
   const { project, loading: projectLoading, error } = useProject(projectId);
   const { onSaved, isLoading } = useProjectForm();
