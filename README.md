@@ -25,7 +25,7 @@ The **Employee Management System** is a cutting-edge 🌐 web-based application 
 <div align="center">
 <br>
 
-[![live demo](https://img.shields.io/badge/live%20demo-view-blue?labelColor=00FFFF&style=for-the-badge)]()
+[![live demo](https://img.shields.io/badge/live%20demo-view-blue?labelColor=00FFFF&style=for-the-badge)](https://employee-manage1.netlify.app/)
 [![API DOC](https://img.shields.io/badge/API%20DOC-view-grey?labelColor=85EA2D&style=for-the-badge&logo=swagger&logoColor=black)](https://app.swaggerhub.com/apis-docs/NazmusSakibRhythm/employee-api/1.0)
 
 </br>
