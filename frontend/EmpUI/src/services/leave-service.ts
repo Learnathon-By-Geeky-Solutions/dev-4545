@@ -13,12 +13,12 @@ export const leaveService = baseService.injectEndpoints({
     }),
     leaveSaved: builder.mutation<Leave, Leave>({
       query: (leave) => {
-        const requestUrl = leave?.employeeId
-          ? API_END_POINTS.leaves + `?EmployeeId=${leave.employeeId}`
-          : API_END_POINTS.leaves;
-        const requestMethod = leave?.employeeId ? "PUT" : "POST";
+        const requestUrl = leave?.isEditMode
+          ? API_END_POINTS.leaves + `?employeeId=${leave.employeeId}`
+          : API_END_POINTS.leaves + `?employeeId=${leave.employeeId}`;
+        const requestMethod = leave?.isEditMode ? "PUT" : "POST";
 
-        console.log("leave request method ", requestUrl, requestMethod);
+        console.log("leave request method ", requestUrl, requestMethod,leave);
 
         return {
           url: requestUrl,
@@ -36,8 +36,8 @@ export const leaveService = baseService.injectEndpoints({
       providesTags: ["employee-leave"],
     }),
     deleteLeave: builder.mutation<void, number>({
-      query: (leaveId) => ({
-        url: `${API_END_POINTS.leaves}?Id=${leaveId}`,
+      query: (employeeId) => ({
+        url: `${API_END_POINTS.leaves}?employeeId=${employeeId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["leaves"], // This will auto-refresh the leaves list

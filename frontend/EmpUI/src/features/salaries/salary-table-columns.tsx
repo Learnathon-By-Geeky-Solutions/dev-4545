@@ -22,15 +22,15 @@ const SalaryActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
   const { isLoading, data } = useSalaries();
   console.log("Salary data ", data);
 
-  const getActions = (salaryId: number): MenuProps["items"] => [
+  const getActions = (employeeId: string): MenuProps["items"] => [
     {
-      key: `delete-${salaryId}`,
+      key: `delete-${employeeId}`,
       label: (
         <span>
           <DeleteOutlined /> Delete
         </span>
       ),
-      onClick: () => onDelete(salaryId),
+      onClick: () => onDelete(employeeId),
     },
   ];
   const columns: TableProps<User>["columns"] = [
@@ -100,7 +100,7 @@ const SalaryActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       width: 100,
       render: (_: unknown, record: DataType) => (
         <Dropdown
-          menu={{ items: getActions(record.salaryId) }}
+          menu={{ items: getActions(record.employeeId) }}
           overlayClassName="grid-action"
           trigger={["click"]}
         >

@@ -3,6 +3,7 @@ import Settings from "@pages/settings";
 import Users from "@pages/users";
 import UserCreate from "@pages/users/create";
 import LeaveCreate from "@pages/leave/create";
+import LeavesEdit from "@pages/leave/edit"
 import LeavesCreate from "@pages/leaves/create";
 import UserEdit from "@pages/users/edit";
 import UserDetails from "@pages/users/details";
@@ -20,6 +21,7 @@ import ProjectCreate from "@pages/projects/create";
 import FeatureCreate from "@pages/features/create";
 import TaskEdit from "@pages/tasks/edit";
 import FeatureEdit from "@pages/features/edit"
+import ProjectEdit from "@pages/projects/edit"
 import PerformanceCreate from "@pages/performances/create";
 
 const routes = [
@@ -105,6 +107,14 @@ const routes = [
     roles: ["Admin"],
   },
   {
+    path: "projects/:id",
+    breadcrumb: "Projects",
+    component: ProjectEdit,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
     path: "features/create",
     breadcrumb: "Features",
     component: FeatureCreate,
@@ -124,6 +134,14 @@ const routes = [
     path: "leaves/create",
     breadcrumb: "Leaves",
     component: LeavesCreate,
+    exact: true,
+    children: [],
+    roles: ["Admin"],
+  },
+  {
+    path: "leaves/edit",
+    breadcrumb: "Leaves",
+    component: LeavesEdit,
     exact: true,
     children: [],
     roles: ["Admin"],

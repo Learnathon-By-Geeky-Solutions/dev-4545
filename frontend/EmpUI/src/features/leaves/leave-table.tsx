@@ -8,11 +8,11 @@ const LeaveTable = () => {
     console.log("Status changed:", id, status);
   };
 
-  const handleDelete = async (leaveId: number) => {
-    console.log("Deleting:", leaveId);
+  const handleDelete = async (employeeId: number) => {
+    console.log("Deleting:", employeeId);
     try {
-      await deleteLeave(leaveId).unwrap();
-      console.log("Deleted:", leaveId);
+      await deleteLeave(employeeId).unwrap();
+      console.log("Deleted:", employeeId);
       // Refresh the task list
     } catch (error) {
       console.log(error);
@@ -20,7 +20,7 @@ const LeaveTable = () => {
   };
 
   return (
-    <TableActions onStatusChange={handleStatusChange} onDelete={handleDelete} />
+    <TableActions onStatusChange={handleStatusChange}  onDelete={handleDelete} />
   );
 };
 

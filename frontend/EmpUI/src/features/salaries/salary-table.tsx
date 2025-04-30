@@ -12,7 +12,7 @@ const SalaryTable = () => {
     console.log("Status changed:", id, status);
   };
 
-  const handleDelete = async (salaryId: number) => {
+  const handleDelete = async (salaryId: string) => {
     console.log("Deleting:", salaryId);
     try {
       await deleteSalary(salaryId).unwrap();

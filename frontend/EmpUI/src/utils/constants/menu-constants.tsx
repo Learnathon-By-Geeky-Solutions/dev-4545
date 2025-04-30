@@ -54,11 +54,11 @@ export const MAIN_MENU_ITEMS = [
     label: "Performances",
     icon: <FolderOpenOutlined />,
   },
-  {
-    key: "/salaries",
-    label: "Salaries",
-    icon: <FolderOpenOutlined />,
-  },
+  // {
+  //   key: "/salaries",
+  //   label: "Salaries",
+  //   icon: <FolderOpenOutlined />,
+  // },
   {
     key: "/details",
     label: "User Details",

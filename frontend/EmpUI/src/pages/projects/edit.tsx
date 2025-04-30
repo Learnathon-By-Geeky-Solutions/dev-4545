@@ -9,10 +9,11 @@ import { useProject } from "../../hooks/use-projects";
 const ProjectEdit = () => {
   const { id: projectId } = useParams();
   const { isLoading, project } = useProject(projectId);
+  console.log("object", projectId);
 
   return (
     <>
-      <PageHeader title={"Edit Task"} />
+      <PageHeader title={"Edit Project"} />
       <PageContent>
         <Spin spinning={isLoading}>
           <ProjectForm initialValues={project} isEditMode projectId={projectId} />

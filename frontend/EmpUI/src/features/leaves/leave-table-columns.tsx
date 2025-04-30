@@ -20,21 +20,30 @@ const { Text } = Typography;
 
 interface Props {
   onStatusChange?: (leaveId: number, status: string) => void;
-  onDelete: (leaveId: number) => void;
+  onDelete: (employeeId: number) => void;
 }
 
-const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
+const TableActions: React.FC<Props> = ({ onStatusChange,onEdit,onDelete }) => {
   const { isLoading, data } = useLeaves();
 
-  const getActions = (leaveId: number): MenuProps["items"] => [
+  const getActions = (employeeId: number): MenuProps["items"] => [
     {
-      key: `delete-${leaveId}`,
+      key: `edit-${employeeId}`,
+      label: (
+        <Link to={"/leaves/edit"}>
+          <EditOutlined /> Edit
+        </Link>
+      ),
+    
+    },
+    {
+      key: `delete-${employeeId}`,
       label: (
         <span>
           <DeleteOutlined /> Delete
         </span>
       ),
-      onClick: () => onDelete(leaveId),
+      onClick: () => onDelete(employeeId),
     },
   ];
 
@@ -119,7 +128,7 @@ const TableActions: React.FC<Props> = ({ onStatusChange, onDelete }) => {
       width: 100,
       render: (_: unknown, record: Leave) => (
         <Dropdown
-          menu={{ items: getActions(record.leaveId) }}
+          menu={{ items: getActions(record.employeeId) }}
           overlayClassName="grid-action"
           trigger={["click"]}
         >

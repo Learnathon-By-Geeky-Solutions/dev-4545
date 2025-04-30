@@ -13,7 +13,7 @@ export const projectService = baseService.injectEndpoints({
     }),
     project: builder.query<Project, string>({
       query: (projectId) => ({
-        url: API_END_POINTS.projects + `?Id=${projectId}`,
+        url: API_END_POINTS.projects + `/${projectId}`,
         method: "GET",
       }),
       providesTags: ["project"],
@@ -27,17 +27,17 @@ export const projectService = baseService.injectEndpoints({
     }),
     projectSaved: builder.mutation<Project, Project>({
       query: (project) => {
-        const requestUrl = project?.projectId
-          ? API_END_POINTS.projects + `/${project.projectId}`
+        const requestUrl = project?.isEditMode
+          ? API_END_POINTS.projects + `?Id=${project.projectId}`
           : API_END_POINTS.projects;
-        const requestMethod = project?.projectId ? "PUT" : "POST";
+        const requestMethod = project?.isEditMode ? "PUT" : "POST";
 
         console.log("project request method ", requestUrl, requestMethod);
 
         return {
           url: requestUrl,
           method: requestMethod,
-          body: project,
+          body: project.project,
         };
       },
       invalidatesTags: ["projects", "project"],

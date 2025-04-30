@@ -4,9 +4,15 @@ import useFilter from "@hooks/utility-hooks/use-filter";
 import TableActions, { columns } from "./project-table-columns";
 import { useTaskForm } from "@hooks/use-tasks";
 import { useDeleteProjectMutation } from "@services/project-service";
-
+import { useProjectForm } from "@hooks/use-projects";
 const ProjectTable = () => {
   const [deleteTask] = useDeleteProjectMutation();
+  const { onSaved, isLoading } = useProjectForm();
+
+  const editProject = (projectId: string) => {
+    const isEditMode = true;
+    onSaved(projectId, isEditMode);
+  };
 
   const handleStatusChange = (id: number, status: string) => {
     console.log("Status changed:", id, status);
@@ -24,7 +30,7 @@ const ProjectTable = () => {
   };
 
   return (
-    <TableActions onStatusChange={handleStatusChange} onDelete={handleDelete} />
+    <TableActions onStatusChange={handleStatusChange} onEdit={editProject} onDelete={handleDelete} />
   );
 };
 
