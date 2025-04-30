@@ -13,7 +13,7 @@ const formDetailsMap = {
     title: 'Sign In',
     description: (
       <>
-        Welcome back to <b>Employee Management System</b>
+        Welcome back to <b>Employee System</b>
         <br />
         Please enter your details below to sign in.
       </>

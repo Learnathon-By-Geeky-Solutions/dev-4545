@@ -11,7 +11,7 @@ import UserDetails from "@pages/users/details";
 import Tasks from "@pages/tasks";
 import Projects from "@pages/projects";
 import Features from "@pages/features";
-import Leaves from "@pages/Leaves";
+import Leaves from "@pages/leaves";
 import Performances from "@pages/performances";
 import Salary from "@pages/salary";
 import EmployeeDetails from "@pages/users/emp-details";
