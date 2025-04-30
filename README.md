@@ -127,15 +127,15 @@ Update `appsettings.json` with your environment values:
 
 ## 🗄 Database Setup
 ![ER Diagram](https://img.shields.io/badge/ER_Diagram-PDF-blue?style=flat-square) 
-[View ER Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/er-diagram.pdf)
+[View ER Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/doc/er-diagram.pdf)
 
 ---
 
 ## 📊 Diagrams
 | Diagram Type          | Link                                                                                   |
 |-----------------------|---------------------------------------------------------------------------------------|
-| **UML Diagram**       | [View UML Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/Employee%20Management%20UML.pdf) |
-| **Activity Diagram**  | [View Activity Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/main/Activity%20Diagram.pdf)     |
+| **UML Diagram**       | [View UML Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/doc/Employee%20Management%20UML.pdf) |
+| **Activity Diagram**  | [View Activity Diagram](https://github.com/Learnathon-By-Geeky-Solutions/dev-4545/blob/doc/Activity%20Diagram.pdf)     |
 
 ---
 
