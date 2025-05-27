@@ -1,5 +1,6 @@
 <div align="center">
 
+
 # 🧑‍💻 Task Tracker – Learnathon Project
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-%23512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
@@ -39,6 +40,7 @@
 
 ---
 ## 🧱 **Clean Architecture Overview**
+
 
 **This project strictly adheres to [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) principles**, emphasizing:
 
